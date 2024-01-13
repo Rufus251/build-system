@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+
+  role RoleOnUser[]
+
+  login    String
+  name     String
+  password String
+
+  report Report[]
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+
+  user RoleOnUser[]
+
+  name String
+}
+
+model RoleOnUser {
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  @@id([userId, roleId])
+}
+
+model Object {
+  id Int @id @default(autoincrement())
+
+  name   String
+  report Report[]
+}
+
+model ReportDataType {
+  id Int @id @default(autoincrement())
+
+  name String
+  reportRows ReportRow[]
+}
+
+model Report {
+  id Int @id @default(autoincrement())
+
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  object   Object @relation(fields: [objectId], references: [id])
+  objectId Int
+
+  additional String
+}
+
+model ReportRow {
+  id Int @id @default(autoincrement())
+
+  key ReportDataType @relation(fields: [keyId], references: [id])
+  keyId Int
+
+  value String
+}
