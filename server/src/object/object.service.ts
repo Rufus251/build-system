@@ -1,26 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateObjectDto } from './dto/create-object.dto';
+import { UpdateObjectDto } from './dto/update-object.dto';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
-export class UserService {
+export class ObjectService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(dto: CreateUserDto, roleId: number) {
+  async create(dto: CreateObjectDto) {
     try {
-      const res = await this.databaseService.user.create({
+      const res = await this.databaseService.object.create({
         data: {
-          ...dto,
-          RoleOnUser: {
-            create: {
-              role: {
-                connect: {
-                  id: roleId
-                }
-              }
-            }
-          }
+          ...dto
         }
       })
       return res
@@ -32,7 +23,7 @@ export class UserService {
 
   async findAll() {
     try {
-      const res = await this.databaseService.user.findMany()
+      const res = await this.databaseService.object.findMany()
       return res
     } catch (error) {
       console.log(error);
@@ -42,7 +33,7 @@ export class UserService {
 
   async findOne(id: number) {
     try {
-      const res = await this.databaseService.user.findFirst({
+      const res = await this.databaseService.object.findFirst({
         where: {
           id
         }
@@ -54,15 +45,14 @@ export class UserService {
     }
   }
 
-  // to do: role change
-  async update(userId: number, roleId: number, dto: UpdateUserDto) {
+  async update(id: number, dto: UpdateObjectDto) {
     try {
-      const res = await this.databaseService.user.update({
+      const res = await this.databaseService.object.update({
         where: {
-          id: userId
+          id
         },
         data: {
-          ...dto,
+          ...dto
         }
       })
       return res
@@ -74,7 +64,7 @@ export class UserService {
 
   async remove(id: number) {
     try {
-      const res = await this.databaseService.user.delete({
+      const res = await this.databaseService.object.delete({
         where: {
           id
         }

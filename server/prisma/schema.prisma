@@ -13,7 +13,7 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
 
-  role RoleOnUser[]
+  RoleOnUser RoleOnUser[]
 
   login    String
   name     String
@@ -25,7 +25,7 @@ model User {
 model Role {
   id Int @id @default(autoincrement())
 
-  user RoleOnUser[]
+  RoleOnUser RoleOnUser[]
 
   name String
 }
@@ -50,7 +50,7 @@ model Object {
 model ReportDataType {
   id Int @id @default(autoincrement())
 
-  name String
+  name       String
   reportRows ReportRow[]
 }
 
@@ -64,12 +64,17 @@ model Report {
   objectId Int
 
   additional String
+
+  reportRows ReportRow[]
 }
 
 model ReportRow {
   id Int @id @default(autoincrement())
 
-  key ReportDataType @relation(fields: [keyId], references: [id])
+  report   Report @relation(fields: [reportId], references: [id])
+  reportId Int
+
+  key   ReportDataType @relation(fields: [keyId], references: [id])
   keyId Int
 
   value String
