@@ -1,13 +1,9 @@
-<script setup lang="ts">
-</script>
-
 <template>
-  <header>
-    hi!
-  </header>
-
+  <RouterView></RouterView>
 </template>
 
-<style scoped>
+<script setup lang="ts"></script>
+
+<style>
 @import url(./styles/main.scss);
 </style>
