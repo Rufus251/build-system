@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap");
 :root {
   --main-color: #5ea0ea;
   --main-btn-bg-color: #5ea0ea;
   --main-btn-font-color: #ffffff;
 
-  --font-family-headers: "Roboto", serif;
-  --font-family-text: "Merriweather", sans-serif;
+  --font-family-headers: "Roboto", sans-serif;
+  --font-family-text: "Merriweather", serif;
 }
