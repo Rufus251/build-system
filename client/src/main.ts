@@ -10,6 +10,9 @@ import * as directives from "vuetify/directives";
 import { mdi } from "vuetify/lib/iconsets/mdi";
 import '@mdi/font/css/materialdesignicons.css';
 
+import UIComponents from "@/components/UI/index.js"
+
+import { createPinia } from "pinia"
 const vuetify = createVuetify({
       components,
       directives,
@@ -23,12 +26,12 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 
-import UIComponents from "@/components/UI/index.js"
 UIComponents.forEach((component) => {
       app.component(component.name, component)
 })
 
 app
+      .use(createPinia())
       .use(router)
       .use(vuetify)
       .mount('#app')
