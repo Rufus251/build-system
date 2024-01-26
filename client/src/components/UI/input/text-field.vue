@@ -4,6 +4,7 @@
     :label="labelProp"
     :placeholder="placeholderProp"
     :type="typeProp"
+    :rules="rulesProp"
     hide-details
     v-model="model"
   >
@@ -16,6 +17,7 @@ export default {
   props: {
     labelProp: String,
     placeholderProp: String,
+    rulesProp: Array,
     typeProp: String,
   },
   data() {
