@@ -3,6 +3,7 @@ import autocompleteField from "./input/autocomplete-field.vue";
 import textareaField from "./input/textarea-field.vue";
 import primaryButton400 from "./button/button-width-400/primary-button.vue";
 import primaryTable from "./table/primary-table.vue";
+import navbarComp from "./common/navbar-comp.vue";
 
 export default [
   textField,
@@ -10,4 +11,5 @@ export default [
   primaryButton400,
   primaryTable,
   textareaField,
+  navbarComp
 ];

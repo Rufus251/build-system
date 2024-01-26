@@ -1,4 +1,5 @@
 <template>
+  <navbarComp roleProp="user" nameProp="Иван Иванов"></navbarComp>
   <header>
     <h1>
       hi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat,
