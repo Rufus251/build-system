@@ -32,6 +32,7 @@
     </autocompleteField>
     <primaryTable :keysProp="keys" v-model="table"></primaryTable>
     <primaryButton400 href="/auth">Кнопка</primaryButton400>
+    <textareaField labelProp="agra" placeholderProp="1234"></textareaField>
   </header>
 </template>
 
