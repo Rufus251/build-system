@@ -9,6 +9,7 @@ import primaryRouterButton400 from "./UI/button/button-width-400/primary-router-
 import primaryTable from "./UI/table/primary-table.vue";
 import navbarComp from "./navbar-comp.vue";
 import userCard from "./user-card.vue";
+import techCard from "./tech-card.vue";
 
 export default [
   textField,
@@ -22,4 +23,5 @@ export default [
   textareaField,
   navbarComp,
   userCard,
+  techCard,
 ];

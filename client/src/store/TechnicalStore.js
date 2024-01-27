@@ -1,20 +1,46 @@
 import { defineStore } from "pinia";
 
-export const useTechnicalStore = defineStore("TechnicalStore.js", {
+export const useTechnicalStore = defineStore("TechnicalStore", {
   state: () => ({
-    user: [
+    tech: [
       {
         id: 1,
-        name: "шифер",
+        name: "Шифер",
       },
       {
-        id: 1,
-        name: "бетон",
+        id: 2,
+        name: "Сланец",
+      },
+      {
+        id: 3,
+        name: "Арматура",
+      },
+      {
+        id: 4,
+        name: "Бетон",
       },
     ],
   }),
-  getters: {},
-  actions: {},
-  // actions
-  // getters
+  getters: {
+    techNames(state) {
+      return state.tech.map((el) => el.name);
+    },
+  },
+  actions: {
+    sortTechByValue(autocompleteValue) {
+      if (!autocompleteValue) {
+        return this.tech;
+      } else {
+        const result = this.tech.filter((el) => el.name === autocompleteValue);
+        return result;
+      }
+    },
+    deleteTech(id) {
+      const result = this.tech.filter((el) => el.id !== id);
+      this.tech = result;
+    },
+    createTech(tech) {
+      this.tech.push({ ...tech });
+    },
+  },
 });
