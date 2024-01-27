@@ -10,7 +10,7 @@ import * as directives from "vuetify/directives";
 import { mdi } from "vuetify/lib/iconsets/mdi";
 import '@mdi/font/css/materialdesignicons.css';
 
-import UIComponents from "@/components/UI/index.js"
+import UIComponents from "@/components/index.js"
 
 import { createPinia } from "pinia"
 const vuetify = createVuetify({
