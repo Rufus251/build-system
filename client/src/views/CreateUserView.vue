@@ -26,9 +26,7 @@
         :itemsProp="roles"
         :rulesProp="roleRules"></autocompleteField>
       <agreeButton400 @click="checkValid(valid)"> Создать пользователя </agreeButton400>
-      {{ role }}
     </v-form>
-    {{ valid }}
   </main>
 </template>
 
