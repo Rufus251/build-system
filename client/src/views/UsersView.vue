@@ -1,7 +1,7 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    <primaryButton400> Добавить пользователя </primaryButton400>
+    <primaryRouterButton400 href="/createUser"> Добавить пользователя </primaryRouterButton400>
     <autocompleteField
       labelProp="Имя работника"
       placeholderProp="Иванов Иван Иванович"
@@ -35,6 +35,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-main {
-}
 </style>

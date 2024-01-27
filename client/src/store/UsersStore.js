@@ -25,6 +25,7 @@ export const useUsersStore = defineStore("UsersStore", {
         role: "user",
       },
     ],
+    roles: ["admin", "manager", "user"],
     autocompleteName: undefined,
   }),
   getters: {
@@ -45,5 +46,8 @@ export const useUsersStore = defineStore("UsersStore", {
       const result = this.users.filter((el) => el.id !== id);
       this.users = result;
     },
+    createUser(user){
+      this.users.push({...user})
+    }
   },
 });

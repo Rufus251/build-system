@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Auth from "../views/AuthView.vue"
 import Main from "../views/MainView.vue"
 import Users from "../views/UsersView.vue"
+import CreateUser from "../views/CreateUserView.vue"
 import Reports from "../views/ReportsView.vue"
 import MyReports from "../views/MyReportsView.vue"
 import Technical from "../views/TechnicalView.vue"
@@ -25,6 +26,11 @@ const router = createRouter({
       path: "/users",
       name: 'users',
       component: Users
+    },
+    {
+      path: "/createUser",
+      name: 'createUser',
+      component: CreateUser
     },
     {
       path: "/reports",
