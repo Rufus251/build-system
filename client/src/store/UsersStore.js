@@ -26,7 +26,6 @@ export const useUsersStore = defineStore("UsersStore", {
       },
     ],
     roles: ["admin", "manager", "user"],
-    autocompleteName: undefined,
   }),
   getters: {
     usersName(state) {
