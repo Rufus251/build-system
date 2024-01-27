@@ -8,25 +8,42 @@ export const useUsersStore = defineStore("UsersStore", {
         login: "string",
         name: "stri2222ng",
         password: "string",
-        role: "admin"
+        role: "admin",
       },
       {
         id: 3,
         login: "string",
         name: "stri2222ng",
         password: "string",
-        role: "user"
+        role: "user",
       },
       {
         id: 4,
         login: "string",
         name: "string",
         password: "string",
-        role: "user"
+        role: "user",
       },
-      
     ],
+    autocompleteName: undefined,
   }),
-  getters: {},
-  actions: {},
+  getters: {
+    usersName(state) {
+      return state.users.map((el) => el.name);
+    },
+  },
+  actions: {
+    sortUsersByName(autocompleteName) {
+      if (!autocompleteName) {
+        return this.users;
+      } else {
+        const result = this.users.filter((el) => el.name === autocompleteName);
+        return result;
+      }
+    },
+    deleteUser(id) {
+      const result = this.users.filter((el) => el.id !== id);
+      this.users = result;
+    },
+  },
 });

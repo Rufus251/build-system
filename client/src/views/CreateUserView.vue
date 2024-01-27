@@ -1,17 +1,7 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    <primaryButton400> Добавить пользователя </primaryButton400>
-    <autocompleteField
-      labelProp="Имя работника"
-      placeholderProp="Иванов Иван Иванович"
-      :itemsProp="usersName"
-      v-model="autocompleteName"></autocompleteField>
-    <div class="cards">
-      <userCard
-        v-for="user in sortUsersByName(autocompleteName)"
-        :user="user"></userCard>
-    </div>
+    
   </main>
 </template>
 
@@ -21,7 +11,7 @@ import { useUserStore } from "../store/UserStore";
 import { useUsersStore } from "../store/UsersStore";
 
 export default {
-  name: "UsersView",
+  name: "CreateUserView",
   data() {
     return {
       autocompleteName: undefined,
