@@ -6,6 +6,7 @@ import Users from "../views/UsersView.vue"
 import CreateUser from "../views/CreateUserView.vue"
 import Reports from "../views/ReportsView.vue"
 import MyReports from "../views/MyReportsView.vue"
+import Report from "../views/ReportView.vue"
 import Technical from "../views/TechnicalView.vue"
 import CreateTech from "../views/CreateTechView.vue"
 import CreateReport from "../views/CreateReportView.vue"
@@ -37,6 +38,11 @@ const router = createRouter({
       path: "/reports",
       name: 'reports',
       component: Reports
+    },
+    {
+      path: "/report/:id",
+      name: 'report',
+      component: Report
     },
     {
       path: "/myReports",
