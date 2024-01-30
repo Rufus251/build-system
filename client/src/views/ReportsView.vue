@@ -1,8 +1,8 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    <primaryRouterButton400 href="/createTech">
-      Добавить материал
+    <primaryRouterButton400 href="/createReport">
+      Добавить отчёт
     </primaryRouterButton400>
     <autocompleteField
       labelProp="Имя работника"
