@@ -10,6 +10,7 @@ import primaryTable from "./UI/table/primary-table.vue";
 import navbarComp from "./navbar-comp.vue";
 import userCard from "./user-card.vue";
 import techCard from "./tech-card.vue";
+import reportCard from "./report-card.vue";
 
 export default [
   textField,
@@ -24,4 +25,5 @@ export default [
   navbarComp,
   userCard,
   techCard,
+  reportCard,
 ];
