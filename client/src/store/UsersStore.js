@@ -18,7 +18,7 @@ export const useUsersStore = defineStore("UsersStore", {
         role: "user",
       },
       {
-        id: 4,
+        id: 8,
         login: "string",
         name: "string",
         password: "string",
