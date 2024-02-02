@@ -31,6 +31,7 @@ export const useUsersStore = defineStore("UsersStore", {
     usersName(state) {
       return state.users.map((el) => el.name);
     },
+    
   },
   actions: {
     sortUsersByName(autocompleteName) {
@@ -47,6 +48,16 @@ export const useUsersStore = defineStore("UsersStore", {
     },
     createUser(user){
       this.users.push({...user})
+    },
+    getUserById(id){
+      return this.users.find((el) => el.id === id)
+    },
+    getUsernameById(id){
+      const user = this.users.find((el) => el.id === id)
+      return user.name
+    },
+    getUserByName(name){
+      return this.users.find((el) => el.name === name)
     }
   },
 });
