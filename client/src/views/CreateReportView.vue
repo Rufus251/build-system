@@ -1,30 +1,45 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    create report
+    <primaryTable :keysProp="techNames" v-model="report"></primaryTable>
+    <textareaField
+      labelProp="Дополнительно"
+      placeholderProp="Завтра доделаю"
+      v-model="additional"></textareaField>
+
+    <agreeButton400
+      @click="
+        createReport({
+          reportRows: [...report],
+          additional,
+          authorId: user.id,
+        })
+      ">
+      Создать отчёт
+    </agreeButton400>
   </main>
 </template>
 
 <script>
 import { mapState } from "pinia";
 import { useUserStore } from "../store/UserStore";
+import { useTechnicalStore } from "../store/TechnicalStore";
+import { useReportsStore } from "../store/ReportsStore";
 
 export default {
-  name: "MainView",
+  name: "CreateReportView",
+  data() {
+    return {
+      report: {},
+      additional: undefined,
+    };
+  },
   computed: {
     ...mapState(useUserStore, ["user"]),
+    ...mapState(useTechnicalStore, ["techNames"]),
+    ...mapState(useReportsStore, ["createReport"]),
   },
 };
 </script>
 
-<style scoped lang="scss">
-main {
-  width: 100%;
-  height: calc(100vh - 80px);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-</style>
+<style scoped lang="scss"></style>
