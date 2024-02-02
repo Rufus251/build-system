@@ -1,7 +1,7 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    <primaryTable :keysProp="techNames" v-model="report"></primaryTable>
+    <createReportTable :keysProp="techNames" v-model="report"></createReportTable>
     <textareaField
       labelProp="Дополнительно"
       placeholderProp="Завтра доделаю"
