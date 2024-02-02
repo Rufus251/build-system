@@ -35,6 +35,13 @@ export const useTechnicalStore = defineStore("TechnicalStore", {
         return result;
       }
     },
+    getTechById(id){
+      return this.tech.find((el) => el.id === id);
+    },
+    getTechNameById(id){
+      const tech = this.tech.find((el) => el.id === id)
+      return tech.name;
+    },
     deleteTech(id) {
       const result = this.tech.filter((el) => el.id !== id);
       this.tech = result;

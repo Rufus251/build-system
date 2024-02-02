@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 import { useUsersStore } from "./UsersStore";
+import { useTechnicalStore } from "./TechnicalStore";
 
 export const useReportsStore = defineStore("ReportsStore", {
   state: () => ({
@@ -18,6 +19,12 @@ export const useReportsStore = defineStore("ReportsStore", {
             keyId: 1,
             value: "Ну хначение отчёта",
           },
+          {
+            id: 2,
+            reportId: 2,
+            keyId: 1,
+            value: "Ну хначение отчёта",
+          },
         ],
       },
       {
@@ -28,7 +35,13 @@ export const useReportsStore = defineStore("ReportsStore", {
         additional: "Дополнительное поле отчёта2",
         reportRows: [
           {
-            id: 1,
+            id: 3,
+            reportId: 2,
+            keyId: 1,
+            value: "Ну хначение отчёта",
+          },
+          {
+            id: 4,
             reportId: 2,
             keyId: 1,
             value: "Ну хначение отчёта",
@@ -42,14 +55,14 @@ export const useReportsStore = defineStore("ReportsStore", {
     getAuthors() {
       const usersStore = useUsersStore();
       const users = usersStore.users;
-      
+
       // reports[i].authorId === authors[i].id
       // arrays sort, author[i] get report[i]
       this.reports.forEach((report) => {
         const user = users.find((user) => user.id === report.authorId);
-        this.authors.push(user)
+        this.authors.push(user);
       });
-      
+
       return this.authors;
     },
     getAuthorsName() {
@@ -63,12 +76,37 @@ export const useReportsStore = defineStore("ReportsStore", {
       if (!autocompleteName) {
         return this.reports;
       } else {
-        const usersStore = useUsersStore()
-        const user = usersStore.getUserByName(autocompleteName)
+        const usersStore = useUsersStore();
+        const user = usersStore.getUserByName(autocompleteName);
         console.log(user);
         const result = this.reports.filter((el) => el.authorId === user.id);
         return result;
       }
+    },
+    getReportById(id) {
+      return this.reports.find((el) => el.id === id);
+    },
+    getReportTextareaById(id) {
+      const report = this.reports.find((el) => el.id === id)
+      return report.additional;
+    },
+    getReportRowsById(id) {
+      const report = this.reports.find((el) => el.id === id);
+
+      const technicalStore = useTechnicalStore();
+
+      // making object and array links different, becouse func getReportRowsById trigger twice
+      let reportRows = [...report.reportRows];
+      reportRows.forEach((row, i) => {
+        let rowCopy = {};
+        reportRows[i] = Object.assign(rowCopy, row);
+      });
+
+      reportRows.map(
+        (row) => (row.keyId = technicalStore.getTechNameById(row.keyId))
+      );
+
+      return reportRows;
     },
     deleteReport(id) {
       const result = this.reports.filter((el) => el.id !== id);
