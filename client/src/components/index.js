@@ -7,6 +7,7 @@ import deleteButton400 from "./UI/button/button-width-400/delete-button.vue";
 import changeButton400 from "./UI/button/button-width-400/change-button.vue";
 import primaryRouterButton400 from "./UI/button/button-width-400/primary-router-button.vue";
 import primaryTable from "./UI/table/primary-table.vue";
+import createReportTable from "./UI/table/create-report-table.vue";
 import navbarComp from "./navbar-comp.vue";
 import userCard from "./user-card.vue";
 import techCard from "./tech-card.vue";
@@ -21,6 +22,7 @@ export default [
   changeButton400,
   primaryRouterButton400,
   primaryTable,
+  createReportTable,
   textareaField,
   navbarComp,
   userCard,
