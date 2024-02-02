@@ -11,7 +11,7 @@
       v-model="autocompleteName"></autocompleteField>
     <div class="cards">
       <reportCard
-        v-for="(report, i) in reports"
+        v-for="(report, i) in sortReportByName(autocompleteName)"
         :report="report"
         :authorName="getAuthorsName[i]"></reportCard>
     </div>
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useReportsStore, ["reports", "getAuthorsName"]),
+    ...mapState(useReportsStore, ["reports", "getAuthorsName", "sortReportByName"]),
   },
 };
 </script>

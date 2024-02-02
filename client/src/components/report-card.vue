@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="names">
-      <h3>{{ authorName }}</h3>
+      <h3>{{ getUsernameById(report.authorId) }}</h3>
       <h3>{{ report.createdAt }}</h3>
     </div>
     <div class="btns">
@@ -18,15 +18,16 @@
 <script>
 import { mapState } from "pinia";
 import { useReportsStore } from "../store/ReportsStore";
+import { useUsersStore } from "../store/UsersStore";
 
 export default {
   name: "reportCard",
   props: {
     report: Object,
-    authorName: String,
   },
   computed: {
     ...mapState(useReportsStore, ["deleteReport"]),
+    ...mapState(useUsersStore, ["getUsernameById"]),
   },
 };
 </script>
