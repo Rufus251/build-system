@@ -1,45 +1,21 @@
 <template>
   <table>
-    <tr v-for="rows in model" :key="rows">
+    <tr v-for="rows in table" :key="rows.id">
       <td>
-        <autocompleteField
-          :items="keysProp"
-          v-model="rows.key"
-        ></autocompleteField>
+        <h3>{{ rows.keyId }}</h3>
       </td>
       <td>
-        <textField v-model="rows.value"></textField>
+        <h3>{{ rows.value }}</h3>
       </td>
     </tr>
   </table>
-  <primaryButton400 @click="model.push({ key: '', value: '' })">
-    Добавить строку
-  </primaryButton400>
 </template>
 
 <script>
 export default {
   name: "primaryTable",
   props: {
-    keysProp: Array,
-  },
-  data() {
-    return {
-      model: [
-        {
-          key: "",
-          value: "",
-        },
-      ],
-    };
-  },
-  watch: {
-    model: {
-      handler(value) {
-        this.$emit("update:modelValue", value || undefined);
-      },
-      deep: true,
-    },
+    table: Array,
   },
 };
 </script>
@@ -50,6 +26,8 @@ th,
 td {
   border-collapse: collapse;
   border: 1px solid black;
+
+  padding: 10px;
 }
 table {
   margin: 10px;
