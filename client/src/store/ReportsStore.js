@@ -44,6 +44,7 @@ export const useReportsStore = defineStore("ReportsStore", {
       const users = usersStore.users;
       
       // reports[i].authorId === authors[i].id
+      // arrays sort, author[i] get report[i]
       this.reports.forEach((report) => {
         const user = users.find((user) => user.id === report.authorId);
         this.authors.push(user)
@@ -62,7 +63,10 @@ export const useReportsStore = defineStore("ReportsStore", {
       if (!autocompleteName) {
         return this.reports;
       } else {
-        const result = this.reports.filter((el) => el.name === autocompleteName);
+        const usersStore = useUsersStore()
+        const user = usersStore.getUserByName(autocompleteName)
+        console.log(user);
+        const result = this.reports.filter((el) => el.authorId === user.id);
         return result;
       }
     },
