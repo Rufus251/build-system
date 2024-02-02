@@ -1,22 +1,26 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    <createReportTable :keysProp="techNames" v-model="report"></createReportTable>
+    <createReportTable
+      :keysProp="techNames"
+      v-model="report"></createReportTable>
     <textareaField
       labelProp="Дополнительно"
       placeholderProp="Завтра доделаю"
       v-model="additional"></textareaField>
 
-    <agreeButton400
-      @click="
-        createReport({
-          reportRows: [...report],
-          additional,
-          authorId: user.id,
-        })
-      ">
-      Создать отчёт
-    </agreeButton400>
+    <router-link to="/reports">
+      <agreeButton400
+        @click="
+          createReport({
+            reportRows: [...report],
+            additional,
+            authorId: user.id,
+          })
+        ">
+        Создать отчёт
+      </agreeButton400>
+    </router-link>
   </main>
 </template>
 
