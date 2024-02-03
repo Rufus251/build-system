@@ -34,7 +34,20 @@ export class ReportService {
   async findAll() {
     try {
       const res = await this.databaseService.report.findMany()
-      return res
+      const reports = []
+      for await (let report of res) {
+        const reportRows = await this.databaseService.reportRow.findMany({
+          where: {
+            reportId: report.id
+          }
+        })
+        reports.push({
+          ...report,
+          reportRows: [...reportRows]
+        })
+      }
+
+      return reports
     } catch (error) {
       console.log(error);
       return error
