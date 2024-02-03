@@ -3,52 +3,13 @@ import { defineStore } from "pinia";
 import { useUsersStore } from "./UsersStore";
 import { useTechnicalStore } from "./TechnicalStore";
 
+import axios from "axios";
+
 export const useReportsStore = defineStore("ReportsStore", {
   state: () => ({
-    reports: [
-      {
-        id: 1,
-        authorId: 8,
-        objectId: 1,
-        createdAt: "10.08.2004",
-        additional: "Дополнительное поле отчёта",
-        reportRows: [
-          {
-            id: 1,
-            reportId: 2,
-            keyId: 1,
-            value: "Ну хначение отчёта",
-          },
-          {
-            id: 2,
-            reportId: 2,
-            keyId: 1,
-            value: "Ну хначение отчёта",
-          },
-        ],
-      },
-      {
-        id: 2,
-        authorId: 8,
-        objectId: 1,
-        createdAt: "10.08.2004",
-        additional: "Дополнительное поле отчёта2",
-        reportRows: [
-          {
-            id: 3,
-            reportId: 2,
-            keyId: 1,
-            value: "Ну хначение отчёта",
-          },
-          {
-            id: 4,
-            reportId: 2,
-            keyId: 1,
-            value: "Ну хначение отчёта",
-          },
-        ],
-      },
-    ],
+    url: "http://localhost:3000/",
+
+    reports: [],
     authors: [],
   }),
   getters: {
@@ -72,6 +33,55 @@ export const useReportsStore = defineStore("ReportsStore", {
     },
   },
   actions: {
+    async fetchReports() {
+      try {
+        const url = this.url + "report";
+        const res = await axios.get(url);
+
+        this.reports = res.data;
+
+        return this.reports;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+    async deleteReport(id) {
+      try {
+        const url = this.url + "report/" + id;
+        const res = await axios.delete(url);
+
+        await this.fetchReports();
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+    async createReport(report) {
+      const objectId = 1;
+      const urlReport = this.url + "report/" + report.authorId + "/" + objectId;
+      const resReport = await axios.post(urlReport, {
+        additional: report.additional,
+      });
+
+      for await (const row of report.reportRows) {
+        const technicalStore = useTechnicalStore();
+        const tech = technicalStore.getTechByName(row.key);
+
+        const urlRow =
+          this.url + "report-row/" + resReport.data.id + "/" + tech.id;
+        await axios.post(urlRow, {
+          value: row.value,
+        });
+      }
+
+      await this.fetchReports();
+
+      return this.reports;
+    },
+
     sortReportByName(autocompleteName) {
       if (!autocompleteName) {
         return this.reports;
@@ -87,7 +97,7 @@ export const useReportsStore = defineStore("ReportsStore", {
       return this.reports.find((el) => el.id === id);
     },
     getReportTextareaById(id) {
-      const report = this.reports.find((el) => el.id === id)
+      const report = this.reports.find((el) => el.id === id);
       return report.additional;
     },
     getReportRowsById(id) {
@@ -107,13 +117,6 @@ export const useReportsStore = defineStore("ReportsStore", {
       );
 
       return reportRows;
-    },
-    deleteReport(id) {
-      const result = this.reports.filter((el) => el.id !== id);
-      this.reports = result;
-    },
-    createReport(report) {
-      this.reports.push({ ...report });
     },
   },
 });

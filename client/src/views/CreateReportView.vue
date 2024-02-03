@@ -3,7 +3,7 @@
   <main>
     <createReportTable
       :keysProp="techNames"
-      v-model="report"></createReportTable>
+      v-model="reportRows"></createReportTable>
     <textareaField
       labelProp="Дополнительно"
       placeholderProp="Завтра доделаю"
@@ -12,8 +12,8 @@
     <router-link to="/reports">
       <agreeButton400
         @click="
-          createReport({
-            reportRows: [...report],
+          createReportHandler({
+            reportRows: [...reportRows],
             additional,
             authorId: user.id,
           })
@@ -21,6 +21,9 @@
         Создать отчёт
       </agreeButton400>
     </router-link>
+    {{ reportRows }}
+    {{ additional }}
+    {{ user.id }}
   </main>
 </template>
 
@@ -34,7 +37,7 @@ export default {
   name: "CreateReportView",
   data() {
     return {
-      report: {},
+      reportRows: {},
       additional: undefined,
     };
   },
@@ -42,6 +45,12 @@ export default {
     ...mapState(useUserStore, ["user"]),
     ...mapState(useTechnicalStore, ["techNames"]),
     ...mapState(useReportsStore, ["createReport"]),
+  },
+  methods: {
+    async createReportHandler(report) {
+      await this.createReport(report);
+      this.$router.push("/reports");
+    },
   },
 };
 </script>
