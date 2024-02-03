@@ -42,7 +42,6 @@ export class AuthService {
                     login: dto.login
                 }
             })
-            console.log(user);
             
             if (!user) {
                 throw new HttpException('User Not Found', HttpStatus.NOT_FOUND)
