@@ -11,6 +11,7 @@ export const useUserStore = defineStore("UserStore", {
       name: null,
       role: null,
     },
+    isAuth: false,
   }),
   getters: {},
   actions: {
@@ -21,6 +22,7 @@ export const useUserStore = defineStore("UserStore", {
           ...user,
         });
         this.user = { ...res.data.user, role: res.data.roleName };
+        this.isAuth = true;
         console.log("Authorized!");
         return res.status;
       } catch (error) {

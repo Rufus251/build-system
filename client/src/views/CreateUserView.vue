@@ -11,21 +11,23 @@
       <textField
         labelProp="Пароль"
         placeholderProp="ao34KFKA333"
-        v-model="name"
+        v-model="password"
         type="password"
         :rulesProp="passwordRules"></textField>
       <textField
         labelProp="Имя"
         placeholderProp="Иванов Иван"
-        v-model="password"
+        v-model="name"
         :rulesProp="nameRules"></textField>
       <autocompleteField
         labelProp="Роль"
         placeholderProp="admin"
         v-model="role"
-        :itemsProp="roles"
+        :itemsProp="rolesName"
         :rulesProp="roleRules"></autocompleteField>
-      <agreeButton400 @click="checkValid(valid)"> Создать пользователя </agreeButton400>
+      <agreeButton400 @click="checkValid(valid)">
+        Создать пользователя
+      </agreeButton400>
     </v-form>
   </main>
 </template>
@@ -53,7 +55,7 @@ export default {
     };
   },
   methods: {
-    checkValid(valid) {
+    async checkValid(valid) {
       if (valid) {
         const user = {
           login: this.login,
@@ -61,13 +63,14 @@ export default {
           name: this.name,
           role: this.role,
         };
-        this.createUser(user);
+        await this.createUser(user);
+        this.$router.push("/users");
       }
     },
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useUsersStore, ["roles", "createUser"]),
+    ...mapState(useUsersStore, ["rolesName", "createUser"]),
   },
 };
 </script>

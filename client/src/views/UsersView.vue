@@ -1,7 +1,9 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
-    <primaryRouterButton400 href="/createUser"> Добавить пользователя </primaryRouterButton400>
+    <primaryRouterButton400 href="/createUser">
+      Добавить пользователя
+    </primaryRouterButton400>
     <autocompleteField
       labelProp="Имя работника"
       placeholderProp="Иванов Иван Иванович"
@@ -10,6 +12,7 @@
     <div class="cards">
       <userCard
         v-for="user in sortUsersByName(autocompleteName)"
+        :key="user.id"
         :user="user"></userCard>
     </div>
   </main>
@@ -34,5 +37,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
