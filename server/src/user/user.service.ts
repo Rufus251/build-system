@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
@@ -99,7 +99,7 @@ export class UserService {
       return res
     } catch (error) {
       console.log(error);
-      return error
+      throw new HttpException("Internal", HttpStatus.INTERNAL_SERVER_ERROR)
     }
   }
 }
