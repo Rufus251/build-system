@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UserService {
@@ -9,6 +10,8 @@ export class UserService {
 
   async create(dto: CreateUserDto, roleId: number) {
     try {
+      const hashPass = await bcrypt.hash(dto.password, 7);
+      dto.password = hashPass
       const res = await this.databaseService.user.create({
         data: {
           ...dto,
@@ -32,8 +35,22 @@ export class UserService {
 
   async findAll() {
     try {
-      const res = await this.databaseService.user.findMany()
-      return res
+      const resUsers = await this.databaseService.user.findMany()
+      const users = []
+      for await (let user of resUsers) {
+        const userRole = await this.databaseService.role.findMany({
+          where: {
+            RoleOnUser: {
+              some: {
+                userId: user.id
+              }
+            }
+          }
+        })
+        users.push({ ...user, 'role': userRole[0].name })
+      }
+
+      return users
     } catch (error) {
       console.log(error);
       return error
