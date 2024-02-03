@@ -1,6 +1,7 @@
 <template>
   <div class="card">
     <div class="names">
+      <h3>Логин: {{ user.login }}</h3>
       <h3>Имя: {{ user.name }}</h3>
       <h3>Роль: {{ user.role }}</h3>
     </div>
