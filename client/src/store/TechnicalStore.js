@@ -66,6 +66,9 @@ export const useTechnicalStore = defineStore("TechnicalStore", {
     getTechById(id){
       return this.tech.find((el) => el.id === id);
     },
+    getTechByName(name){
+      return this.tech.find((el) => el.name === name);
+    },
     getTechNameById(id){
       const tech = this.tech.find((el) => el.id === id)
       return tech.name;
