@@ -15,57 +15,72 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
+      path: "/auth",
       name: 'auth',
       component: Auth
     },
     {
       path: "/main",
       name: 'main',
-      component: Main
+      component: Main,
+      meta: { requiresAuth: true }
     },
     {
       path: "/users",
       name: 'users',
-      component: Users
+      component: Users,
+      meta: { requiresAuth: true }
     },
     {
       path: "/createUser",
       name: 'createUser',
-      component: CreateUser
+      component: CreateUser,
+      meta: { requiresAuth: true }
     },
     {
       path: "/reports",
       name: 'reports',
-      component: Reports
+      component: Reports,
+      meta: { requiresAuth: true }
     },
     {
       path: "/report/:id",
       name: 'report',
-      component: Report
+      component: Report,
+      meta: { requiresAuth: true }
     },
     {
       path: "/myReports",
       name: 'myReports',
-      component: MyReports
+      component: MyReports,
+      meta: { requiresAuth: true }
     },
     {
       path: "/technical",
       name: 'technical',
-      component: Technical
+      component: Technical,
+      meta: { requiresAuth: true }
     },
     {
       path: "/createTech",
       name: 'createTech',
-      component: CreateTech
+      component: CreateTech,
+      meta: { requiresAuth: true }
     },
     {
       path: "/createReport",
       name: 'createReport',
-      component: CreateReport
+      component: CreateReport,
+      meta: { requiresAuth: true }
     },
-     
+
   ]
 })
- 
+
+import { useUserStore } from "../store/UserStore"
+router.beforeEach((to) => {
+  const store = useUserStore()
+  if (to.meta.requiresAuth && !store.isAuth) return '/auth'
+})
+
 export default router
