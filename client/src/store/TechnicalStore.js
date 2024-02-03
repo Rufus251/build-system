@@ -1,25 +1,12 @@
 import { defineStore } from "pinia";
 
+import axios from "axios";
+
 export const useTechnicalStore = defineStore("TechnicalStore", {
   state: () => ({
-    tech: [
-      {
-        id: 1,
-        name: "Шифер",
-      },
-      {
-        id: 2,
-        name: "Сланец",
-      },
-      {
-        id: 3,
-        name: "Арматура",
-      },
-      {
-        id: 4,
-        name: "Бетон",
-      },
-    ],
+    url: "http://localhost:3000/",
+
+    tech: [],
   }),
   getters: {
     techNames(state) {
@@ -27,6 +14,47 @@ export const useTechnicalStore = defineStore("TechnicalStore", {
     },
   },
   actions: {
+    async fetchTech() {
+      try {
+        const url = this.url + "report-data-type";
+        const res = await axios.get(url);
+        
+        this.tech = res.data
+        
+        return this.tech;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+    async deleteTech(id) {
+      try {
+        const url = this.url + "report-data-type/" + id;
+        const res = await axios.delete(url);
+
+        await this.fetchTech();
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+    async createTech(tech) {
+      try {
+        const url = this.url + "report-data-type";
+
+        const res = await axios.post(url, {
+          ...tech,
+        });
+
+        await this.fetchTech();
+        return res;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
     sortTechByValue(autocompleteValue) {
       if (!autocompleteValue) {
         return this.tech;
@@ -42,12 +70,6 @@ export const useTechnicalStore = defineStore("TechnicalStore", {
       const tech = this.tech.find((el) => el.id === id)
       return tech.name;
     },
-    deleteTech(id) {
-      const result = this.tech.filter((el) => el.id !== id);
-      this.tech = result;
-    },
-    createTech(tech) {
-      this.tech.push({ ...tech });
-    },
+    
   },
 });

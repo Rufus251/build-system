@@ -31,12 +31,13 @@ export default {
     };
   },
   methods: {
-    checkValid(valid) {
+    async checkValid(valid) {
       if (valid) {
         const tech = {
           name: this.name
         };
-        this.createTech(tech);
+        await this.createTech(tech);
+        this.$router.push("/technical");
       }
     },
   },

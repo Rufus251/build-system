@@ -6,15 +6,19 @@
 import { mapState } from "pinia";
 import { useUserStore } from "./store/UserStore";
 import { useUsersStore } from "./store/UsersStore";
+import { useTechnicalStore } from "./store/TechnicalStore";
+import { useReportsStore } from "./store/ReportsStore";
 export default {
   computed: {
     ...mapState(useUserStore, ["user", "isAuth"]),
     ...mapState(useUsersStore, ["fetchUsers"]),
+    ...mapState(useTechnicalStore, ["fetchTech"]),
   },
   watch: {
     async isAuth(value) {
-      if (value) {
+      if (value && (this.user.role === "admin" || this.user.role === "manager")) {
         await this.fetchUsers();
+        await this.fetchTech();
       }
     },
   },
