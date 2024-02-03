@@ -21,9 +21,6 @@
         Создать отчёт
       </agreeButton400>
     </router-link>
-    {{ reportRows }}
-    {{ additional }}
-    {{ user.id }}
   </main>
 </template>
 
