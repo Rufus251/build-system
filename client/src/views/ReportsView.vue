@@ -14,6 +14,7 @@
     <div class="cards">
       <reportCard
         v-for="(report, i) in sortReportByName(autocompleteName)"
+        :key="i"
         :report="report"
         :authorName="getAuthorsName[i]"></reportCard>
     </div>

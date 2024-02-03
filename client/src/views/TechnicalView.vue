@@ -10,6 +10,7 @@
     <div class="cards">
       <techCard
         v-for="tech in sortTechByValue(autocompleteValue)"
+        :key="tech.id"
         :tech="tech"></techCard>
     </div>
   </main>
