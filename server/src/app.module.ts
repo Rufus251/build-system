@@ -9,9 +9,15 @@ import { ReportDataTypeModule } from './report-data-type/report-data-type.module
 import { ReportModule } from './report/report.module';
 import { ReportRowModule } from './report-row/report-row.module';
 import { AuthModule } from './auth/auth.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
-  imports: [AuthModule, UserModule, DatabaseModule, RoleModule, ObjectModule, ReportDataTypeModule, ReportModule, ReportRowModule],
+  imports: [ServeStaticModule.forRoot({
+    rootPath: path.join(__dirname, '..', 'static'),
+    serveRoot: '/',
+    exclude: ['/api*'],
+  }), AuthModule, UserModule, DatabaseModule, RoleModule, ObjectModule, ReportDataTypeModule, ReportModule, ReportRowModule],
   controllers: [AppController],
   providers: [AppService],
 })

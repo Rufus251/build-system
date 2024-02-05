@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useUsersStore = defineStore("UsersStore", {
   state: () => ({
-    url: "http://localhost:3000/",
+    url: "http://localhost:3001/api/",
     users: [],
     roles: [],
   }),

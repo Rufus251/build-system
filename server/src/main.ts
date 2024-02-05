@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 var cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const port = process.env.APP_PORT || 3001;
+  app.setGlobalPrefix('api'); 
   app.use(cors())
   const config = new DocumentBuilder()
     .setTitle('Build system docs')
@@ -14,6 +16,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();
