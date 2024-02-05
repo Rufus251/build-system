@@ -2,7 +2,13 @@
   <div class="card">
     <div class="names">
       <h3>{{ getUsernameById(report.authorId) }}</h3>
-      <h3>{{ report.createdAt }}</h3>
+      <h3>
+        {{
+          `${ report.createdAt.slice(8, 10) }.${ report.createdAt.slice(5,7
+          ) }.${ report.createdAt.slice(0, 4) }`
+        }}
+      </h3>
+      <!-- 2024-02-03T14:21:15.645Z -->
     </div>
     <div class="btns">
       <primaryRouterButton400 :href="'/report/' + report.id">
