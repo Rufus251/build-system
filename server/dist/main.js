@@ -3,19 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
-var cors = require('cors');
-const corsOptions = {
-    origin: 'http://localhost:3001',
-    credentials: true,
-    optionSuccessStatus: 200,
-    'Access-Control-Allow-Origin': '*',
-    'access-control-allow-credentials': true
-};
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, { cors: true });
     const port = process.env.APP_PORT || 3001;
     app.setGlobalPrefix('api');
-    app.use(cors(corsOptions));
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Build system docs')
         .setDescription('Build system API description')
