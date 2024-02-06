@@ -6,7 +6,7 @@ const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, { cors: true });
     app.enableCors({
-        origin: 'http://localhost:3001/',
+        origin: '*',
         credentials: true,
     });
     const port = process.env.APP_PORT || 3001;
