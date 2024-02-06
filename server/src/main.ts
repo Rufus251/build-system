@@ -6,7 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.APP_PORT || 3001;
   app.setGlobalPrefix('api');
-  app.use(cors())
+  app.use(cors({
+    'Access-Control-Allow-Origin': '*'
+  }))
   const config = new DocumentBuilder()
     .setTitle('Build system docs')
     .setDescription('Build system API description')

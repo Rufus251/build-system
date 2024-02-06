@@ -8,7 +8,9 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     const port = process.env.APP_PORT || 3001;
     app.setGlobalPrefix('api');
-    app.use(cors());
+    app.use(cors({
+        'Access-Control-Allow-Origin': '*'
+    }));
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Build system docs')
         .setDescription('Build system API description')
