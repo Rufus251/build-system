@@ -14,9 +14,9 @@ import * as path from 'path';
 
 @Module({
   imports: [ServeStaticModule.forRoot({
-    rootPath: path.join(__dirname, '..', 'static'),
+    rootPath: path.join(__dirname, '../../client/dist'),
   }), AuthModule, UserModule, DatabaseModule, RoleModule, ObjectModule, ReportDataTypeModule, ReportModule, ReportRowModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService], 
 })
 export class AppModule { }
