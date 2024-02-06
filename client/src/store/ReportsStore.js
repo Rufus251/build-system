@@ -8,7 +8,7 @@ import process from "process";
 
 export const useReportsStore = defineStore("ReportsStore", {
   state: () => ({
-    url: "http://localhost:3001/api/",
+    url: "http://45.132.18.153:3001/api/",
 
     reports: [],
     authors: [],
