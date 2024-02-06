@@ -5,6 +5,10 @@ const swagger_1 = require("@nestjs/swagger");
 const app_module_1 = require("./app.module");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, { cors: true });
+    app.enableCors({
+        credentials: true,
+        origin: true
+    });
     const port = process.env.APP_PORT || 3001;
     app.setGlobalPrefix('api');
     const config = new swagger_1.DocumentBuilder()

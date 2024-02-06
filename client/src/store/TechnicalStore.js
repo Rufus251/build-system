@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useTechnicalStore = defineStore("TechnicalStore", {
   state: () => ({
-    url: "http://45.132.18.153:3001/api/",
+    url: "http://localhost:3001/api/",
 
     tech: [],
   }),
