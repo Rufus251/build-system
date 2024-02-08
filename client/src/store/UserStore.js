@@ -32,5 +32,9 @@ export const useUserStore = defineStore("UserStore", {
         return error;
       }
     },
+    signOut() {
+      this.user = { login: null, password: null, name: null, role: null };
+      this.isAuth = false;
+    },
   },
 });

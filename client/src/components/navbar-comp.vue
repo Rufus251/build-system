@@ -7,7 +7,7 @@
       <li v-if="roleProp === 'admin'">
         <router-link to="/users"> Пользователи </router-link>
       </li>
-      <li v-if="roleProp === 'admin'">
+      <li v-if="roleProp === 'admin' || roleProp === 'manager'">
         <router-link to="/technical"> Технический </router-link>
       </li>
       <li v-if="roleProp === 'admin' || roleProp === 'manager'">
@@ -17,11 +17,17 @@
         <router-link to="/my-reports"> Мои отчёты </router-link>
       </li>
     </ul>
-    <p v-if="roleProp">{{ nameProp }}</p>
+    <div class="signOut">
+      <p v-if="roleProp">{{ nameProp }}</p> 
+      <deleteRouterButton200 href="/auth" @click="signOut()"> Выйти </deleteRouterButton200>
+    </div>
   </nav>
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useUserStore } from "../store/UserStore";
+
 export default {
   name: "navbarComp",
   props: {
@@ -32,6 +38,9 @@ export default {
     return {
       model: undefined,
     };
+  },
+  computed: {
+    ...mapState(useUserStore, ["signOut"]),
   },
 };
 </script>
@@ -65,7 +74,11 @@ ul li a {
 ul li:first-child a {
   font-size: 36px;
 }
-
+.signOut{
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
 nav p {
   color: white;
 }
