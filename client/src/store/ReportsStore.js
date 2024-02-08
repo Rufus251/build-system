@@ -5,7 +5,6 @@ import { useUserStore } from "./UserStore";
 import { useTechnicalStore } from "./TechnicalStore";
 
 import axios from "axios";
-import process from "process";
 
 export const useReportsStore = defineStore("ReportsStore", {
   state: () => ({
