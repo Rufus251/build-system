@@ -14,7 +14,7 @@ export class AuthService {
                     login: dto.login
                 }
             })
-            
+
             if (!user) {
                 throw new HttpException('User Not Found', HttpStatus.NOT_FOUND)
             }
@@ -24,20 +24,27 @@ export class AuthService {
                 const role = await this.databaseService.role.findFirst({
                     where: {
                         RoleOnUser: {
-                            some:{
+                            some: {
                                 userId: user.id
                             }
                         }
                     }
                 })
                 const roleName = role.name
-                return {user, roleName}
+                return { user, roleName }
             }
             else {
                 throw new HttpException('Unauthorised', HttpStatus.UNAUTHORIZED)
             }
         } catch (error) {
-            return error
+            switch (error.status) {
+                case 401:
+                    throw new HttpException('Unauthorised', HttpStatus.UNAUTHORIZED)
+                case 404:
+                    throw new HttpException('User Not Found', HttpStatus.NOT_FOUND)
+                default:
+                    throw new HttpException('Error', HttpStatus.BAD_REQUEST)
+            }
         }
     }
 
