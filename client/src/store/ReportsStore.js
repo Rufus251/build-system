@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 import { useUsersStore } from "./UsersStore";
+import { useUserStore } from "./UserStore";
 import { useTechnicalStore } from "./TechnicalStore";
 
 import axios from "axios";
@@ -48,12 +49,32 @@ export const useReportsStore = defineStore("ReportsStore", {
         return error;
       }
     },
+    async fetchMyReports() {
+      try {
+        const userStore = useUserStore();
+        const url = this.url + "report/myReports/" + userStore.user.id;
+        console.log(url);
+        const res = await axios.get(url);
+
+        this.reports = res.data;
+
+        return this.reports;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
     async deleteReport(id) {
       try {
         const url = this.url + "report/" + id;
         const res = await axios.delete(url);
 
-        await this.fetchReports();
+        const userStore = useUserStore();
+        if (userStore.user.role === "user") {
+          await this.fetchMyReports();
+        } else {
+          await this.fetchReports();
+        }
 
         return res;
       } catch (error) {
@@ -79,7 +100,12 @@ export const useReportsStore = defineStore("ReportsStore", {
         });
       }
 
-      await this.fetchReports();
+      const userStore = useUserStore();
+      if (userStore.user.role === "user") {
+        await this.fetchMyReports();
+      } else {
+        await this.fetchReports();
+      }
 
       return this.reports;
     },

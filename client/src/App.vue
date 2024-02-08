@@ -13,14 +13,20 @@ export default {
     ...mapState(useUserStore, ["user", "isAuth"]),
     ...mapState(useUsersStore, ["fetchUsers"]),
     ...mapState(useTechnicalStore, ["fetchTech"]),
-    ...mapState(useReportsStore, ["fetchReports"]),
+    ...mapState(useReportsStore, ["fetchReports", "fetchMyReports"]),
   },
   watch: {
     async isAuth(value) {
-      if (value && (this.user.role === "admin" || this.user.role === "manager")) {
+      if (
+        value &&
+        (this.user.role === "admin" || this.user.role === "manager")
+      ) {
         await this.fetchUsers();
         await this.fetchTech();
         await this.fetchReports();
+      } else if (value && this.user.role === "user") {
+        await this.fetchTech();
+        await this.fetchMyReports();
       }
     },
   },

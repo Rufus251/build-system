@@ -5,7 +5,7 @@
     <primaryTable :table="getReportRowsById(id)"></primaryTable>
     <p>{{ getReportTextareaById(id) }}</p>
 
-    <router-link to="/reports">
+    <router-link to="/main">
       <deleteButton400 @click="deleteReport(id)">
         Удалить отчёт
       </deleteButton400>

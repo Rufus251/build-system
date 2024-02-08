@@ -78,7 +78,11 @@ export const useUsersStore = defineStore("UsersStore", {
     },
     getUsernameById(id) {
       const user = this.users.find((el) => el.id === id);
-      return user.name;
+      if (!user) {
+        return "";
+      } else {
+        return user.name;
+      }
     },
     getUserByName(name) {
       return this.users.find((el) => el.name === name);

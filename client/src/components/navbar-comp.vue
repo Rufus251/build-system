@@ -14,7 +14,7 @@
         <router-link to="/reports"> Все отчёты </router-link>
       </li>
       <li v-if="roleProp === 'user'">
-        <router-link to="/my-reports"> Мои отчёты </router-link>
+        <router-link to="/myReports"> Мои отчёты </router-link>
       </li>
     </ul>
     <div class="signOut">

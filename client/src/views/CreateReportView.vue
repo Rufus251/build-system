@@ -9,7 +9,7 @@
       placeholderProp="Завтра доделаю"
       v-model="additional"></textareaField>
 
-    <router-link to="/reports">
+    <router-link to="/main">
       <agreeButton400
         @click="
           createReportHandler({
@@ -46,7 +46,7 @@ export default {
   methods: {
     async createReportHandler(report) {
       await this.createReport(report);
-      this.$router.push("/reports");
+      this.$router.push('/main');
     },
   },
 };
