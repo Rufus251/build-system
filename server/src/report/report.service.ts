@@ -68,6 +68,33 @@ export class ReportService {
     }
   }
 
+  async findMyReports(id: number) {
+    try {
+      const res = await this.databaseService.report.findMany({
+        where: {
+          authorId: id
+        }
+      })
+      const reports = []
+      for await (let report of res) {
+        const reportRows = await this.databaseService.reportRow.findMany({
+          where: {
+            reportId: report.id
+          }
+        })
+        reports.push({
+          ...report,
+          reportRows: [...reportRows]
+        })
+      }
+
+      return reports
+    } catch (error) {
+      console.log(error);
+      return error
+    }
+  }
+
   async update(id: number, dto: UpdateReportDto) {
     try {
       const res = await this.databaseService.report.update({

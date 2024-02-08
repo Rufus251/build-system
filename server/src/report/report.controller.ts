@@ -23,6 +23,11 @@ export class ReportController {
   async findOne(@Param('id') id: string) {
     return await this.reportService.findOne(+id);
   }
+  
+  @Get('/myReports/:id')
+  async findMyReports(@Param('id') id: string) {
+    return await this.reportService.findMyReports(+id);
+  }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateReportDto: UpdateReportDto) {
