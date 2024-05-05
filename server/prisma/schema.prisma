@@ -13,71 +13,192 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
 
-  RoleOnUser RoleOnUser[]
+  Role String @default("USER")
+
+  objects ObjectOnUser[]
+  report  Report[]
 
   login    String
   name     String
   password String
-
-  report Report[]
+  phone    String
 }
 
-model Role {
+model ResidentialComplex {
   id Int @id @default(autoincrement())
 
-  RoleOnUser RoleOnUser[]
+  objects Object[]
 
   name String
 }
 
-model RoleOnUser {
+model ObjectOnUser {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
-  role   Role @relation(fields: [roleId], references: [id])
-  roleId Int
+  object   Object @relation(fields: [objectId], references: [id])
+  objectId Int
 
-  @@id([userId, roleId])
+  @@id([userId, objectId])
 }
 
 model Object {
   id Int @id @default(autoincrement())
 
-  name   String
+  residentialComplex   ResidentialComplex @relation(fields: [residentialComplexId], references: [id], onDelete: Cascade)
+  residentialComplexId Int
+
+  ObjectOnUser ObjectOnUser[]
+
+  smeta Smeta?
+
   report Report[]
+
+  name         String
+  contractName String
 }
 
-model ReportDataType {
+model Smeta {
   id Int @id @default(autoincrement())
 
-  name       String
-  reportRows ReportRow[]
+  object   Object @relation(fields: [objectId], references: [id], onDelete: Cascade)
+  objectId Int    @unique
+
+  mainWorksName       MainWorksName[]
+  additionalWorksName AdditionalWorksName[]
+
+  name String
+}
+
+// основные работы из сметы
+model MainWorksName {
+  id Int @id @default(autoincrement())
+
+  smeta   Smeta @relation(fields: [smetaId], references: [id], onDelete: Cascade)
+  smetaId Int
+
+  name     String
+  unit     String
+  maxValue Int
+  done     Int
+  left     Int
+
+  ReportRow ReportRow[]
+}
+
+// доп работы из сметы
+model AdditionalWorksName {
+  id Int @id @default(autoincrement())
+
+  smeta   Smeta @relation(fields: [smetaId], references: [id], onDelete: Cascade)
+  smetaId Int
+
+  name  String
+  unit  String
+  total Int
+
+  ReportRow ReportRow[]
 }
 
 model Report {
   id Int @id @default(autoincrement())
 
+  object   Object @relation(fields: [objectId], references: [id], onDelete: Cascade)
+  objectId Int
+
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
 
-  object   Object @relation(fields: [objectId], references: [id])
-  objectId Int
+  workType String
 
-  additional String
+  workDate      DateTime
+  weather       String
+  temperature   String
+  workersAmount Int
+  ItrAmount     Int
+
+  workDone    WorkDone?
+  workPlan    WorkPlan?
+  problems    Problems?
+  hasProblems Boolean
+
+  additional    String
+  hasAdditional Boolean
 
   createdAt DateTime @default(now())
+}
 
-  reportRows ReportRow[]
+// факт работ в отчёте
+model WorkDone {
+  id Int @id @default(autoincrement())
+
+  Report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId Int    @unique
+
+  date DateTime
+
+  rows ReportRow[]
+}
+
+// план работ в отчёте
+model WorkPlan {
+  id Int @id @default(autoincrement())
+
+  Report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId Int    @unique
+
+  date DateTime
+
+  rows ReportRow[]
 }
 
 model ReportRow {
   id Int @id @default(autoincrement())
 
-  report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  reportId Int
+  // row type (факт, план)
+  rowType    String
+  WorkDone   WorkDone? @relation(fields: [workDoneId], references: [id], onDelete: Cascade)
+  workDoneId Int?
+  WorkPlan   WorkPlan? @relation(fields: [WorkPlanId], references: [id])
+  WorkPlanId Int?
 
-  key   ReportDataType @relation(fields: [keyId], references: [id])
-  keyId Int
+  // types (main, additional)
+  // данные о работе (название, тип, единица измеения. Находить по идшнику)
+  workType              String
+  MainWorksName         MainWorksName?       @relation(fields: [MainWorksNameId], references: [id])
+  MainWorksNameId       Int?
+  AdditionalWorksName   AdditionalWorksName? @relation(fields: [AdditionalWorksNameId], references: [id])
+  AdditionalWorksNameId Int?
 
-  value String
+  planNumberOfFloor    Int
+  planQuantityPerFloor Int
+  planTotal            Int
+
+  factNumberOfFloor    Int
+  factQuantityPerFloor Int
+  factTotal            Int
+
+  room          String
+  brigade       String
+  workersAmount Int
+  comment       String
+}
+
+model Problems {
+  id Int @id @default(autoincrement())
+
+  Report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  reportId Int    @unique
+
+  ProblemsRow ProblemsRow[]
+}
+
+model ProblemsRow {
+  id Int @id @default(autoincrement())
+
+  problems   Problems? @relation(fields: [problemsId], references: [id], onDelete: Cascade)
+  problemsId Int?
+
+  description   String
+  takenMeasures String
 }
