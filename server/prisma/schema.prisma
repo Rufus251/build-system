@@ -13,7 +13,8 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
 
-  Role String @default("USER")
+  // admin, manager, user
+  role String @default("user")
 
   objects ObjectOnUser[]
   report  Report[]
@@ -159,7 +160,7 @@ model ReportRow {
   rowType    String
   WorkDone   WorkDone? @relation(fields: [workDoneId], references: [id], onDelete: Cascade)
   workDoneId Int?
-  WorkPlan   WorkPlan? @relation(fields: [WorkPlanId], references: [id])
+  WorkPlan   WorkPlan? @relation(fields: [WorkPlanId], references: [id], onDelete: Cascade)
   WorkPlanId Int?
 
   // types (main, additional)
