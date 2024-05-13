@@ -7,18 +7,26 @@ import { DatabaseService } from 'src/database/database.service';
 export class ObjectService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(complexId: number, dto: CreateObjectDto) {
+  async create(complexId: number, userId: number, dto: CreateObjectDto) {
     try {
       const res = await this.databaseService.object.create({
         data: {
           ...dto,
-          residentialComplex:{
+          residentialComplex: {
             connect: {
               id: complexId
             }
+          },
+          ObjectOnUser: {
+            create: {
+              user: {
+                connect: {
+                  id: userId
+                }
+              }
+            }
           }
         },
-        
       })
       return res
     } catch (error) {
@@ -75,6 +83,16 @@ export class ObjectService {
           id
         }
       })
+      return res
+    } catch (error) {
+      console.log(error);
+      return error
+    }
+  }
+
+  async findOOU() {
+    try {
+      const res = await this.databaseService.objectOnUser.findMany()
       return res
     } catch (error) {
       console.log(error);

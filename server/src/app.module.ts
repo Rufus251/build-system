@@ -12,7 +12,7 @@ import { ResidentialComplexModule } from './residential-complex/residential-comp
 import * as path from 'path';
 
 @Module({
-  imports: [AuthModule, UserModule, ResidentialComplexModule, DatabaseModule, ObjectModule, ReportModule, ReportRowModule],
+  imports: [DatabaseModule, AuthModule, UserModule, ResidentialComplexModule, ObjectModule, ReportModule, ReportRowModule],
   controllers: [AppController],
   providers: [AppService],
 })

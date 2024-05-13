@@ -22,11 +22,14 @@ let ObjectController = class ObjectController {
     constructor(objectService) {
         this.objectService = objectService;
     }
-    async create(complexId, createObjectDto) {
-        return await this.objectService.create(+complexId, createObjectDto);
+    async create(complexId, userId, createObjectDto) {
+        return await this.objectService.create(+complexId, +userId, createObjectDto);
     }
     async findAll() {
         return await this.objectService.findAll();
+    }
+    async findOOU() {
+        return await this.objectService.findOOU();
     }
     async findOne(id) {
         return await this.objectService.findOne(+id);
@@ -40,11 +43,13 @@ let ObjectController = class ObjectController {
 };
 exports.ObjectController = ObjectController;
 __decorate([
-    (0, common_1.Post)(':complexId'),
+    (0, common_1.Post)(':complexId/:userId'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     __param(0, (0, common_1.Param)('complexId')),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('userId')),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, create_object_dto_1.CreateObjectDto]),
+    __metadata("design:paramtypes", [String, String, create_object_dto_1.CreateObjectDto]),
     __metadata("design:returntype", Promise)
 ], ObjectController.prototype, "create", null);
 __decorate([
@@ -54,6 +59,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ObjectController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.Get)('ObjectOnUsers'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ObjectController.prototype, "findOOU", null);
+__decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -62,6 +73,7 @@ __decorate([
 ], ObjectController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

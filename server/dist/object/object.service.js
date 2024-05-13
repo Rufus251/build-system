@@ -16,7 +16,7 @@ let ObjectService = class ObjectService {
     constructor(databaseService) {
         this.databaseService = databaseService;
     }
-    async create(complexId, dto) {
+    async create(complexId, userId, dto) {
         try {
             const res = await this.databaseService.object.create({
                 data: {
@@ -24,6 +24,15 @@ let ObjectService = class ObjectService {
                     residentialComplex: {
                         connect: {
                             id: complexId
+                        }
+                    },
+                    ObjectOnUser: {
+                        create: {
+                            user: {
+                                connect: {
+                                    id: userId
+                                }
+                            }
                         }
                     }
                 },
@@ -83,6 +92,16 @@ let ObjectService = class ObjectService {
                     id
                 }
             });
+            return res;
+        }
+        catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
+    async findOOU() {
+        try {
+            const res = await this.databaseService.objectOnUser.findMany();
             return res;
         }
         catch (error) {

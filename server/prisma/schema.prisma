@@ -37,7 +37,7 @@ model ObjectOnUser {
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 
-  object   Object @relation(fields: [objectId], references: [id])
+  object   Object @relation(fields: [objectId], references: [id], onDelete: Cascade)
   objectId Int
 
   @@id([userId, objectId])

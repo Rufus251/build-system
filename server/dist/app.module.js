@@ -22,7 +22,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, user_module_1.UserModule, residential_complex_module_1.ResidentialComplexModule, database_module_1.DatabaseModule, object_module_1.ObjectModule, report_module_1.ReportModule, report_row_module_1.ReportRowModule],
+        imports: [database_module_1.DatabaseModule, auth_module_1.AuthModule, user_module_1.UserModule, residential_complex_module_1.ResidentialComplexModule, object_module_1.ObjectModule, report_module_1.ReportModule, report_row_module_1.ReportRowModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
