@@ -16,12 +16,17 @@ let ObjectService = class ObjectService {
     constructor(databaseService) {
         this.databaseService = databaseService;
     }
-    async create(dto) {
+    async create(complexId, dto) {
         try {
             const res = await this.databaseService.object.create({
                 data: {
-                    ...dto
-                }
+                    ...dto,
+                    residentialComplex: {
+                        connect: {
+                            id: complexId
+                        }
+                    }
+                },
             });
             return res;
         }

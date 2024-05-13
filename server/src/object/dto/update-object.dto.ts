@@ -7,4 +7,8 @@ export class UpdateObjectDto extends PartialType(CreateObjectDto) {
       @IsString()
       @ApiProperty()
       name: string
+
+      @IsString()
+      @ApiProperty()
+      contractName: string
 }

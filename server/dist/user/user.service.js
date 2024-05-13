@@ -17,22 +17,13 @@ let UserService = class UserService {
     constructor(databaseService) {
         this.databaseService = databaseService;
     }
-    async create(dto, roleId) {
+    async create(dto) {
         try {
             const hashPass = await bcrypt.hash(dto.password, 7);
             dto.password = hashPass;
             const res = await this.databaseService.user.create({
                 data: {
                     ...dto,
-                    RoleOnUser: {
-                        create: {
-                            role: {
-                                connect: {
-                                    id: roleId
-                                }
-                            }
-                        }
-                    }
                 }
             });
             return res;
@@ -44,21 +35,8 @@ let UserService = class UserService {
     }
     async findAll() {
         try {
-            const resUsers = await this.databaseService.user.findMany();
-            const users = [];
-            for await (let user of resUsers) {
-                const userRole = await this.databaseService.role.findMany({
-                    where: {
-                        RoleOnUser: {
-                            some: {
-                                userId: user.id
-                            }
-                        }
-                    }
-                });
-                users.push({ ...user, 'role': userRole[0].name });
-            }
-            return users;
+            const res = await this.databaseService.user.findMany();
+            return res;
         }
         catch (error) {
             console.log(error);
@@ -79,7 +57,7 @@ let UserService = class UserService {
             return error;
         }
     }
-    async update(userId, roleId, dto) {
+    async update(userId, dto) {
         try {
             const res = await this.databaseService.user.update({
                 where: {

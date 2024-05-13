@@ -22,8 +22,8 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async create(roleId, createUserDto) {
-        return await this.userService.create(createUserDto, +roleId);
+    async create(createUserDto) {
+        return await this.userService.create(createUserDto);
     }
     async findAll() {
         return await this.userService.findAll();
@@ -31,8 +31,8 @@ let UserController = class UserController {
     async findOne(id) {
         return await this.userService.findOne(+id);
     }
-    async update(userId, roleId, updateUserDto) {
-        return await this.userService.update(+userId, +roleId, updateUserDto);
+    async update(userId, updateUserDto) {
+        return await this.userService.update(+userId, updateUserDto);
     }
     async remove(id) {
         return await this.userService.remove(+id);
@@ -40,12 +40,11 @@ let UserController = class UserController {
 };
 exports.UserController = UserController;
 __decorate([
-    (0, common_1.Post)(":roleId"),
+    (0, common_1.Post)(),
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
-    __param(0, (0, common_1.Param)('roleId')),
-    __param(1, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, create_user_dto_1.CreateUserDto]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
 __decorate([
@@ -62,13 +61,12 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findOne", null);
 __decorate([
-    (0, common_1.Patch)(':userId/:roleId'),
+    (0, common_1.Patch)(':userId'),
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     __param(0, (0, common_1.Param)('userId')),
-    __param(1, (0, common_1.Param)('roleId')),
-    __param(2, (0, common_1.Body)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
 __decorate([

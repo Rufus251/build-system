@@ -13,5 +13,13 @@ export class CreateUserDto {
       @IsString()
       @ApiProperty()
       password: string
+
+      @IsString()
+      @ApiProperty()
+      phone: string
+
+      @IsString()
+      @ApiProperty()
+      role: string = 'user'
 }
 

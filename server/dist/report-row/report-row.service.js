@@ -18,22 +18,7 @@ let ReportRowService = class ReportRowService {
     }
     async create(dto, reportId, dataTypeId) {
         try {
-            const res = await this.databaseService.reportRow.create({
-                data: {
-                    ...dto,
-                    report: {
-                        connect: {
-                            id: reportId
-                        }
-                    },
-                    key: {
-                        connect: {
-                            id: dataTypeId
-                        }
-                    }
-                }
-            });
-            return res;
+            return 'error';
         }
         catch (error) {
             console.log(error);
@@ -66,15 +51,7 @@ let ReportRowService = class ReportRowService {
     }
     async update(id, dto) {
         try {
-            const res = await this.databaseService.reportRow.update({
-                where: {
-                    id
-                },
-                data: {
-                    ...dto
-                }
-            });
-            return res;
+            return 'error';
         }
         catch (error) {
             console.log(error);

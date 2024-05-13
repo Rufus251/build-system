@@ -13,6 +13,9 @@ exports.CreateUserDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class CreateUserDto {
+    constructor() {
+        this.role = 'user';
+    }
 }
 exports.CreateUserDto = CreateUserDto;
 __decorate([
@@ -30,4 +33,14 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "phone", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "role", void 0);
 //# sourceMappingURL=create-user.dto.js.map

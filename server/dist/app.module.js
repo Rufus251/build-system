@@ -12,9 +12,7 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const user_module_1 = require("./user/user.module");
 const database_module_1 = require("./database/database.module");
-const role_module_1 = require("./role/role.module");
 const object_module_1 = require("./object/object.module");
-const report_data_type_module_1 = require("./report-data-type/report-data-type.module");
 const report_module_1 = require("./report/report.module");
 const report_row_module_1 = require("./report-row/report-row.module");
 const auth_module_1 = require("./auth/auth.module");
@@ -23,7 +21,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, user_module_1.UserModule, database_module_1.DatabaseModule, role_module_1.RoleModule, object_module_1.ObjectModule, report_data_type_module_1.ReportDataTypeModule, report_module_1.ReportModule, report_row_module_1.ReportRowModule],
+        imports: [auth_module_1.AuthModule, user_module_1.UserModule, database_module_1.DatabaseModule, object_module_1.ObjectModule, report_module_1.ReportModule, report_row_module_1.ReportRowModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

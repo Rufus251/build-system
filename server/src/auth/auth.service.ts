@@ -21,17 +21,7 @@ export class AuthService {
 
             const correctPassword = bcrypt.compareSync(dto.password, user.password)
             if (correctPassword) {
-                const role = await this.databaseService.role.findFirst({
-                    where: {
-                        RoleOnUser: {
-                            some: {
-                                userId: user.id
-                            }
-                        }
-                    }
-                })
-                const roleName = role.name
-                return { user, roleName }
+                return user
             }
             else {
                 throw new HttpException('Unauthorised', HttpStatus.UNAUTHORIZED)

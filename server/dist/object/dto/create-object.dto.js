@@ -20,4 +20,9 @@ __decorate([
     (0, swagger_1.ApiProperty)(),
     __metadata("design:type", String)
 ], CreateObjectDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)(),
+    __metadata("design:type", String)
+], CreateObjectDto.prototype, "contractName", void 0);
 //# sourceMappingURL=create-object.dto.js.map

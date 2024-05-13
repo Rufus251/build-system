@@ -22,4 +22,9 @@ __decorate([
     (0, swagger_2.ApiProperty)(),
     __metadata("design:type", String)
 ], UpdateObjectDto.prototype, "name", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, swagger_2.ApiProperty)(),
+    __metadata("design:type", String)
+], UpdateObjectDto.prototype, "contractName", void 0);
 //# sourceMappingURL=update-object.dto.js.map

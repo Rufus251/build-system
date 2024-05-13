@@ -9,9 +9,9 @@ import { ApiTags } from '@nestjs/swagger';
 export class ObjectController {
   constructor(private readonly objectService: ObjectService) {}
 
-  @Post()
-  async create(@Body() createObjectDto: CreateObjectDto) {
-    return await this.objectService.create(createObjectDto);
+  @Post(':complexId')
+  async create(@Param('complexId') complexId: string, @Body() createObjectDto: CreateObjectDto) {
+    return await this.objectService.create(+complexId, createObjectDto);
   }
 
   @Get()

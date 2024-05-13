@@ -5,4 +5,8 @@ export class CreateObjectDto {
       @IsString()
       @ApiProperty()
       name: string
+      
+      @IsString()
+      @ApiProperty()
+      contractName: string
 }

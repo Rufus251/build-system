@@ -33,21 +33,15 @@ export class ReportService {
 
   async findAll() {
     try {
-      const res = await this.databaseService.report.findMany()
-      const reports = []
-      for await (let report of res) {
-        const reportRows = await this.databaseService.reportRow.findMany({
-          where: {
-            reportId: report.id
-          }
-        })
-        reports.push({
-          ...report,
-          reportRows: [...reportRows]
-        })
-      }
+      const res = await this.databaseService.report.findMany({
+        include: {
+          workDone: true,
+          workPlan: true,
+          problems: true
+        }
+      })
 
-      return reports
+      return res
     } catch (error) {
       console.log(error);
       return error
@@ -59,6 +53,11 @@ export class ReportService {
       const res = await this.databaseService.report.findFirst({
         where: {
           id
+        },
+        include: {
+          workDone: true,
+          workPlan: true,
+          problems: true
         }
       })
       return res
@@ -73,22 +72,16 @@ export class ReportService {
       const res = await this.databaseService.report.findMany({
         where: {
           authorId: id
+
+        },
+        include: {
+          workDone: true,
+          workPlan: true,
+          problems: true
         }
       })
-      const reports = []
-      for await (let report of res) {
-        const reportRows = await this.databaseService.reportRow.findMany({
-          where: {
-            reportId: report.id
-          }
-        })
-        reports.push({
-          ...report,
-          reportRows: [...reportRows]
-        })
-      }
 
-      return reports
+      return res
     } catch (error) {
       console.log(error);
       return error

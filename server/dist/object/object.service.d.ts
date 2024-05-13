@@ -4,7 +4,7 @@ import { DatabaseService } from 'src/database/database.service';
 export declare class ObjectService {
     private readonly databaseService;
     constructor(databaseService: DatabaseService);
-    create(dto: CreateObjectDto): Promise<any>;
+    create(complexId: number, dto: CreateObjectDto): Promise<any>;
     findAll(): Promise<any>;
     findOne(id: number): Promise<any>;
     update(id: number, dto: UpdateObjectDto): Promise<any>;

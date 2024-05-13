@@ -9,10 +9,10 @@ import { ApiTags } from '@nestjs/swagger';
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
-  @Post(":roleId")
+  @Post()
   @UsePipes(new ValidationPipe())
-  async create(@Param('roleId') roleId: string, @Body() createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto, +roleId);
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.userService.create(createUserDto);
   }
 
   @Get()
@@ -25,10 +25,10 @@ export class UserController {
     return await this.userService.findOne(+id);
   }
 
-  @Patch(':userId/:roleId')
+  @Patch(':userId')
   @UsePipes(new ValidationPipe())
-  async update(@Param('userId') userId: string, @Param('roleId') roleId: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.update(+userId, +roleId, updateUserDto);
+  async update(@Param('userId') userId: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService.update(+userId, updateUserDto);
   }
 
   @Delete(':id')

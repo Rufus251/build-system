@@ -9,22 +9,8 @@ export class ReportRowService {
 
   async create(dto: CreateReportRowDto, reportId: number, dataTypeId: number) {
     try {
-      const res = await this.databaseService.reportRow.create({
-        data: {
-          ...dto,
-          report: {
-            connect: {
-              id: reportId
-            }
-          },
-          key: {
-            connect: {
-              id: dataTypeId
-            }
-          }
-        }
-      })
-      return res
+
+      return 'error'
     } catch (error) {
       console.log(error);
       return error
@@ -57,15 +43,7 @@ export class ReportRowService {
 
   async update(id: number, dto: UpdateReportRowDto) {
     try {
-      const res = await this.databaseService.reportRow.update({
-        where: {
-          id
-        },
-        data: {
-          ...dto
-        }
-      })
-      return res
+      return 'error'
     } catch (error) {
       console.log(error);
       return error

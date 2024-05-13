@@ -7,12 +7,18 @@ import { DatabaseService } from 'src/database/database.service';
 export class ObjectService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(dto: CreateObjectDto) {
+  async create(complexId: number, dto: CreateObjectDto) {
     try {
       const res = await this.databaseService.object.create({
         data: {
-          ...dto
-        }
+          ...dto,
+          residentialComplex:{
+            connect: {
+              id: complexId
+            }
+          }
+        },
+        
       })
       return res
     } catch (error) {

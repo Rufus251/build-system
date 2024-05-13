@@ -4,12 +4,11 @@ export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
     loginEmail(dto: LoginUserDto): Promise<{
-        user: {
-            id: number;
-            login: string;
-            name: string;
-            password: string;
-        };
-        roleName: string;
+        id: number;
+        role: string;
+        login: string;
+        name: string;
+        password: string;
+        phone: string;
     }>;
 }

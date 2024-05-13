@@ -22,8 +22,8 @@ let ObjectController = class ObjectController {
     constructor(objectService) {
         this.objectService = objectService;
     }
-    async create(createObjectDto) {
-        return await this.objectService.create(createObjectDto);
+    async create(complexId, createObjectDto) {
+        return await this.objectService.create(+complexId, createObjectDto);
     }
     async findAll() {
         return await this.objectService.findAll();
@@ -40,10 +40,11 @@ let ObjectController = class ObjectController {
 };
 exports.ObjectController = ObjectController;
 __decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Post)(':complexId'),
+    __param(0, (0, common_1.Param)('complexId')),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_object_dto_1.CreateObjectDto]),
+    __metadata("design:paramtypes", [String, create_object_dto_1.CreateObjectDto]),
     __metadata("design:returntype", Promise)
 ], ObjectController.prototype, "create", null);
 __decorate([

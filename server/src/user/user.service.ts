@@ -8,22 +8,13 @@ import * as bcrypt from "bcrypt";
 export class UserService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(dto: CreateUserDto, roleId: number) {
+  async create(dto: CreateUserDto) {
     try {
       const hashPass = await bcrypt.hash(dto.password, 7);
       dto.password = hashPass
       const res = await this.databaseService.user.create({
         data: {
           ...dto,
-          RoleOnUser: {
-            create: {
-              role: {
-                connect: {
-                  id: roleId
-                }
-              }
-            }
-          }
         }
       })
       return res
@@ -35,22 +26,8 @@ export class UserService {
 
   async findAll() {
     try {
-      const resUsers = await this.databaseService.user.findMany()
-      const users = []
-      for await (let user of resUsers) {
-        const userRole = await this.databaseService.role.findMany({
-          where: {
-            RoleOnUser: {
-              some: {
-                userId: user.id
-              }
-            }
-          }
-        })
-        users.push({ ...user, 'role': userRole[0].name })
-      }
-
-      return users
+      const res = await this.databaseService.user.findMany()
+      return res
     } catch (error) {
       console.log(error);
       return error
@@ -71,8 +48,7 @@ export class UserService {
     }
   }
 
-  // to do: role change
-  async update(userId: number, roleId: number, dto: UpdateUserDto) {
+  async update(userId: number, dto: UpdateUserDto) {
     try {
       const res = await this.databaseService.user.update({
         where: {
