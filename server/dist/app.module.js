@@ -16,12 +16,13 @@ const object_module_1 = require("./object/object.module");
 const report_module_1 = require("./report/report.module");
 const report_row_module_1 = require("./report-row/report-row.module");
 const auth_module_1 = require("./auth/auth.module");
+const residential_complex_module_1 = require("./residential-complex/residential-complex.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, user_module_1.UserModule, database_module_1.DatabaseModule, object_module_1.ObjectModule, report_module_1.ReportModule, report_row_module_1.ReportRowModule],
+        imports: [auth_module_1.AuthModule, user_module_1.UserModule, residential_complex_module_1.ResidentialComplexModule, database_module_1.DatabaseModule, object_module_1.ObjectModule, report_module_1.ReportModule, report_row_module_1.ReportRowModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
