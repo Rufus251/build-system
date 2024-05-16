@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
@@ -10,6 +10,7 @@ export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
   @Post(":authorId/:objectId")
+  @UsePipes(new ValidationPipe())
   async create(@Param('authorId') authorId: string, @Param('objectId') objectId: string,@Body() createReportDto: CreateReportDto) {
     return await this.reportService.create(createReportDto, +authorId, +objectId);
   }
@@ -30,6 +31,7 @@ export class ReportController {
   }
 
   @Patch(':id')
+  @UsePipes(new ValidationPipe())
   async update(@Param('id') id: string, @Body() updateReportDto: UpdateReportDto) {
     return await this.reportService.update(+id, updateReportDto);
   }

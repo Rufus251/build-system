@@ -1,17 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsNumber, IsString } from "class-validator";
 
 export class CreateReportDto {
-      @IsString()
-      @ApiProperty()
-      additional: string
-
       @ApiProperty()
       @IsString()
       workType: string
 
       @ApiProperty()
-      @IsDate()
+      @IsDateString()
       workDate: Date
 
       @ApiProperty()
@@ -33,6 +29,10 @@ export class CreateReportDto {
       @ApiProperty()
       @IsBoolean()
       hasProblems: boolean
+
+      @IsString()
+      @ApiProperty()
+      additional: string
 
       @ApiProperty()
       @IsBoolean()

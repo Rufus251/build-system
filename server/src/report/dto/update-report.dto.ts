@@ -3,10 +3,6 @@ import { CreateReportDto } from './create-report.dto';
 import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
 
 export class UpdateReportDto extends PartialType(CreateReportDto) {
-      @IsString()
-      @ApiProperty()
-      additional?: string
-
       @ApiProperty()
       @IsString()
       workType?: string
@@ -34,6 +30,10 @@ export class UpdateReportDto extends PartialType(CreateReportDto) {
       @ApiProperty()
       @IsBoolean()
       hasProblems?: boolean
+
+      @IsString()
+      @ApiProperty()
+      additional?: string
 
       @ApiProperty()
       @IsBoolean()
