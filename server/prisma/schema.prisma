@@ -136,9 +136,11 @@ model WorkDone {
   Report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId Int    @unique
 
-  date DateTime
+  doneDate DateTime
 
   rows ReportRow[]
+
+  createdAt DateTime @default(now())
 }
 
 // план работ в отчёте
@@ -148,9 +150,11 @@ model WorkPlan {
   Report   Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
   reportId Int    @unique
 
-  date DateTime
+  planDate DateTime
 
   rows ReportRow[]
+
+  createdAt DateTime @default(now())
 }
 
 model ReportRow {
