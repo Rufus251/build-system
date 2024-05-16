@@ -1,31 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreateObjectDto } from './dto/create-object.dto';
-import { UpdateObjectDto } from './dto/update-object.dto';
+import { CreateSmetaDto } from './dto/create-smeta.dto';
+import { UpdateSmetaDto } from './dto/update-smeta.dto';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
-export class ObjectService {
+export class SmetaService {
   constructor(private readonly databaseService: DatabaseService) { }
 
-  async create(complexId: number, userId: number, dto: CreateObjectDto) {
+  async create(objectId: number, dto: CreateSmetaDto) {
     try {
-      const res = await this.databaseService.object.create({
+      const res = await this.databaseService.smeta.create({
         data: {
           ...dto,
-          residentialComplex: {
+          object: {
             connect: {
-              id: complexId
+              id: objectId
             }
           },
-          ObjectOnUser: {
-            create: {
-              user: {
-                connect: {
-                  id: userId
-                }
-              }
-            }
-          }
         },
       })
       return res
@@ -37,11 +28,7 @@ export class ObjectService {
 
   async findAll() {
     try {
-      const res = await this.databaseService.object.findMany({
-        include: {
-          smeta: true
-        }
-      })
+      const res = await this.databaseService.smeta.findMany()
       return res
     } catch (error) {
       console.log(error);
@@ -51,7 +38,7 @@ export class ObjectService {
 
   async findOne(id: number) {
     try {
-      const res = await this.databaseService.object.findFirst({
+      const res = await this.databaseService.smeta.findFirst({
         where: {
           id
         }
@@ -63,9 +50,9 @@ export class ObjectService {
     }
   }
 
-  async update(id: number, dto: UpdateObjectDto) {
+  async update(id: number, dto: UpdateSmetaDto) {
     try {
-      const res = await this.databaseService.object.update({
+      const res = await this.databaseService.smeta.update({
         where: {
           id
         },
@@ -82,21 +69,11 @@ export class ObjectService {
 
   async remove(id: number) {
     try {
-      const res = await this.databaseService.object.delete({
+      const res = await this.databaseService.smeta.delete({
         where: {
           id
         }
       })
-      return res
-    } catch (error) {
-      console.log(error);
-      return error
-    }
-  }
-
-  async findOOU() {
-    try {
-      const res = await this.databaseService.objectOnUser.findMany()
       return res
     } catch (error) {
       console.log(error);

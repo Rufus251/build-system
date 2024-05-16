@@ -7,12 +7,13 @@ import { ObjectModule } from './object/object.module';
 import { ReportModule } from './report/report.module';
 import { ReportRowModule } from './report-row/report-row.module';
 import { AuthModule } from './auth/auth.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
+import { ServeStaticModule } from '@nestjs/serve-static'; 
 import { ResidentialComplexModule } from './residential-complex/residential-complex.module';
+import { SmetaModule } from './smeta/smeta.module';
 import * as path from 'path';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, ResidentialComplexModule, ObjectModule, ReportModule, ReportRowModule],
+  imports: [DatabaseModule, AuthModule, UserModule, ResidentialComplexModule, ObjectModule, SmetaModule, ReportModule, ReportRowModule],
   controllers: [AppController],
   providers: [AppService],
 })

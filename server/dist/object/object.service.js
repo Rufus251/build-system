@@ -46,7 +46,11 @@ let ObjectService = class ObjectService {
     }
     async findAll() {
         try {
-            const res = await this.databaseService.object.findMany();
+            const res = await this.databaseService.object.findMany({
+                include: {
+                    smeta: true
+                }
+            });
             return res;
         }
         catch (error) {
