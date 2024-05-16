@@ -1,5 +1,4 @@
 export declare class CreateReportDto {
-    additional: string;
     workType: string;
     workDate: Date;
     weather: string;
@@ -7,5 +6,6 @@ export declare class CreateReportDto {
     workersAmount: number;
     ItrAmount: number;
     hasProblems: boolean;
+    additional: string;
     hasAdditional: boolean;
 }
