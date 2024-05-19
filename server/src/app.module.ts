@@ -10,10 +10,16 @@ import { AuthModule } from './auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static'; 
 import { ResidentialComplexModule } from './residential-complex/residential-complex.module';
 import { SmetaModule } from './smeta/smeta.module';
+import { MainWorksNameModule } from './main-works-name/main-works-name.module';
+import { AdditionalWorksNameModule } from './additional-works-name/additional-works-name.module';
+import { WorkDoneModule } from './work-done/work-done.module';
+import { WorkPlanModule } from './work-plan/work-plan.module';
+import { ProblemsModule } from './problems/problems.module';
+import { ProblemsRowModule } from './problems-row/problems-row.module';
 import * as path from 'path';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, ResidentialComplexModule, ObjectModule, SmetaModule, ReportModule, ReportRowModule],
+  imports: [DatabaseModule, AuthModule, UserModule, ResidentialComplexModule, ObjectModule, SmetaModule, MainWorksNameModule, AdditionalWorksNameModule, WorkDoneModule, WorkPlanModule, ReportModule, ReportRowModule,  ProblemsModule, ProblemsRowModule],
   controllers: [AppController],
   providers: [AppService],
 })
