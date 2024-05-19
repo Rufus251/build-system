@@ -35,9 +35,21 @@ export class ReportService {
     try {
       const res = await this.databaseService.report.findMany({
         include: {
-          workDone: true,
-          workPlan: true,
-          problems: true
+          workDone: {
+            include: {
+              rows: true
+            }
+          },
+          workPlan: {
+            include: {
+              rows: true
+            }
+          },
+          problems: {
+            include: {
+              ProblemsRow: true
+            }
+          }
         }
       })
 
@@ -55,9 +67,21 @@ export class ReportService {
           id
         },
         include: {
-          workDone: true,
-          workPlan: true,
-          problems: true
+          workDone: {
+            include: {
+              rows: true
+            }
+          },
+          workPlan: {
+            include: {
+              rows: true
+            }
+          },
+          problems: {
+            include: {
+              ProblemsRow: true
+            }
+          }
         }
       })
       return res
