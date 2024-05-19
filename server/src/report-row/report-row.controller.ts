@@ -2,17 +2,18 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, Validation
 import { ReportRowService } from './report-row.service';
 import { CreateReportRowDto } from './dto/create-report-row.dto';
 import { UpdateReportRowDto } from './dto/update-report-row.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiProperty, ApiTags } from '@nestjs/swagger';
 
 @Controller('report-row')
 @ApiTags('report-row')
 export class ReportRowController {
-  constructor(private readonly reportRowService: ReportRowService) {}
+  constructor(private readonly reportRowService: ReportRowService) { }
 
-  @Post(':reportId/:dataTypeId')
+  // main/additional id +  fact/plan id 
+  @Post(':workTypeId/:rowTypeId')
   @UsePipes(new ValidationPipe())
-  async create(@Param('reportId') reportId: string, @Param('dataTypeId') dataTypeId: string, @Body() createReportRowDto: CreateReportRowDto) {
-    return await this.reportRowService.create(createReportRowDto, +reportId, +dataTypeId);
+  async create(@Param('workTypeId') workTypeId: string, @Param('rowTypeId') rowTypeId: string,  @Body() createReportRowDto: CreateReportRowDto) {
+    return await this.reportRowService.create(+workTypeId, +rowTypeId, createReportRowDto);
   }
 
   @Get()

@@ -4,8 +4,8 @@ import { CreateWorkDoneDto } from './dto/create-work-done.dto';
 import { UpdateWorkDoneDto } from './dto/update-work-done.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('work-done')
-@ApiTags('work-done')
+@Controller('work-fact')
+@ApiTags('work-fact')
 
 export class WorkDoneController {
   constructor(private readonly workDoneService: WorkDoneService) {}

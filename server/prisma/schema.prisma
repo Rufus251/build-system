@@ -160,8 +160,8 @@ model WorkPlan {
 model ReportRow {
   id Int @id @default(autoincrement())
 
-  // row type (факт, план)
-  rowType    String
+  // row type (факт, план) / fact, plan
+  rowType    String?
   WorkDone   WorkDone? @relation(fields: [workDoneId], references: [id], onDelete: Cascade)
   workDoneId Int?
   WorkPlan   WorkPlan? @relation(fields: [WorkPlanId], references: [id], onDelete: Cascade)
@@ -169,7 +169,7 @@ model ReportRow {
 
   // types (main, additional)
   // данные о работе (название, тип, единица измеения. Находить по идшнику)
-  workType              String
+  workType              String?
   MainWorksName         MainWorksName?       @relation(fields: [MainWorksNameId], references: [id])
   MainWorksNameId       Int?
   AdditionalWorksName   AdditionalWorksName? @relation(fields: [AdditionalWorksNameId], references: [id])
