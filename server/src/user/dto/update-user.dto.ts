@@ -23,4 +23,9 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
       @IsString()
       @ApiProperty()
       role?: string
+
+      @IsString()
+      @ApiProperty()
+      @IsOptional()
+      token?:string
 }
