@@ -21,7 +21,7 @@ model User {
   objects ObjectOnUser[]
   report  Report[]
 
-  login    String
+  login    String @unique
   name     String
   password String
   phone    String
@@ -33,7 +33,7 @@ model ResidentialComplex {
 
   objects Object[]
 
-  name String
+  name String @unique
 }
 
 model ObjectOnUser {
@@ -58,7 +58,7 @@ model Object {
 
   report Report[]
 
-  name         String
+  name         String @unique
   contractName String
 }
 
