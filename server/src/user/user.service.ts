@@ -2,35 +2,67 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
-import * as bcrypt from "bcrypt";
+import * as bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(dto: CreateUserDto) {
     try {
       const hashPass = await bcrypt.hash(dto.password, 7);
-      dto.password = hashPass
+      dto.password = hashPass;
       const res = await this.databaseService.user.create({
         data: {
           ...dto,
-        }
-      })
-      return res
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
-  async findAll() {
+  async findAll(login: string, name: string, role: string, objectId: number) {
     try {
-      const res = await this.databaseService.user.findMany()
-      return res
+      const query: Prisma.UserFindManyArgs = {
+        select: {
+          id: true,
+          login: true,
+          name: true,
+          role: true,
+          phone: true,
+          objects: {
+            include: {
+              object: true,
+            },
+          },
+        },
+        where: {
+          login,
+          name,
+          role,
+        },
+      };
+
+      objectId = Number.isNaN(objectId) ? undefined : objectId;
+      if (objectId) {
+        query.where = {
+          ...query.where,
+          objects: {
+            some: {
+              objectId,
+            },
+          },
+        };
+      }
+      const res = await this.databaseService.user.findMany(query);
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -38,30 +70,116 @@ export class UserService {
     try {
       const res = await this.databaseService.user.findFirst({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+        select: {
+          id: true,
+          login: true,
+          name: true,
+          role: true,
+          phone: true,
+          objects: {
+            include: {
+              object: true,
+            },
+          },
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
-  async update(userId: number, dto: UpdateUserDto) {
+  async addObject(userId: number, objectId: number) {
     try {
       const res = await this.databaseService.user.update({
         where: {
-          id: userId
+          id: userId,
+        },
+        data: {
+          objects: {
+            create: {
+              object: {
+                connect: {
+                  id: objectId,
+                },
+              },
+            },
+          },
+        },
+        select: {
+          id: true,
+          login: true,
+          name: true,
+          role: true,
+          phone: true,
+          objects: {
+            include: {
+              object: true,
+            },
+          },
+        },
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async delObject(userId: number, objectId: number) {
+    try {
+      await this.databaseService.objectOnUser.deleteMany({
+        where: {
+          AND: [
+            {
+              userId,
+            },
+            {
+              objectId,
+            },
+          ],
+        },
+      });
+      const res = await this.databaseService.user.findFirst({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+          login: true,
+          name: true,
+          role: true,
+          phone: true,
+          objects: {
+            include: {
+              object: true,
+            },
+          },
+        },
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+  async updateData(userId: number, dto: UpdateUserDto) {
+    try {
+      const res = await this.databaseService.user.update({
+        where: {
+          id: userId,
         },
         data: {
           ...dto,
-        }
-      })
-      return res
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -69,13 +187,13 @@ export class UserService {
     try {
       const res = await this.databaseService.user.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      throw new HttpException("Internal", HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new HttpException('Internal', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
