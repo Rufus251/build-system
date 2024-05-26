@@ -1,41 +1,50 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateReportDto } from './create-report.dto';
-import { IsBoolean, IsDate, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateReportDto extends PartialType(CreateReportDto) {
-      @ApiProperty()
-      @IsString()
-      workType?: string
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  workType?: string;
 
-      @ApiProperty()
-      @IsDate()
-      workDate?: Date
+  @ApiProperty()
+  @IsDate()
+  @IsOptional()
+  workDate?: Date;
 
-      @ApiProperty()
-      @IsString()
-      weather?: string
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  weather?: string;
 
-      @ApiProperty()
-      @IsString()
-      temperature?: string
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  temperature?: string;
 
-      @ApiProperty()
-      @IsNumber()
-      workersAmount?: number
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  workersAmount?: number;
 
-      @ApiProperty()
-      @IsNumber()
-      ItrAmount?: number
+  @ApiProperty()
+  @IsNumber()
+  @IsOptional()
+  ItrAmount?: number;
 
-      @ApiProperty()
-      @IsBoolean()
-      hasProblems?: boolean
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  hasProblems?: boolean;
 
-      @IsString()
-      @ApiProperty()
-      additional?: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  additional?: string;
 
-      @ApiProperty()
-      @IsBoolean()
-      hasAdditional?: boolean
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  hasAdditional?: boolean;
 }

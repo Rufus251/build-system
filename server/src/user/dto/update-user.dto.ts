@@ -4,28 +4,33 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-      @IsString()
-      @ApiProperty()
-      login?: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  login?: string;
 
-      @IsString()
-      @ApiProperty()
-      name?: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  name?: string;
 
-      @IsString()
-      @ApiProperty()
-      password?: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  password?: string;
 
-      @IsString()
-      @ApiProperty()
-      phone?: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  phone?: string;
 
-      @IsString()
-      @ApiProperty()
-      role?: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  role?: string;
 
-      @IsString()
-      @ApiProperty()
-      @IsOptional()
-      token?:string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  token?: string;
 }

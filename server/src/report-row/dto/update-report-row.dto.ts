@@ -1,45 +1,55 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateReportRowDto } from './create-report-row.dto';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-export class UpdateReportRowDto{
-      @IsNumber()
-      @ApiProperty()
-      planNumberOfFloor: number
+export class UpdateReportRowDto {
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  planNumberOfFloor?: number;
 
-      @IsNumber()
-      @ApiProperty()
-      planQuantityPerFloor: number
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  planQuantityPerFloor?: number;
 
-      @IsNumber()
-      @ApiProperty()
-      planTotal: number
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  planTotal?: number;
 
-      @IsNumber()
-      @ApiProperty()
-      factNumberOfFloor: number
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  factNumberOfFloor?: number;
 
-      @IsNumber()
-      @ApiProperty()
-      factQuantityPerFloor: number
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  factQuantityPerFloor?: number;
 
-      @IsNumber()
-      @ApiProperty()
-      factTotal: number
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  factTotal?: number;
 
-      @IsString()
-      @ApiProperty()
-      room: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  room?: string;
 
-      @IsString()
-      @ApiProperty()
-      brigade: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  brigade?: string;
 
-      @IsNumber()
-      @ApiProperty()
-      workersAmount: number
+  @IsNumber()
+  @ApiProperty()
+  @IsOptional()
+  workersAmount?: number;
 
-      @IsString()
-      @ApiProperty()
-      comment: string
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
+  comment?: string;
 }
