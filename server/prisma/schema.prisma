@@ -18,6 +18,8 @@ model User {
   // admin, manager, user
   role String @default("user")
 
+  // Объекты к которым ПРИВЯЗАН пользователь (т.е. например он работает на 2 и 4 объекте, соответственно он к ним привязан) 
+  // НЕ ТОТ КТО ИХ СОЗДАЛ
   objects ObjectOnUser[]
   report  Report[]
 

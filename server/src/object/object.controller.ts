@@ -14,8 +14,8 @@ export class ObjectController {
   @Post(':complexId/:userId')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
-  async create(@Param('complexId') complexId: string, @Param('userId') userId: string, @Body() createObjectDto: CreateObjectDto) {
-    return await this.objectService.create(+complexId, +userId, createObjectDto);
+  async create(@Param('complexId') complexId: string, @Body() createObjectDto: CreateObjectDto) {
+    return await this.objectService.create(+complexId, createObjectDto);
   }
 
   @Get()
