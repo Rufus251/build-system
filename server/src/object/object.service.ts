@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ObjectService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(complexId: number, dto: CreateObjectDto) {
     try {
@@ -14,29 +14,73 @@ export class ObjectService {
           ...dto,
           residentialComplex: {
             connect: {
-              id: complexId
-            }
+              id: complexId,
+            },
           },
         },
-      })
-      return res
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
-  async findAll() {
+  async findAll(complexId: number, userId: number, objectName: string) {
     try {
+      complexId = Number.isNaN(complexId) ? undefined : complexId;
+      userId = Number.isNaN(userId) ? undefined : userId;
+
       const res = await this.databaseService.object.findMany({
+        where: {
+          name: objectName,
+          residentialComplexId: complexId,
+          ObjectOnUser: {
+            some: {
+              userId,
+            },
+          },
+        },
         include: {
-          smeta: true
-        }
-      })
-      return res
+          smeta: {
+            include: {
+              mainWorksName: true,
+              additionalWorksName: true,
+            },
+          },
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
+    }
+  }
+
+  async findAllNames(complexId: number, userId: number, objectName: string) {
+    try {
+      complexId = Number.isNaN(complexId) ? undefined : complexId;
+      userId = Number.isNaN(userId) ? undefined : userId;
+
+      const res = await this.databaseService.object.findMany({
+        where: {
+          name: objectName,
+          residentialComplexId: complexId,
+          ObjectOnUser: {
+            some: {
+              userId,
+            },
+          },
+        },
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   }
 
@@ -44,13 +88,21 @@ export class ObjectService {
     try {
       const res = await this.databaseService.object.findFirst({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+        include: {
+          smeta: {
+            include: {
+              mainWorksName: true,
+              additionalWorksName: true,
+            },
+          },
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -58,16 +110,16 @@ export class ObjectService {
     try {
       const res = await this.databaseService.object.update({
         where: {
-          id
+          id,
         },
         data: {
-          ...dto
-        }
-      })
-      return res
+          ...dto,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -75,23 +127,23 @@ export class ObjectService {
     try {
       const res = await this.databaseService.object.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
   async findOOU() {
     try {
-      const res = await this.databaseService.objectOnUser.findMany()
-      return res
+      const res = await this.databaseService.objectOnUser.findMany();
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 }
