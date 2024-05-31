@@ -30,7 +30,11 @@ export class ObjectController {
     @Param('smetaName') smetaName: string,
     @Body() createObjectDto: CreateObjectDto,
   ) {
-    return await this.objectService.create(+complexId, smetaName, createObjectDto);
+    return await this.objectService.create(
+      +complexId,
+      smetaName,
+      createObjectDto,
+    );
   }
 
   @Get()
@@ -43,7 +47,8 @@ export class ObjectController {
   @ApiQuery({
     name: 'userId',
     type: Number,
-    description: 'Получение названий объектов, которые привязаны к определённому юзеру',
+    description:
+      'Получение названий объектов, которые привязаны к определённому юзеру',
     required: false,
   })
   @ApiQuery({
@@ -53,7 +58,11 @@ export class ObjectController {
     required: false,
   })
   @Roles(Role.admin, Role.manager)
-  async findAll(@Query('complexId') complexId?: string, @Query('userId') userId?: string, @Query('objectName') objectName?: string) {
+  async findAll(
+    @Query('complexId') complexId?: string,
+    @Query('userId') userId?: string,
+    @Query('objectName') objectName?: string,
+  ) {
     return await this.objectService.findAll(+complexId, +userId, objectName);
   }
 
@@ -67,7 +76,8 @@ export class ObjectController {
   @ApiQuery({
     name: 'userId',
     type: Number,
-    description: 'Получение названий объектов, которые привязаны к определённому юзеру',
+    description:
+      'Получение названий объектов, которые привязаны к определённому юзеру',
     required: false,
   })
   @ApiQuery({
@@ -77,8 +87,16 @@ export class ObjectController {
     required: false,
   })
   @Roles(Role.admin, Role.manager)
-  async findAllNames(@Query('complexId') complexId?: string, @Query('userId') userId?: string, @Query('objectName') objectName?: string) {
-    return await this.objectService.findAllNames(+complexId, +userId, objectName);
+  async findAllNames(
+    @Query('complexId') complexId?: string,
+    @Query('userId') userId?: string,
+    @Query('objectName') objectName?: string,
+  ) {
+    return await this.objectService.findAllNames(
+      +complexId,
+      +userId,
+      objectName,
+    );
   }
 
   @Get('ObjectOnUsers')

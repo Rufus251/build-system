@@ -8,11 +8,18 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ReportRowService } from './report-row.service';
 import { CreateReportRowDto } from './dto/create-report-row.dto';
 import { UpdateReportRowDto } from './dto/update-report-row.dto';
-import { ApiHeader, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import {
+  ApiHeader,
+  ApiParam,
+  ApiProperty,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role.enum';
 
@@ -48,9 +55,53 @@ export class ReportRowController {
   }
 
   @Get()
+  @ApiQuery({
+    name: 'reportId',
+    type: String,
+    description: 'id отчёта к которому привязана строка',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'rowType',
+    type: String,
+    description: 'Строка находится в fact или plan в отчёте',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'workId',
+    type: Number,
+    description:
+      'id работы к которой привязана строка (без rowType будет искать и в plan и в fact)',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'workType',
+    type: String,
+    description: '(main / additional) Работа из сметы, к которой принадлежит строка',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'workTypeId',
+    type: Number,
+    description:
+      'id работы из сметы, (без workType будет искать и в main и в additional)',
+    required: false,
+  })
   @Roles(Role.admin, Role.manager, Role.user)
-  async findAll() {
-    return await this.reportRowService.findAll();
+  async findAll(
+    @Query('reportId') reportId?: number,
+    @Query('rowType') rowType?: string,
+    @Query('workId') workId?: number,
+    @Query('workType') workType?: string,
+    @Query('workTypeId') workTypeId?: number,
+  ) {
+    return await this.reportRowService.findAll(
+      +reportId,
+      rowType,
+      +workId,
+      workType,
+      +workTypeId,
+    );
   }
 
   @Get(':id')
