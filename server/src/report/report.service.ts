@@ -39,9 +39,12 @@ export class ReportService {
     dateEnd: Date,
     problems: boolean,
     additional: boolean,
+    workType: string,
+    worksNameId: number,
   ) {
     try {
       objectId = Number.isNaN(objectId) ? undefined : objectId;
+      worksNameId = Number.isNaN(worksNameId) ? undefined : worksNameId;
       let query: Prisma.ReportFindManyArgs = {
         where: {
           objectId,
@@ -85,6 +88,32 @@ export class ReportService {
         };
       }
 
+      // workType sort
+      if (workType != undefined) {
+        if (workType === 'fact' && worksNameId != undefined) {
+          query.where = {
+            ...query.where,
+            workDone: {
+              rows: {
+                some: {
+                  workDoneId: worksNameId,
+                },
+              },
+            },
+          };
+        } else if (workType === 'plan' && worksNameId != undefined) {
+          query.where = {
+            ...query.where,
+            workPlan: {
+              rows: {
+                some: {
+                  WorkPlanId: worksNameId,
+                },
+              },
+            },
+          };
+        }
+      }
       const res = await this.databaseService.report.findMany(query);
 
       return res;

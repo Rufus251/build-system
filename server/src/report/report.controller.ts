@@ -96,6 +96,20 @@ export class ReportController {
       'Без/c дополнительными работами (оставить пустым чтобы не влияло)',
     required: false,
   })
+  @ApiQuery({
+    name: 'workType',
+    type: String,
+    description:
+      '(fact/plan) Использовать вместе с worksNameId!!! Поиск отчёта, в котором есть строка с нужной работой. Например: в отчёте есть "залив опалубки" как основная работа',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'worksNameId',
+    type: Number,
+    description:
+      'Использовать вместе с workType!!! Поиск отчёта, в котором есть строка с нужной работой. Например: в отчёте есть "залив опалубки" как основная работа',
+    required: false,
+  })
   @Roles(Role.admin, Role.manager, Role.user)
   async findAll(
     @Query('ascending') ascending?: string,
@@ -105,6 +119,8 @@ export class ReportController {
     @Query('dateEnd') dateEnd?: Date,
     @Query('problems') problems?: boolean,
     @Query('additional') additional?: boolean,
+    @Query('workType') workType?: string,
+    @Query('worksNameId') worksNameId?: number,
   ) {
     problems = this.toBool(problems);
     additional = this.toBool(additional);
@@ -116,6 +132,8 @@ export class ReportController {
       dateEnd,
       problems,
       additional,
+      workType,
+      +worksNameId
     );
   }
 
