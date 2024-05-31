@@ -22,14 +22,15 @@ import { Role } from 'src/enum/role.enum';
 export class ObjectController {
   constructor(private readonly objectService: ObjectService) {}
 
-  @Post(':complexId/:userId')
+  @Post(':complexId/:smetaName')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
   async create(
     @Param('complexId') complexId: string,
+    @Param('smetaName') smetaName: string,
     @Body() createObjectDto: CreateObjectDto,
   ) {
-    return await this.objectService.create(+complexId, createObjectDto);
+    return await this.objectService.create(+complexId, smetaName, createObjectDto);
   }
 
   @Get()

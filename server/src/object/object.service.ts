@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateObjectDto } from './dto/create-object.dto';
 import { UpdateObjectDto } from './dto/update-object.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ObjectService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async create(complexId: number, dto: CreateObjectDto) {
+  async create(complexId: number, smetaName: string, dto: CreateObjectDto) {
     try {
       const res = await this.databaseService.object.create({
         data: {
@@ -15,6 +16,11 @@ export class ObjectService {
           residentialComplex: {
             connect: {
               id: complexId,
+            },
+          },
+          smeta: {
+            create: {
+              name: smetaName,
             },
           },
         },
@@ -31,15 +37,10 @@ export class ObjectService {
       complexId = Number.isNaN(complexId) ? undefined : complexId;
       userId = Number.isNaN(userId) ? undefined : userId;
 
-      const res = await this.databaseService.object.findMany({
+      let query: Prisma.ObjectFindManyArgs = {
         where: {
           name: objectName,
           residentialComplexId: complexId,
-          ObjectOnUser: {
-            some: {
-              userId,
-            },
-          },
         },
         include: {
           smeta: {
@@ -49,7 +50,19 @@ export class ObjectService {
             },
           },
         },
-      });
+      };
+
+      if (userId) {
+        query.where = {
+          ...query.where,
+          ObjectOnUser: {
+            some: {
+              userId,
+            },
+          },
+        };
+      }
+      const res = await this.databaseService.object.findMany(query);
       return res;
     } catch (error) {
       console.log(error);
