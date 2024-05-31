@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class MainWorksNameService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(smetaId: number, dto: CreateMainWorksNameDto) {
     try {
@@ -14,25 +14,30 @@ export class MainWorksNameService {
           ...dto,
           smeta: {
             connect: {
-              id: smetaId
-            }
+              id: smetaId,
+            },
           },
         },
-      })
-      return res
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
-  async findAll() {
+  async findAll(smetaId: number) {
     try {
-      const res = await this.databaseService.mainWorksName.findMany()
-      return res
+      smetaId = Number.isNaN(smetaId) ? undefined : smetaId;
+      const res = await this.databaseService.mainWorksName.findMany({
+        where: {
+          smetaId,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -40,13 +45,13 @@ export class MainWorksNameService {
     try {
       const res = await this.databaseService.mainWorksName.findFirst({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -54,16 +59,16 @@ export class MainWorksNameService {
     try {
       const res = await this.databaseService.mainWorksName.update({
         where: {
-          id
+          id,
         },
         data: {
-          ...dto
-        }
-      })
-      return res
+          ...dto,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -71,13 +76,13 @@ export class MainWorksNameService {
     try {
       const res = await this.databaseService.mainWorksName.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 }

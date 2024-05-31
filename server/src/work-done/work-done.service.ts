@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class WorkDoneService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(reportId: number, dto: CreateWorkDoneDto) {
     try {
@@ -14,25 +14,30 @@ export class WorkDoneService {
           ...dto,
           Report: {
             connect: {
-              id: reportId
-            }
+              id: reportId,
+            },
           },
         },
-      })
-      return res
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
-  async findAll() {
+  async findAll(reportId: number) {
     try {
-      const res = await this.databaseService.workDone.findMany()
-      return res
+      reportId = Number.isNaN(reportId) ? undefined : reportId;
+      const res = await this.databaseService.workDone.findMany({
+        where: {
+          reportId,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -40,13 +45,13 @@ export class WorkDoneService {
     try {
       const res = await this.databaseService.workDone.findFirst({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -54,16 +59,16 @@ export class WorkDoneService {
     try {
       const res = await this.databaseService.workDone.update({
         where: {
-          id
+          id,
         },
         data: {
-          ...dto
-        }
-      })
-      return res
+          ...dto,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -71,13 +76,13 @@ export class WorkDoneService {
     try {
       const res = await this.databaseService.workDone.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 }

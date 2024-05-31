@@ -1,28 +1,50 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UsePipes,
+  ValidationPipe,
+  Query,
+} from '@nestjs/common';
 import { MainWorksNameService } from './main-works-name.service';
 import { CreateMainWorksNameDto } from './dto/create-main-works-name.dto';
 import { UpdateMainWorksNameDto } from './dto/update-main-works-name.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role.enum';
 
 @Controller('main-works-name')
 @ApiTags('main-works-name')
-
 export class MainWorksNameController {
   constructor(private readonly mainWorksNameService: MainWorksNameService) {}
 
   @Post(':smetaId')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
-  async create(@Param('smetaId') smetaId: string, @Body() CreateMainWorksNameDto: CreateMainWorksNameDto) {
-    return await this.mainWorksNameService.create(+smetaId, CreateMainWorksNameDto);
+  async create(
+    @Param('smetaId') smetaId: string,
+    @Body() CreateMainWorksNameDto: CreateMainWorksNameDto,
+  ) {
+    return await this.mainWorksNameService.create(
+      +smetaId,
+      CreateMainWorksNameDto,
+    );
   }
 
   @Get()
+  @ApiQuery({
+    name: 'smetaId',
+    type: Number,
+    description: 'Id сметы объекта',
+    required: false,
+  })
   @Roles(Role.admin, Role.manager)
-  async findAll() {
-    return await this.mainWorksNameService.findAll();
+  async findAll(@Query('smetaId') smetaId?: number) {
+    return await this.mainWorksNameService.findAll(+smetaId);
   }
 
   @Get(':id')
@@ -34,7 +56,10 @@ export class MainWorksNameController {
   @Patch(':id')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
-  async update(@Param('id') id: string, @Body() UpdateMainWorksNameDto: UpdateMainWorksNameDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() UpdateMainWorksNameDto: UpdateMainWorksNameDto,
+  ) {
     return await this.mainWorksNameService.update(+id, UpdateMainWorksNameDto);
   }
 
