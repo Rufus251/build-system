@@ -23,7 +23,7 @@ model User {
   objects ObjectOnUser[]
   report  Report[]
 
-  login    String @unique
+  login    String  @unique
   name     String
   password String
   phone    String
@@ -115,6 +115,7 @@ model Report {
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
 
+  // "main" / "additional"
   workType String
 
   workDate      DateTime
@@ -133,6 +134,11 @@ model Report {
 
   createdAt DateTime @default(now())
 }
+
+// Для каждого отчёта генерируется один workDone и один workPlan.
+// К workDone привязывается несколько строк отчёта
+// К workPlan привязывается несколько строк отчёта
+// После отчёт имеет факт и план
 
 // факт работ в отчёте
 model WorkDone {

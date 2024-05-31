@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ReportService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(dto: CreateReportDto, authorId: number, objectId: number) {
     try {
@@ -14,49 +15,82 @@ export class ReportService {
           ...dto,
           author: {
             connect: {
-              id: authorId
-            }
+              id: authorId,
+            },
           },
           object: {
             connect: {
-              id: objectId
-            }
-          }
-        }
-      })
-      return res
+              id: objectId,
+            },
+          },
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
-
-  async findAll() {
+  async findAll(
+    ascending: string,
+    objectId: number,
+    username: string,
+    dateStart: Date,
+    dateEnd: Date,
+    problems: boolean,
+    additional: boolean,
+  ) {
     try {
-      const res = await this.databaseService.report.findMany({
+      objectId = Number.isNaN(objectId) ? undefined : objectId;
+      let query: Prisma.ReportFindManyArgs = {
+        where: {
+          objectId,
+          author: {
+            name: username,
+          },
+          workDate: {
+            gte: dateStart,
+            lte: dateEnd,
+          },
+          hasProblems: problems,
+          hasAdditional: additional,
+        },
         include: {
           workDone: {
             include: {
-              rows: true
-            }
+              rows: true,
+            },
           },
           workPlan: {
             include: {
-              rows: true
-            }
+              rows: true,
+            },
           },
           problems: {
             include: {
-              ProblemsRow: true
-            }
-          }
-        }
-      })
+              ProblemsRow: true,
+            },
+          },
+        },
+      };
 
-      return res
+      // ascendind sort
+      if (ascending === 'new') {
+        query.orderBy = {
+          workDate: 'desc',
+        };
+      } else if (ascending === 'old') {
+        query.orderBy = {
+          workDate: 'asc',
+        };
+      }
+
+      const res = await this.databaseService.report.findMany(query);
+
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -64,30 +98,30 @@ export class ReportService {
     try {
       const res = await this.databaseService.report.findFirst({
         where: {
-          id
+          id,
         },
         include: {
           workDone: {
             include: {
-              rows: true
-            }
+              rows: true,
+            },
           },
           workPlan: {
             include: {
-              rows: true
-            }
+              rows: true,
+            },
           },
           problems: {
             include: {
-              ProblemsRow: true
-            }
-          }
-        }
-      })
-      return res
+              ProblemsRow: true,
+            },
+          },
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -95,20 +129,19 @@ export class ReportService {
     try {
       const res = await this.databaseService.report.findMany({
         where: {
-          authorId: id
-
+          authorId: id,
         },
         include: {
           workDone: true,
           workPlan: true,
-          problems: true
-        }
-      })
+          problems: true,
+        },
+      });
 
-      return res
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -116,16 +149,16 @@ export class ReportService {
     try {
       const res = await this.databaseService.report.update({
         where: {
-          id
+          id,
         },
         data: {
-          ...dto
-        }
-      })
-      return res
+          ...dto,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -133,13 +166,13 @@ export class ReportService {
     try {
       const res = await this.databaseService.report.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 }

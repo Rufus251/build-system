@@ -7,7 +7,7 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role.enum';
 
 @Controller('work-fact')
-@ApiTags('work-fact')
+@ApiTags('work-fact Факт работ в 1 отчёте, для 1 отчёта 1 workDone')
 
 export class WorkDoneController {
   constructor(private readonly workDoneService: WorkDoneService) {}

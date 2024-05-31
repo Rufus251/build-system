@@ -8,7 +8,7 @@ import { Role } from 'src/enum/role.enum';
 
 
 @Controller('work-plan')
-@ApiTags('work-plan')
+@ApiTags('work-plan План работ в 1 отчёте, для 1 отчёта 1 workPlan')
 
 export class WorkPlanController {
   constructor(private readonly workPlanService: WorkPlanService) {}

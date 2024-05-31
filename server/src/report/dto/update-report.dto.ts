@@ -1,6 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateReportDto } from './create-report.dto';
-import { IsBoolean, IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDate, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateReportDto extends PartialType(CreateReportDto) {
   @ApiProperty()
@@ -9,7 +9,7 @@ export class UpdateReportDto extends PartialType(CreateReportDto) {
   workType?: string;
 
   @ApiProperty()
-  @IsDate()
+  @IsDateString()
   @IsOptional()
   workDate?: Date;
 
