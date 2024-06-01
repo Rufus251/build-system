@@ -11,11 +11,14 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
 } from '@nestjs/common';
 import { MainWorksNameService } from './main-works-name.service';
 import { CreateMainWorksNameDto } from './dto/create-main-works-name.dto';
 import { UpdateMainWorksNameDto } from './dto/update-main-works-name.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role.enum';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -25,7 +28,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class MainWorksNameController {
   constructor(private readonly mainWorksNameService: MainWorksNameService) {}
 
-  @Post(':smetaId')
+  @Post('addOne/:smetaId')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
   async create(
@@ -38,11 +41,38 @@ export class MainWorksNameController {
     );
   }
 
-  @Post('uploadXlsx')
+  @Post('uploadXlsx/:smetaId')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @Roles(Role.admin, Role.manager)
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return await this.mainWorksNameService.uploadXlsx(file);
+  async uploadFile(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 8 }),
+          // Только xlsx файлы
+          new FileTypeValidator({
+            fileType:
+              'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+    @Param('smetaId') smetaId: string
+  ) {
+    return await this.mainWorksNameService.uploadXlsx(file, +smetaId);
   }
 
   @Get()
