@@ -28,7 +28,7 @@ export class RolesGuard implements CanActivate {
 
       return requiredRoles.some((role) => sign.role?.includes(role));
     } catch (error) {
-      console.log(error);
+      console.log('Ошибка при проверке jwt токена или роли');
       return false;
     }
   }
