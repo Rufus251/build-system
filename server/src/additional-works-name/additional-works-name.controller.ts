@@ -73,4 +73,10 @@ export class AdditionalWorksNameController {
   async remove(@Param('id') id: string) {
     return await this.additionalWorksNameService.remove(+id);
   }
+
+  @Delete('smeta/:smetaId')
+  @Roles(Role.admin, Role.manager)
+  async removeOnSmeta(@Param('smetaId') smetaId: string) {
+    return await this.additionalWorksNameService.removeOnSmeta(+smetaId);
+  }
 }

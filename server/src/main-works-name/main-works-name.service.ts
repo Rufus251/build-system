@@ -85,4 +85,18 @@ export class MainWorksNameService {
       return error;
     }
   }
+
+  async removeOnSmeta(smetaId: number) {
+    try {
+      const res = await this.databaseService.mainWorksName.deleteMany({
+        where: {
+          smetaId,
+        },
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
 }
