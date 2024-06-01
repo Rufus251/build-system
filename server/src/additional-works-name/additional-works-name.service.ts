@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, StreamableFile } from '@nestjs/common';
 import { CreateAdditionalWorksNameDto } from './dto/create-additional-works-name.dto';
 import { UpdateAdditionalWorksNameDto } from './dto/update-additional-works-name.dto';
 import { DatabaseService } from 'src/database/database.service';
-
+import * as Excel from 'exceljs';
+import * as fs from 'fs';
+import Response from 'express';
 @Injectable()
 export class AdditionalWorksNameService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -49,6 +51,47 @@ export class AdditionalWorksNameService {
         },
       });
       return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async createNewExcelFile(
+    additionalWorks: Array<CreateAdditionalWorksNameDto>,
+    filePath: string,
+  ) {
+    try {
+      let workbook = new Excel.Workbook();
+
+      let sheet = workbook.addWorksheet('additionalWorks');
+      sheet.addRow(['Название', 'Единица измерения', 'Всего']);
+      for (const work of additionalWorks) {
+        sheet.addRow([work.name, work.unit, work.total]);
+      }
+
+      await workbook.xlsx.writeFile(filePath);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async downloadXlsx(smetaId: number) {
+    try {
+      const additionalWorks =
+        await this.databaseService.additionalWorksName.findMany({
+          where: {
+            smetaId,
+          },
+        });
+
+      const filePath = './upload/file.xlsx';
+
+      await this.createNewExcelFile(additionalWorks, filePath);
+      const file = fs.createReadStream(filePath);
+      return file;
     } catch (error) {
       console.log(error);
       return error;

@@ -9,6 +9,9 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  StreamableFile,
+  Res,
+  Header,
 } from '@nestjs/common';
 import { AdditionalWorksNameService } from './additional-works-name.service';
 import { CreateAdditionalWorksNameDto } from './dto/create-additional-works-name.dto';
@@ -49,10 +52,23 @@ export class AdditionalWorksNameController {
     return await this.additionalWorksNameService.findAll(+smetaId);
   }
 
-  @Get(':id')
+  @Get('getOne/:id')
   @Roles(Role.admin, Role.manager)
   async findOne(@Param('id') id: string) {
     return await this.additionalWorksNameService.findOne(+id);
+  }
+
+  @Get('downloadXlsx/:smetaId')
+  @Header(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  )
+  @Header('Content-Disposition', 'attachment; filename="additionalWorks.xlsx"')
+  @Roles(Role.admin, Role.manager)
+  async uploadFile(@Param('smetaId') smetaId: string): Promise<StreamableFile> {
+    const file = await this.additionalWorksNameService.downloadXlsx(+smetaId);
+    const streamFile = new StreamableFile(file);
+    return streamFile;
   }
 
   @Patch(':id')
