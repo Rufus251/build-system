@@ -5,7 +5,7 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ProblemsRowService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(problemId: number, dto: CreateProblemsRowDto) {
     try {
@@ -14,25 +14,35 @@ export class ProblemsRowService {
           ...dto,
           problems: {
             connect: {
-              id: problemId
-            }
+              id: problemId,
+            },
           },
         },
-      })
-      return res
+      });
+      await this.databaseService.report.updateMany({
+        where: {
+          problems: {
+            id: problemId,
+          },
+        },
+        data: {
+          hasProblems: true,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
   async findAll() {
     try {
-      const res = await this.databaseService.problemsRow.findMany()
-      return res
+      const res = await this.databaseService.problemsRow.findMany();
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -40,13 +50,13 @@ export class ProblemsRowService {
     try {
       const res = await this.databaseService.problemsRow.findFirst({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -54,16 +64,16 @@ export class ProblemsRowService {
     try {
       const res = await this.databaseService.problemsRow.update({
         where: {
-          id
+          id,
         },
         data: {
-          ...dto
-        }
-      })
-      return res
+          ...dto,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -71,13 +81,43 @@ export class ProblemsRowService {
     try {
       const res = await this.databaseService.problemsRow.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      const problemCount = await this.databaseService.report.findFirst({
+        where: {
+          problems: {
+            id: res.problemsId,
+          },
+        },
+        select: {
+          id: true,
+          problems: {
+            select: {
+              _count: {
+                select: {
+                  ProblemsRow: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (problemCount.problems._count.ProblemsRow === 0) {
+        await this.databaseService.report.update({
+          where: {
+            id: problemCount.id,
+          },
+          data: {
+            hasProblems: false,
+          },
+        });
+      }
+
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 }
