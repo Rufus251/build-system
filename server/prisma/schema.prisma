@@ -181,9 +181,9 @@ model ReportRow {
   // types (main, additional)
   // данные о работе (название, тип, единица измеения. Находить по идшнику)
   workType              String?
-  MainWorksName         MainWorksName?       @relation(fields: [MainWorksNameId], references: [id])
+  MainWorksName         MainWorksName?       @relation(fields: [MainWorksNameId], references: [id], onDelete: Cascade)
   MainWorksNameId       Int?
-  AdditionalWorksName   AdditionalWorksName? @relation(fields: [AdditionalWorksNameId], references: [id])
+  AdditionalWorksName   AdditionalWorksName? @relation(fields: [AdditionalWorksNameId], references: [id], onDelete: Cascade)
   AdditionalWorksNameId Int?
 
   planNumberOfFloor    Int
