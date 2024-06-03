@@ -23,7 +23,7 @@ export class WorkPlanController {
   constructor(private readonly workPlanService: WorkPlanService) {}
 
   @Post(':reportId')
-  @Roles(Role.admin, Role.manager)
+  @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async create(
     @Param('reportId') reportId: string,
@@ -39,19 +39,19 @@ export class WorkPlanController {
     description: 'Id отчёта',
     required: false,
   })
-  @Roles(Role.admin, Role.manager)
+  @Roles(Role.admin, Role.manager, Role.user)
   async findAll(@Query('reportId') reportId?: number) {
     return await this.workPlanService.findAll(+reportId);
   }
 
   @Get(':id')
-  @Roles(Role.admin, Role.manager)
+  @Roles(Role.admin, Role.manager, Role.user)
   async findOne(@Param('id') id: string) {
     return await this.workPlanService.findOne(+id);
   }
 
   @Patch(':id')
-  @Roles(Role.admin, Role.manager)
+  @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async update(
     @Param('id') id: string,
@@ -61,7 +61,7 @@ export class WorkPlanController {
   }
 
   @Delete(':id')
-  @Roles(Role.admin, Role.manager)
+  @Roles(Role.admin, Role.manager, Role.user)
   async remove(@Param('id') id: string) {
     return await this.workPlanService.remove(+id);
   }

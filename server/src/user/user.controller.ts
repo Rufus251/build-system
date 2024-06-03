@@ -78,7 +78,7 @@ export class UserController {
   }
 
   @Patch('data/:userId')
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
   async updateData(
     @Param('userId') userId: string,
@@ -88,7 +88,7 @@ export class UserController {
   }
 
   @Patch('addObject/:userId/:objectId')
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
   async addObject(
     @Param('userId') userId: string,
@@ -98,7 +98,7 @@ export class UserController {
   }
 
   @Patch('delObject/:userId/:objectId')
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
   async delObject(
     @Param('userId') userId: string,
@@ -108,7 +108,7 @@ export class UserController {
   }
 
   @Delete(':id')
-  @Roles(Role.admin)
+  @Roles(Role.admin, Role.manager)
   async remove(@Param('id') id: string) {
     return await this.userService.remove(+id);
   }
