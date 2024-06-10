@@ -15,7 +15,7 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
 
-  // admin, manager, user
+  // admin, manager, user, norole
   role String @default("user")
 
   // Объекты к которым ПРИВЯЗАН пользователь (т.е. например он работает на 2 и 4 объекте, соответственно он к ним привязан) 
