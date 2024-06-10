@@ -90,6 +90,39 @@ export class ReportRowService {
           id: reportRow.id,
         },
       });
+
+      // Изменение в смете
+      console.log(reportRow.workType);
+      
+      if (reportRow.workType === 'main') {
+        console.log("main", reportRow.MainWorksNameId, reportRow.factTotal);
+        
+        await this.databaseService.mainWorksName.update({
+          where: {
+            id: reportRow.MainWorksNameId,
+          },
+          data: {
+            done: {
+              increment: reportRow.factTotal,
+            },
+            left: {
+              decrement: reportRow.factTotal,
+            },
+          },
+        });
+      } else if (reportRow.workType === 'additional') {
+        console.log("addi");
+        await this.databaseService.additionalWorksName.update({
+          where: {
+            id: reportRow.AdditionalWorksNameId,
+          },
+          data: {
+            total: {
+              increment: reportRow.factTotal,
+            },
+          },
+        });
+      }
       return reportRow;
     } catch (error) {
       console.log(error);
@@ -285,6 +318,34 @@ export class ReportRowService {
           id,
         },
       });
+
+      // Изменение в смете
+      if (res.workType === 'main') {
+        await this.databaseService.mainWorksName.update({
+          where: {
+            id: res.MainWorksNameId,
+          },
+          data: {
+            done: {
+              decrement: res.factTotal,
+            },
+            left: {
+              increment: res.factTotal,
+            },
+          },
+        });
+      } else if (res.workType === 'additional') {
+        await this.databaseService.additionalWorksName.update({
+          where: {
+            id: res.AdditionalWorksNameId,
+          },
+          data: {
+            total: {
+              decrement: res.factTotal,
+            },
+          },
+        });
+      }
       return res;
     } catch (error) {
       console.log(error);
