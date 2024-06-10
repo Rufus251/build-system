@@ -9,6 +9,8 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Res,
+  Req,
 } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -16,11 +18,15 @@ import { UpdateReportDto } from './dto/update-report.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role.enum';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('report')
 @ApiTags('report')
 export class ReportController {
-  constructor(private readonly reportService: ReportService) {}
+  constructor(
+    private readonly reportService: ReportService,
+    private readonly JwtService: JwtService,
+  ) {}
 
   @Post(':authorId/:objectId')
   @Roles(Role.admin, Role.manager, Role.user)
@@ -112,6 +118,7 @@ export class ReportController {
   })
   @Roles(Role.admin, Role.manager, Role.user)
   async findAll(
+    @Req() request: Request,
     @Query('ascending') ascending?: string,
     @Query('objectId') objectId?: number,
     @Query('username') username?: string,
@@ -124,6 +131,13 @@ export class ReportController {
   ) {
     problems = this.toBool(problems);
     additional = this.toBool(additional);
+
+    // get role for user sort
+    const token = request.headers['authorization'].split(' ')[1];
+    const sign = this.JwtService.verify(token);
+    const role = sign.role.toString();
+    const login = sign.login.toString()
+
     return await this.reportService.findAll(
       ascending,
       +objectId,
@@ -133,7 +147,9 @@ export class ReportController {
       problems,
       additional,
       workType,
-      +worksNameId
+      +worksNameId,
+      role,
+      login
     );
   }
 

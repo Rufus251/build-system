@@ -3,10 +3,14 @@ import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class ReportService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly userService: UserService,
+  ) {}
 
   async create(dto: CreateReportDto, authorId: number, objectId: number) {
     try {
@@ -41,6 +45,8 @@ export class ReportService {
     additional: boolean,
     workType: string,
     worksNameId: number,
+    role: string,
+    login: string,
   ) {
     try {
       objectId = Number.isNaN(objectId) ? undefined : objectId;
@@ -113,6 +119,33 @@ export class ReportService {
             },
           };
         }
+      }
+
+      // Юзер может просматривать отчёты только тех объектов, к которым привязан
+      if (role === 'user') {
+        const userId = await this.databaseService.user.findMany({
+          where: {
+            login,
+          },
+          select: {
+            id: true,
+          },
+        })[0];
+        const userObjects = await this.userService.findUserObjects(userId);
+        console.log(userObjects);
+        query.where = {
+          ...query.where,
+          AND: [
+            {
+              objectId: {
+                in: userObjects,
+              },
+            },
+            {
+              objectId,
+            },
+          ],
+        };
       }
       const res = await this.databaseService.report.findMany(query);
 
