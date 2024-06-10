@@ -24,20 +24,26 @@ export class SmetaController {
     return await this.smetaService.findAll();
   }
 
-  @Get(':id')
+  @Get('getOne/:id')
   @Roles(Role.admin, Role.manager)
   async findOne(@Param('id') id: string) {
     return await this.smetaService.findOne(+id);
   }
+  
+  @Get('updateSmeta/:smetaId')
+  @Roles(Role.admin, Role.manager)
+  async updateSmeta(@Param('smetaId') smetaId: string) {
+    return await this.smetaService.updateSmeta(+smetaId);
+  }
 
-  @Patch(':id')
+  @Patch('update/:id')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
   async update(@Param('id') id: string, @Body() updateObjectDto: UpdateSmetaDto) {
     return await this.smetaService.update(+id, updateObjectDto);
   }
 
-  @Delete(':id')
+  @Delete('delOne/:id')
   @Roles(Role.admin, Role.manager)
   async remove(@Param('id') id: string) {
     return await this.smetaService.remove(+id);
