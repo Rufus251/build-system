@@ -66,6 +66,31 @@ export class UserService {
     }
   }
 
+  async findUserObjects(id: number) {
+    try {
+      let res = await this.databaseService.user.findFirst({
+        where: {
+          id,
+        },
+        select: {
+          objects: {
+            select: {
+              objectId: true,
+            },
+          },
+        },
+      });
+      if (res) {
+        const objects = Array.from(res.objects, (obj) => obj.objectId);
+        return objects;
+      } else {
+        return res;
+      }
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
   async findOne(id: number) {
     try {
       const res = await this.databaseService.user.findFirst({

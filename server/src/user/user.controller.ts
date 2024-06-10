@@ -76,6 +76,12 @@ export class UserController {
   async findOne(@Param('id') id: string) {
     return await this.userService.findOne(+id);
   }
+  
+  @Get('userObjects/:userId')
+  @Roles(Role.admin, Role.manager)
+  async findUserObjects(@Param('userId') userId: string) {
+    return await this.userService.findUserObjects(+userId);
+  }
 
   @Patch('data/:userId')
   @Roles(Role.admin, Role.manager)
@@ -107,7 +113,7 @@ export class UserController {
     return await this.userService.delObject(+userId, +objectId);
   }
 
-  @Delete(':id')
+  @Delete('delUser/:id')
   @Roles(Role.admin, Role.manager)
   async remove(@Param('id') id: string) {
     return await this.userService.remove(+id);
