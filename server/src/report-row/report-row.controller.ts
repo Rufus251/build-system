@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Req,
 } from '@nestjs/common';
 import { ReportRowService } from './report-row.service';
 import { CreateReportRowDto } from './dto/create-report-row.dto';
@@ -77,7 +78,8 @@ export class ReportRowController {
   @ApiQuery({
     name: 'workType',
     type: String,
-    description: '(main / additional) Работа из сметы, к которой принадлежит строка',
+    description:
+      '(main / additional) Работа из сметы, к которой принадлежит строка',
     required: false,
   })
   @ApiQuery({
@@ -114,15 +116,16 @@ export class ReportRowController {
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async update(
+    @Req() request: Request,
     @Param('id') id: string,
     @Body() updateReportRowDto: UpdateReportRowDto,
   ) {
-    return await this.reportRowService.update(+id, updateReportRowDto);
+    return await this.reportRowService.update(+id, updateReportRowDto, request);
   }
 
   @Delete(':id')
   @Roles(Role.admin, Role.manager, Role.user)
-  async remove(@Param('id') id: string) {
-    return await this.reportRowService.remove(+id);
+  async remove(@Req() request: Request, @Param('id') id: string) {
+    return await this.reportRowService.remove(+id, request);
   }
 }

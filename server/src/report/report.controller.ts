@@ -18,15 +18,11 @@ import { UpdateReportDto } from './dto/update-report.dto';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/decorators/roles.decorator';
 import { Role } from 'src/enum/role.enum';
-import { JwtService } from '@nestjs/jwt';
 
 @Controller('report')
 @ApiTags('report')
 export class ReportController {
-  constructor(
-    private readonly reportService: ReportService,
-    private readonly JwtService: JwtService,
-  ) {}
+  constructor(private readonly reportService: ReportService) {}
 
   @Post(':authorId/:objectId')
   @Roles(Role.admin, Role.manager, Role.user)
@@ -133,10 +129,7 @@ export class ReportController {
     additional = this.toBool(additional);
 
     // get role for user sort
-    const token = request.headers['authorization'].split(' ')[1];
-    const sign = this.JwtService.verify(token);
-    const role = sign.role.toString();
-    const login = sign.login.toString()
+    const [role, login] = await this.reportService.checkRole(request);
 
     return await this.reportService.findAll(
       ascending,
@@ -149,7 +142,7 @@ export class ReportController {
       workType,
       +worksNameId,
       role,
-      login
+      login,
     );
   }
 
@@ -169,15 +162,16 @@ export class ReportController {
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async update(
+    @Req() request: Request,
     @Param('id') id: string,
     @Body() updateReportDto: UpdateReportDto,
   ) {
-    return await this.reportService.update(+id, updateReportDto);
+    return await this.reportService.update(+id, updateReportDto, request);
   }
 
   @Delete(':id')
   @Roles(Role.admin, Role.manager, Role.user)
-  async remove(@Param('id') id: string) {
-    return await this.reportService.remove(+id);
+  async remove(@Req() request: Request, @Param('id') id: string) {
+    return await this.reportService.remove(+id, request);
   }
 }

@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Req,
 } from '@nestjs/common';
 import { WorkDoneService } from './work-done.service';
 import { CreateWorkDoneDto } from './dto/create-work-done.dto';
@@ -53,16 +54,16 @@ export class WorkDoneController {
   @Patch(':id')
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
-  async update(
+  async update(@Req() request: Request,
     @Param('id') id: string,
     @Body() UpdateWorkDoneDto: UpdateWorkDoneDto,
   ) {
-    return await this.workDoneService.update(+id, UpdateWorkDoneDto);
+    return await this.workDoneService.update(+id, UpdateWorkDoneDto, request);
   }
 
   @Delete(':id')
   @Roles(Role.admin, Role.manager, Role.user)
-  async remove(@Param('id') id: string) {
-    return await this.workDoneService.remove(+id);
+  async remove(@Req() request: Request,@Param('id') id: string) {
+    return await this.workDoneService.remove(+id, request);
   }
 }

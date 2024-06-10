@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, Req } from '@nestjs/common';
 import { ProblemsRowService } from './problems-row.service';
 import { CreateProblemsRowDto } from './dto/create-problems-row.dto';
 import { UpdateProblemsRowDto } from './dto/update-problems-row.dto';
@@ -33,13 +33,13 @@ export class ProblemsRowController {
   @Patch(':id')
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
-  async update(@Param('id') id: string, @Body() UpdateProblemsRowDto: UpdateProblemsRowDto) {
-    return await this.problemsRowService.update(+id, UpdateProblemsRowDto);
+  async update(@Req() request: Request,@Param('id') id: string, @Body() UpdateProblemsRowDto: UpdateProblemsRowDto) {
+    return await this.problemsRowService.update(+id, UpdateProblemsRowDto, request);
   }
 
   @Delete(':id')
   @Roles(Role.admin, Role.manager, Role.user)
-  async remove(@Param('id') id: string) {
-    return await this.problemsRowService.remove(+id);
+  async remove(@Req() request: Request,@Param('id') id: string) {
+    return await this.problemsRowService.remove(+id, request);
   }
 }

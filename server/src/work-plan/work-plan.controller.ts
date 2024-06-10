@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Req,
 } from '@nestjs/common';
 import { WorkPlanService } from './work-plan.service';
 import { CreateWorkPlanDto } from './dto/create-work-plan.dto';
@@ -54,15 +55,16 @@ export class WorkPlanController {
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async update(
+    @Req() request: Request,
     @Param('id') id: string,
     @Body() UpdateWorkPlanDto: UpdateWorkPlanDto,
   ) {
-    return await this.workPlanService.update(+id, UpdateWorkPlanDto);
+    return await this.workPlanService.update(+id, UpdateWorkPlanDto, request);
   }
 
   @Delete(':id')
   @Roles(Role.admin, Role.manager, Role.user)
-  async remove(@Param('id') id: string) {
-    return await this.workPlanService.remove(+id);
+  async remove(@Req() request: Request, @Param('id') id: string) {
+    return await this.workPlanService.remove(+id, request);
   }
 }

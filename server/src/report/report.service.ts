@@ -1,16 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateReportDto } from './dto/create-report.dto';
 import { UpdateReportDto } from './dto/update-report.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
 import { UserService } from 'src/user/user.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class ReportService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly userService: UserService,
+    private readonly JwtService: JwtService,
   ) {}
+
+  async checkRole(Req: Request) {
+    const token = Req.headers['authorization'].split(' ')[1];
+    const sign = this.JwtService.verify(token);
+    const role = sign.role.toString();
+    const login = sign.login.toString();
+    return [role, login];
+  }
+
+  async checkTimeForUser(Req: Request, reportDate: Date) {
+    const [role] = await this.checkRole(Req);
+    if (role === 'user') {
+      const nowDate = new Date();
+      const difference = nowDate.getTime() - reportDate.getTime();
+      const diffDay = difference / (1000 * 60 * 60 * 24);
+
+      if (Math.abs(diffDay) >= 1) return false;
+      else return true;
+    } else return true;
+  }
 
   async create(dto: CreateReportDto, authorId: number, objectId: number) {
     try {
@@ -207,8 +229,30 @@ export class ReportService {
     }
   }
 
-  async update(id: number, dto: UpdateReportDto) {
+  async update(id: number, dto: UpdateReportDto, request: Request) {
     try {
+      // Для юзера нельзя изменять позже чем через день
+      const [role] = await this.checkRole(request);
+      if (role === 'user') {
+        const report = await this.databaseService.report.findUnique({
+          where: {
+            id,
+          },
+          select: {
+            workDate: true,
+          },
+        });
+        const reportTime: Date = report.workDate;
+
+        const checkResult: boolean = await this.checkTimeForUser(
+          request,
+          reportTime,
+        );
+        if (!checkResult) {
+          throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        }
+      }
+
       const res = await this.databaseService.report.update({
         where: {
           id,
@@ -224,8 +268,29 @@ export class ReportService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number, request: Request) {
     try {
+      const [role] = await this.checkRole(request);
+      if (role === 'user') {
+        const report = await this.databaseService.report.findUnique({
+          where: {
+            id,
+          },
+          select: {
+            workDate: true,
+          },
+        });
+        const reportTime: Date = report.workDate;
+
+        const checkResult: boolean = await this.checkTimeForUser(
+          request,
+          reportTime,
+        );
+        if (!checkResult) {
+          throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        }
+      }
+
       const res = await this.databaseService.report.delete({
         where: {
           id,
