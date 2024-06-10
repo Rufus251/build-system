@@ -40,6 +40,7 @@ export class MainWorksNameService {
         let unit: string = '';
         let maxValue: number = 0;
         for (let i = 1; ; i++) {
+          const workNumber = worksheet.getCell('B' + i).value;
           const workName = worksheet.getCell('C' + i).value;
           // Проверка на то, что таблица закончилась
           if (
@@ -61,9 +62,9 @@ export class MainWorksNameService {
 
           // mainWork.name
           if (typeof workName === 'object') {
-            mainWork.name = workName['result'];
+            mainWork.name = workNumber + ' ' + workName['result'];
           } else if (typeof workName === 'string') {
-            mainWork.name = workName;
+            mainWork.name = workNumber + ' ' + workName;
           }
 
           // mainWork.unit
