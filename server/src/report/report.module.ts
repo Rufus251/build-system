@@ -5,6 +5,7 @@ import { DatabaseModule } from 'src/database/database.module';
 import { JwtModule } from '@nestjs/jwt';
 import { env } from 'process';
 import { UserService } from 'src/user/user.service';
+import { SmetaService } from 'src/smeta/smeta.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { UserService } from 'src/user/user.service';
     }),
   ],
   controllers: [ReportController],
-  providers: [ReportService, UserService],
+  providers: [ReportService, UserService, SmetaService],
 })
 export class ReportModule {}

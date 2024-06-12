@@ -5,12 +5,14 @@ import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { SmetaService } from 'src/smeta/smeta.service';
 
 @Injectable()
 export class ReportService {
   constructor(
     private readonly databaseService: DatabaseService,
     private readonly userService: UserService,
+    private readonly smetaService: SmetaService,
     private readonly JwtService: JwtService,
   ) {}
 
@@ -57,6 +59,7 @@ export class ReportService {
       return error;
     }
   }
+
   async findAll(
     ascending: string,
     objectId: number,
@@ -295,7 +298,23 @@ export class ReportService {
         where: {
           id,
         },
+        include: {
+          object: {
+            select: {
+              smeta: {
+                select: {
+                  id: true,
+                },
+              },
+            },
+          },
+        },
       });
+
+      // smeta update
+      if (res.object.smeta.id)
+        this.smetaService.updateSmeta(res.object.smeta.id);
+
       return res;
     } catch (error) {
       console.log(error);
