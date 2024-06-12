@@ -11,6 +11,8 @@ import {
   Query,
   Res,
   Req,
+  Header,
+  StreamableFile,
 } from '@nestjs/common';
 import { ReportService } from './report.service';
 import { CreateReportDto } from './dto/create-report.dto';
@@ -24,7 +26,7 @@ import { Role } from 'src/enum/role.enum';
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
-  @Post(':authorId/:objectId')
+  @Post('create/:authorId/:objectId')
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async create(
@@ -146,7 +148,7 @@ export class ReportController {
     );
   }
 
-  @Get(':id')
+  @Get('findOne/:id')
   @Roles(Role.admin, Role.manager, Role.user)
   async findOne(@Param('id') id: string) {
     return await this.reportService.findOne(+id);
@@ -158,7 +160,20 @@ export class ReportController {
     return await this.reportService.findMyReports(+id);
   }
 
-  @Patch(':id')
+  @Get('downloadXlsxReport/:reportId')
+  @Header(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  )
+  @Header('Content-Disposition', 'attachment; filename="report.xlsx"')
+  @Roles(Role.admin, Role.manager)
+  async uploadFile(@Param('reportId') reportId: string): Promise<StreamableFile> {
+    const file = await this.reportService.downloadXlsxReport(+reportId);
+    const streamFile = new StreamableFile(file);
+    return streamFile;
+  }
+
+  @Patch('patch/:id')
   @Roles(Role.admin, Role.manager, Role.user)
   @UsePipes(new ValidationPipe())
   async update(
@@ -169,7 +184,7 @@ export class ReportController {
     return await this.reportService.update(+id, updateReportDto, request);
   }
 
-  @Delete(':id')
+  @Delete('del/:id')
   @Roles(Role.admin, Role.manager, Role.user)
   async remove(@Req() request: Request, @Param('id') id: string) {
     return await this.reportService.remove(+id, request);
