@@ -3,6 +3,7 @@ import { DatabaseService } from 'src/database/database.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +42,7 @@ export class AuthService {
     }
   }
 
-  async loginPassword(dto: LoginUserDto) {
+  async loginPassword(dto: LoginUserDto, response: Response) {
     const user = await this.validateUser(dto);
     const { login, password, role } = user;
     const jwt = this.jwtService.sign({ login, password, role });
@@ -55,11 +56,13 @@ export class AuthService {
         },
       });
     }
-    user.token = jwt
+    response.cookie('Authorization', user.token);
+    delete user.token;
+    delete user.password;
     return user;
   }
 
-  async loginJwt(token: string) {
+  async loginJwt(token: string, response: Response) {
     try {
       const sign = this.jwtService.verify(token);
       if (sign) {
@@ -77,7 +80,15 @@ export class AuthService {
           data: {
             token: newToken,
           },
+          select: {
+            id: true,
+            login: true,
+            name: true,
+            phone: true,
+            role: true,
+          },
         });
+        response.cookie('Authorization', newToken);
         return res;
       }
     } catch (error) {
