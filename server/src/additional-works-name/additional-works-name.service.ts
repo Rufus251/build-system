@@ -87,7 +87,7 @@ export class AdditionalWorksNameService {
           },
         });
 
-      const filePath = './upload/file.xlsx';
+      const filePath = './upload/smeta' + smetaId + '.xlsx';
 
       await this.createNewExcelFile(additionalWorks, filePath);
       const file = fs.createReadStream(filePath);
