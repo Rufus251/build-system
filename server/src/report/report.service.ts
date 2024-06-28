@@ -420,6 +420,7 @@ export class ReportService {
       // Факт данные
       sheet.addRow([
         '№ п/п',
+        'Вид работ',
         'Наименование работ',
         'помещение (МОП / помещения / квартиры)',
         'ед.изм.',
@@ -434,6 +435,7 @@ export class ReportService {
         'Комментарии к заданиям / причина не выполнения плана',
       ]);
       sheet.addRow([
+        '',
         '',
         '',
         '',
@@ -456,14 +458,15 @@ export class ReportService {
       sheet.mergeCells(`D${lastRowNumber - 1}`, `D${lastRowNumber}`);
       sheet.mergeCells(`E${lastRowNumber - 1}`, `E${lastRowNumber}`);
       sheet.mergeCells(`F${lastRowNumber - 1}`, `F${lastRowNumber}`);
+      sheet.mergeCells(`G${lastRowNumber - 1}`, `G${lastRowNumber}`);
 
-      sheet.mergeCells(`G${lastRowNumber - 1}`, `I${lastRowNumber - 1}`);
-      sheet.mergeCells(`J${lastRowNumber - 1}`, `L${lastRowNumber - 1}`);
+      sheet.mergeCells(`H${lastRowNumber - 1}`, `J${lastRowNumber - 1}`);
+      sheet.mergeCells(`K${lastRowNumber - 1}`, `M${lastRowNumber - 1}`);
 
-      sheet.mergeCells(`M${lastRowNumber - 1}`, `M${lastRowNumber}`);
+      sheet.mergeCells(`N${lastRowNumber - 1}`, `N${lastRowNumber}`);
 
       // Перекрашиваем шапку, ставим границы
-      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 77);
+      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 78);
 
       sheet.getRow(lastRowNumber).height = 40;
 
@@ -478,9 +481,11 @@ export class ReportService {
           row['MainWorksName'] !== null
             ? row['MainWorksName']['unit']
             : row['AdditionalWorksName']['unit'];
-
+        const workType: string =
+          row['workType'] === 'main' ? 'По смете' : 'Доп';
         sheet.addRow([
           i,
+          workType,
           workName,
           row['room'],
           unit,
@@ -499,7 +504,7 @@ export class ReportService {
       lastRowNumber = sheet.lastRow.number;
       sheet = this.tableDataSetStyles(
         sheet,
-        77,
+        78,
         lastRowNumber - i,
         lastRowNumber,
       );
@@ -531,9 +536,10 @@ export class ReportService {
       };
       sheet.mergeCells(`A${lastRowNumber}`, `B${lastRowNumber}`);
 
-      // План строки
+      // План шапка
       sheet.addRow([
         '№ п/п',
+        'Вид работ',
         'Наименование работ',
         'помещение (МОП / помещения / квартиры)',
         'ед.изм.',
@@ -545,6 +551,7 @@ export class ReportService {
         'Комментарии к заданиям',
       ]);
       sheet.addRow([
+        '',
         '',
         '',
         '',
@@ -564,13 +571,14 @@ export class ReportService {
       sheet.mergeCells(`D${lastRowNumber - 1}`, `D${lastRowNumber}`);
       sheet.mergeCells(`E${lastRowNumber - 1}`, `E${lastRowNumber}`);
       sheet.mergeCells(`F${lastRowNumber - 1}`, `F${lastRowNumber}`);
+      sheet.mergeCells(`G${lastRowNumber - 1}`, `G${lastRowNumber}`);
 
-      sheet.mergeCells(`G${lastRowNumber - 1}`, `I${lastRowNumber - 1}`);
+      sheet.mergeCells(`H${lastRowNumber - 1}`, `J${lastRowNumber - 1}`);
 
-      sheet.mergeCells(`J${lastRowNumber - 1}`, `M${lastRowNumber}`);
+      sheet.mergeCells(`K${lastRowNumber - 1}`, `N${lastRowNumber}`);
 
       // Перекрашиваем шапку, ставим границы
-      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 74);
+      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 75);
 
       sheet.getRow(lastRowNumber).height = 40;
 
@@ -585,9 +593,11 @@ export class ReportService {
           row['MainWorksName'] !== null
             ? row['MainWorksName']['unit']
             : row['AdditionalWorksName']['unit'];
-
+        const workType: string =
+          row['workType'] === 'main' ? 'По смете' : 'Доп';
         sheet.addRow([
           i,
+          workType,
           workName,
           row['room'],
           unit,
@@ -601,12 +611,12 @@ export class ReportService {
         i += 1;
 
         lastRowNumber = sheet.lastRow.number;
-        sheet.mergeCells(`J${lastRowNumber}`, `M${lastRowNumber}`);
+        sheet.mergeCells(`K${lastRowNumber}`, `N${lastRowNumber}`);
       }
       lastRowNumber = sheet.lastRow.number;
       sheet = this.tableDataSetStyles(
         sheet,
-        74,
+        75,
         lastRowNumber - i,
         lastRowNumber,
       );
@@ -632,7 +642,7 @@ export class ReportService {
         pattern: 'solid',
         fgColor: { argb: '#fff7caac' },
       };
-      sheet.mergeCells(`A${lastRowNumber}`, `M${lastRowNumber}`);
+      sheet.mergeCells(`A${lastRowNumber}`, `N${lastRowNumber}`);
 
       // Шапка таблицы
       sheet.addRow([
@@ -644,12 +654,12 @@ export class ReportService {
       ]);
       sheet.addRow([]);
       lastRowNumber = sheet.lastRow.number;
-      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 74);
+      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 75);
 
       sheet.mergeCells(`A${lastRowNumber - 1}`, `A${lastRowNumber}`);
 
       sheet.mergeCells(`B${lastRowNumber}`, `D${lastRowNumber - 1}`);
-      sheet.mergeCells(`E${lastRowNumber}`, `M${lastRowNumber - 1}`);
+      sheet.mergeCells(`E${lastRowNumber}`, `N${lastRowNumber - 1}`);
 
       // Строки проблемных вопросов
       i = 1;
@@ -658,14 +668,14 @@ export class ReportService {
 
         lastRowNumber = sheet.lastRow.number;
         sheet.mergeCells(`B${lastRowNumber}`, `D${lastRowNumber}`);
-        sheet.mergeCells(`E${lastRowNumber}`, `M${lastRowNumber}`);
+        sheet.mergeCells(`E${lastRowNumber}`, `N${lastRowNumber}`);
 
         i += 1;
       }
       lastRowNumber = sheet.lastRow.number;
       sheet = this.tableDataSetStyles(
         sheet,
-        74,
+        75,
         lastRowNumber - i,
         lastRowNumber,
       );
@@ -685,9 +695,9 @@ export class ReportService {
       sheet.addRow(['Тел.:' + report['author']['phone']]);
 
       sheet.getColumn('A').width = 30;
-      sheet.getColumn('B').width = 30;
-      sheet.getColumn('C').width = 30;
-      sheet.getColumn('D').width = 12;
+      sheet.getColumn('B').width = 20;
+      sheet.getColumn('C').width = 25;
+      sheet.getColumn('D').width = 20;
       sheet.getColumn('E').width = 15;
       sheet.getColumn('F').width = 12;
       sheet.getColumn('G').width = 12;
@@ -696,7 +706,8 @@ export class ReportService {
       sheet.getColumn('J').width = 12;
       sheet.getColumn('K').width = 12;
       sheet.getColumn('L').width = 12;
-      sheet.getColumn('M').width = 30;
+      sheet.getColumn('M').width = 12;
+      sheet.getColumn('N').width = 30;
 
       await workbook.xlsx.writeFile(filePath);
       return true;
