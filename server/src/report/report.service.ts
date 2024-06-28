@@ -235,7 +235,103 @@ export class ReportService {
     }
   }
 
-  async createNewExcelFile(report: Object, filePath: string) {
+  protected additionalInfoSetStyles(sheet: any, rowNumber: number) {
+    sheet.getCell(`A${rowNumber}`).border = {
+      top: { style: 'thin', color: { argb: '00000000' } },
+    };
+    sheet.getCell(`A${rowNumber}`).font = {
+      name: 'Arial Narrow',
+      size: 11,
+      bold: true,
+    };
+    sheet.getCell(`A${rowNumber}`).alignment = {
+      horizontal: 'right',
+      vertical: 'middle',
+    };
+
+    sheet.mergeCells(`B${rowNumber}`, `C${rowNumber}`);
+    sheet.getCell(`B${rowNumber}`).border = {
+      top: { style: 'thin', color: { argb: '00000000' } },
+    };
+    sheet.getCell(`B${rowNumber}`).font = {
+      name: 'Arial Narrow',
+      size: 11,
+      bold: true,
+    };
+    sheet.getCell(`B${rowNumber}`).alignment = {
+      horizontal: 'left',
+      vertical: 'middle',
+    };
+    return sheet;
+  }
+
+  protected tableHeaderSetStyles(
+    sheet: any,
+    lastRowNumber: number,
+    lastLetterIndex: number,
+  ) {
+    for (let i = 65; i <= lastLetterIndex; i++) {
+      const letter = String.fromCharCode(i);
+
+      for (let j = 0; j <= 1; j++) {
+        sheet.getCell(letter + (lastRowNumber - j)).fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '#ffd8d8d8' },
+        };
+        sheet.getCell(letter + (lastRowNumber - j)).border = {
+          top: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+          left: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+          right: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+          bottom: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+        };
+        sheet.getCell(letter + (lastRowNumber - j)).font = {
+          name: 'Arial Narrow',
+          size: 11,
+          bold: true,
+        };
+        sheet.getCell(letter + (lastRowNumber - j)).alignment = {
+          horizontal: 'center',
+          vertical: 'middle',
+          wrapText: true,
+        };
+      }
+    }
+    return sheet;
+  }
+
+  protected tableDataSetStyles(
+    sheet: any,
+    lastLetterIndex: number,
+    startRowIndex: number,
+    lastRowIndex: number,
+  ) {
+    for (let i = 65; i <= lastLetterIndex; i++) {
+      const letter = String.fromCharCode(i);
+
+      for (let j = 0; j <= lastRowIndex - startRowIndex; j++) {
+        sheet.getCell(letter + (lastRowIndex - j)).border = {
+          top: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+          left: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+          right: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+          bottom: { style: 'thin', color: { argb: 'FFA5A5A5' } },
+        };
+        sheet.getCell(letter + (lastRowIndex - j)).font = {
+          name: 'Arial Narrow',
+          size: 11,
+          bold: true,
+        };
+        sheet.getCell(letter + (lastRowIndex - j)).alignment = {
+          horizontal: 'center',
+          vertical: 'middle',
+          wrapText: true,
+        };
+      }
+    }
+    return sheet;
+  }
+
+  protected async createNewExcelFile(report: Object, filePath: string) {
     try {
       let workbook = new Excel.Workbook();
 
@@ -243,12 +339,39 @@ export class ReportService {
       // sheet.addRow(['Название', 'Единица измерения', 'Всего']);
 
       // Данные об объекте
+      // Название объекта
       sheet.addRow([report['object']['name']]);
+      let lastRowNumber = sheet.lastRow.number;
+      let lastRowAddress = `A${lastRowNumber}`;
+      sheet.getCell(lastRowAddress).font = {
+        name: 'Arial Narrow',
+        size: 14,
+        bold: true,
+      };
+      sheet.getCell(lastRowAddress).alignment = {
+        horizontal: 'justify',
+        vertical: 'middle',
+      };
+      sheet.mergeCells(`A${lastRowNumber}`, `G${lastRowNumber}`);
+
+      // Название договора
       sheet.addRow([report['object']['contractName']]);
+      lastRowNumber = sheet.lastRow.number;
+      lastRowAddress = `A${lastRowNumber}`;
+      sheet.getCell(lastRowAddress).font = {
+        name: 'Arial Narrow',
+        size: 12,
+      };
+      sheet.getCell(lastRowAddress).alignment = {
+        horizontal: 'justify',
+        vertical: 'middle',
+      };
+      sheet.mergeCells(`A${lastRowNumber}`, `C${lastRowNumber}`);
 
       sheet.addRow([]);
 
       // Доп инфа
+      // Дата работ
       const factDateArr: Array<string> = report['workDate']
         .toISOString()
         .slice(0, 10)
@@ -256,15 +379,45 @@ export class ReportService {
       const factDateFinaly: string =
         factDateArr[2] + '/' + factDateArr[1] + '/' + factDateArr[0];
       sheet.addRow(['Дата производства работ: ', factDateFinaly]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.additionalInfoSetStyles(sheet, lastRowNumber);
+      // Погодные условия
       sheet.addRow(['Погодные условия: ', report['weather']]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.additionalInfoSetStyles(sheet, lastRowNumber);
+      // Температура
       sheet.addRow(['Температура: ', report['temperature']]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.additionalInfoSetStyles(sheet, lastRowNumber);
+      // Колво рабочих
       sheet.addRow(['Кол-во рабочих на площадке: ', report['workersAmount']]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.additionalInfoSetStyles(sheet, lastRowNumber);
+      // Колво итр
       sheet.addRow(['Кол-во ИТР на площадке: ', report['ItrAmount']]);
-
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.additionalInfoSetStyles(sheet, lastRowNumber);
+      // Доп строка пропуск
       sheet.addRow([]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.additionalInfoSetStyles(sheet, lastRowNumber);
 
-      // Факт
+      // Факт загловок
       sheet.addRow(['Факт выполненных работ на: ' + factDateFinaly]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet.getRow(lastRowNumber).height = 30;
+      sheet.getCell(`A${lastRowNumber}`).font = {
+        name: 'Arial Narrow',
+        size: 12,
+        bold: true,
+      };
+      sheet.getCell(`A${lastRowNumber}`).alignment = {
+        horizontal: 'center',
+        vertical: 'middle',
+      };
+      sheet.mergeCells(`A${lastRowNumber}`, `B${lastRowNumber}`);
+
+      // Факт данные
       sheet.addRow([
         '№ п/п',
         'Наименование работ',
@@ -272,14 +425,47 @@ export class ReportService {
         'ед.изм.',
         'Бригада',
         'Кол-во чел в бригаде',
-        'ПЛАН Кол-во этажей',
-        'ПЛАН Кол-во на 1 этаж',
-        'ПЛАН Всего',
-        'ФАКТ Кол-во этажей',
-        'ФАКТ Кол-во на 1 этаж',
-        'ФАКТ Всего',
+        'ПЛАН',
+        '',
+        '',
+        'ФАКТ',
+        '',
+        '',
         'Комментарии к заданиям / причина не выполнения плана',
       ]);
+      sheet.addRow([
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Кол-во этажей',
+        'Кол-во на 1 этаж',
+        'Всего',
+        'Кол-во этажей',
+        'Кол-во на 1 этаж',
+        'Всего',
+        '',
+      ]);
+
+      lastRowNumber = sheet.lastRow.number;
+      sheet.mergeCells(`A${lastRowNumber - 1}`, `A${lastRowNumber}`);
+      sheet.mergeCells(`B${lastRowNumber - 1}`, `B${lastRowNumber}`);
+      sheet.mergeCells(`C${lastRowNumber - 1}`, `C${lastRowNumber}`);
+      sheet.mergeCells(`D${lastRowNumber - 1}`, `D${lastRowNumber}`);
+      sheet.mergeCells(`E${lastRowNumber - 1}`, `E${lastRowNumber}`);
+      sheet.mergeCells(`F${lastRowNumber - 1}`, `F${lastRowNumber}`);
+
+      sheet.mergeCells(`G${lastRowNumber - 1}`, `I${lastRowNumber - 1}`);
+      sheet.mergeCells(`J${lastRowNumber - 1}`, `L${lastRowNumber - 1}`);
+
+      sheet.mergeCells(`M${lastRowNumber - 1}`, `M${lastRowNumber}`);
+
+      // Перекрашиваем шапку, ставим границы
+      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 77);
+
+      sheet.getRow(lastRowNumber).height = 40;
 
       // Строки факта
       let i: number = 1;
@@ -310,10 +496,17 @@ export class ReportService {
         ]);
         i += 1;
       }
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.tableDataSetStyles(
+        sheet,
+        77,
+        lastRowNumber - i,
+        lastRowNumber,
+      );
 
       sheet.addRow([]);
 
-      // План
+      // План заголовок
       const planDate: Date = new Date(
         report['workDate'].getTime() + 1000 * 60 * 60 * 24,
       );
@@ -324,6 +517,21 @@ export class ReportService {
       const planDateFinaly: string =
         planDateArr[2] + '/' + planDateArr[1] + '/' + planDateArr[0];
       sheet.addRow(['План работ на: ' + planDateFinaly]);
+
+      lastRowNumber = sheet.lastRow.number;
+      sheet.getRow(lastRowNumber).height = 30;
+      sheet.getCell(`A${lastRowNumber}`).font = {
+        name: 'Arial Narrow',
+        size: 12,
+        bold: true,
+      };
+      sheet.getCell(`A${lastRowNumber}`).alignment = {
+        horizontal: 'center',
+        vertical: 'middle',
+      };
+      sheet.mergeCells(`A${lastRowNumber}`, `B${lastRowNumber}`);
+
+      // План строки
       sheet.addRow([
         '№ п/п',
         'Наименование работ',
@@ -331,11 +539,40 @@ export class ReportService {
         'ед.изм.',
         'Бригада',
         'Кол-во чел в бригаде',
-        'ПЛАН Кол-во этажей',
-        'ПЛАН Кол-во на 1 этаж',
-        'ПЛАН Всего',
+        'ПЛАН',
+        '',
+        '',
         'Комментарии к заданиям',
       ]);
+      sheet.addRow([
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Кол-во этажей',
+        'Кол-во на 1 этаж',
+        'Всего',
+        '',
+      ]);
+
+      lastRowNumber = sheet.lastRow.number;
+      sheet.mergeCells(`A${lastRowNumber - 1}`, `A${lastRowNumber}`);
+      sheet.mergeCells(`B${lastRowNumber - 1}`, `B${lastRowNumber}`);
+      sheet.mergeCells(`C${lastRowNumber - 1}`, `C${lastRowNumber}`);
+      sheet.mergeCells(`D${lastRowNumber - 1}`, `D${lastRowNumber}`);
+      sheet.mergeCells(`E${lastRowNumber - 1}`, `E${lastRowNumber}`);
+      sheet.mergeCells(`F${lastRowNumber - 1}`, `F${lastRowNumber}`);
+
+      sheet.mergeCells(`G${lastRowNumber - 1}`, `I${lastRowNumber - 1}`);
+
+      sheet.mergeCells(`J${lastRowNumber - 1}`, `M${lastRowNumber}`);
+
+      // Перекрашиваем шапку, ставим границы
+      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 74);
+
+      sheet.getRow(lastRowNumber).height = 40;
 
       // Строки плана
       i = 1;
@@ -362,27 +599,90 @@ export class ReportService {
           row['comment'],
         ]);
         i += 1;
+
+        lastRowNumber = sheet.lastRow.number;
+        sheet.mergeCells(`J${lastRowNumber}`, `M${lastRowNumber}`);
       }
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.tableDataSetStyles(
+        sheet,
+        74,
+        lastRowNumber - i,
+        lastRowNumber,
+      );
 
       sheet.addRow([]);
 
       // Проблемные вопросы
-      sheet.addRow(['Проблемные вопросы']);
-      sheet.addRow(['№ п/п', 'Описание проблемы / вопроса', 'Принятые меры']);
+      // Заголовок
+      sheet.addRow(['ПРОБЛЕМНЫЕ ВОПРОСЫ']);
+      lastRowNumber = sheet.lastRow.number;
+      sheet.getRow(lastRowNumber).height = 28;
+      sheet.getCell(`A${lastRowNumber}`).font = {
+        name: 'Arial Narrow',
+        size: 11,
+        bold: true,
+      };
+      sheet.getCell(`A${lastRowNumber}`).alignment = {
+        horizontal: 'left',
+        vertical: 'middle',
+      };
+      sheet.getCell(`A${lastRowNumber}`).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '#fff7caac' },
+      };
+      sheet.mergeCells(`A${lastRowNumber}`, `M${lastRowNumber}`);
+
+      // Шапка таблицы
+      sheet.addRow([
+        '№ п/п',
+        'Описание проблемы / вопроса',
+        '',
+        '',
+        'Принятые меры',
+      ]);
+      sheet.addRow([]);
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.tableHeaderSetStyles(sheet, lastRowNumber, 74);
+
+      sheet.mergeCells(`A${lastRowNumber - 1}`, `A${lastRowNumber}`);
+
+      sheet.mergeCells(`B${lastRowNumber}`, `D${lastRowNumber - 1}`);
+      sheet.mergeCells(`E${lastRowNumber}`, `M${lastRowNumber - 1}`);
 
       // Строки проблемных вопросов
       i = 1;
       for (const row of report['problems']['ProblemsRow']) {
-        sheet.addRow([i, row['description'], row['takenMeasures']]);
+        sheet.addRow([i, row['description'], '', '', row['takenMeasures']]);
+
+        lastRowNumber = sheet.lastRow.number;
+        sheet.mergeCells(`B${lastRowNumber}`, `D${lastRowNumber}`);
+        sheet.mergeCells(`E${lastRowNumber}`, `M${lastRowNumber}`);
+
         i += 1;
       }
+      lastRowNumber = sheet.lastRow.number;
+      sheet = this.tableDataSetStyles(
+        sheet,
+        74,
+        lastRowNumber - i,
+        lastRowNumber,
+      );
 
       sheet.addRow([]);
 
       // Подготовил
       sheet.addRow(['Подготовил ООО "Д5 ИНЖИНИРИНГ":']);
+      lastRowNumber = sheet.lastRow.number;
+      sheet.getCell(`A${lastRowNumber}`).font = {
+        name: 'Arial Narrow',
+        size: 11,
+        bold: true,
+      };
+
       sheet.addRow([report['author']['name']]);
-      sheet.addRow([report['author']['phone']]);
+      sheet.addRow(['Тел.:' + report['author']['phone']]);
 
       sheet.getColumn('A').width = 30;
       sheet.getColumn('B').width = 30;
