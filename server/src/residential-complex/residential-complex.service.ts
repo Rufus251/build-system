@@ -5,29 +5,33 @@ import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
 export class ResidentialComplexService {
-  constructor(private readonly databaseService: DatabaseService) { }
+  constructor(private readonly databaseService: DatabaseService) {}
 
   async create(dto: CreateResidentialComplexDto) {
     try {
       const res = await this.databaseService.residentialComplex.create({
         data: {
           ...dto,
-        }
-      })
-      return res
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
   async findAll() {
     try {
-      const res = await this.databaseService.residentialComplex.findMany()
-      return res
+      const res = await this.databaseService.residentialComplex.findMany({
+        include: {
+          objects: true,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -35,13 +39,16 @@ export class ResidentialComplexService {
     try {
       const res = await this.databaseService.residentialComplex.findFirst({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+        include: {
+          objects: true,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -49,16 +56,16 @@ export class ResidentialComplexService {
     try {
       const res = await this.databaseService.residentialComplex.update({
         where: {
-          id
+          id,
         },
         data: {
-          ...dto
-        }
-      })
-      return res
+          ...dto,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 
@@ -66,13 +73,13 @@ export class ResidentialComplexService {
     try {
       const res = await this.databaseService.residentialComplex.delete({
         where: {
-          id
-        }
-      })
-      return res
+          id,
+        },
+      });
+      return res;
     } catch (error) {
       console.log(error);
-      return error
+      return error;
     }
   }
 }

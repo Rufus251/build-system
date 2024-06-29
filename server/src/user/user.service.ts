@@ -25,7 +25,13 @@ export class UserService {
     }
   }
 
-  async findAll(login: string, name: string, role: string, objectId: number) {
+  async findAll(
+    login: string,
+    name: string,
+    role: string,
+    complexId: number,
+    objectId: number,
+  ) {
     try {
       const query: Prisma.UserFindManyArgs = {
         select: {
@@ -48,12 +54,22 @@ export class UserService {
       };
 
       objectId = Number.isNaN(objectId) ? undefined : objectId;
-      if (objectId) {
+      complexId = Number.isNaN(complexId) ? undefined : complexId;
+      if (objectId || complexId) {
         query.where = {
           ...query.where,
           objects: {
             some: {
-              objectId,
+              AND: [
+                {
+                  objectId,
+                },
+                {
+                  object: {
+                    residentialComplexId: complexId,
+                  },
+                },
+              ],
             },
           },
         };
@@ -76,6 +92,11 @@ export class UserService {
           objects: {
             select: {
               objectId: true,
+              object: {
+                select: {
+                  residentialComplexId: true,
+                },
+              },
             },
           },
         },

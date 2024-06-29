@@ -57,6 +57,12 @@ export class UserController {
     required: false,
   })
   @ApiQuery({
+    name: 'complexId',
+    type: Number,
+    description: 'Жилые комплексы, к объектам которых привязан пользователь',
+    required: false,
+  })
+  @ApiQuery({
     name: 'objectId',
     type: Number,
     description: 'Объекты, на которых раюотает (к которым привязан) пользователь',
@@ -66,9 +72,10 @@ export class UserController {
     @Query('login') login?: string,
     @Query('name') name?: string,
     @Query('role') role?: string,
+    @Query('complexId') complexId?: number,
     @Query('objectId') objectId?: number,
   ) {
-    return await this.userService.findAll(login, name, role, +objectId);
+    return await this.userService.findAll(login, name, role, +complexId, +objectId);
   }
 
   @Get(':id')
