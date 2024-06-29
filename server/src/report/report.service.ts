@@ -65,6 +65,7 @@ export class ReportService {
 
   async findAll(
     ascending: string,
+    complexId: number,
     objectId: number,
     username: string,
     dateStart: Date,
@@ -77,11 +78,15 @@ export class ReportService {
     login: string,
   ) {
     try {
+      complexId = Number.isNaN(complexId) ? undefined : complexId;
       objectId = Number.isNaN(objectId) ? undefined : objectId;
       worksNameId = Number.isNaN(worksNameId) ? undefined : worksNameId;
       let query: Prisma.ReportFindManyArgs = {
         where: {
           objectId,
+          object: {
+            residentialComplexId: complexId,
+          },
           author: {
             name: username,
           },
@@ -93,6 +98,11 @@ export class ReportService {
           hasAdditional: additional,
         },
         include: {
+          object: {
+            select: {
+              residentialComplexId: true,
+            },
+          },
           workDone: {
             include: {
               rows: true,

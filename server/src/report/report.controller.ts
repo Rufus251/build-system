@@ -61,6 +61,12 @@ export class ReportController {
     required: false,
   })
   @ApiQuery({
+    name: 'complexId',
+    type: Number,
+    description: 'id комлекса, к которому привязан объект, к которому привязан отчёт',
+    required: false,
+  })
+  @ApiQuery({
     name: 'objectId',
     type: Number,
     description: 'id объекта',
@@ -118,6 +124,7 @@ export class ReportController {
   async findAll(
     @Req() request: Request,
     @Query('ascending') ascending?: string,
+    @Query('complexId') complexId?: number,
     @Query('objectId') objectId?: number,
     @Query('username') username?: string,
     @Query('dateStart') dateStart?: Date,
@@ -135,6 +142,7 @@ export class ReportController {
 
     return await this.reportService.findAll(
       ascending,
+      +complexId,
       +objectId,
       username,
       dateStart,
