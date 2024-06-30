@@ -29,7 +29,7 @@ import { Role } from 'src/enum/role.enum';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post("addUser")
   @Roles(Role.admin)
   @UsePipes(new ValidationPipe())
   async create(@Body() createUserDto: CreateUserDto) {
