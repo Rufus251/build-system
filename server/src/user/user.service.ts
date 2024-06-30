@@ -29,6 +29,7 @@ export class UserService {
     login: string,
     name: string,
     role: string,
+    position: string,
     complexId: number,
     objectId: number,
   ) {
@@ -39,6 +40,7 @@ export class UserService {
           login: true,
           name: true,
           role: true,
+          position: true,
           phone: true,
           objects: {
             include: {
@@ -50,6 +52,7 @@ export class UserService {
           login,
           name,
           role,
+          position
         },
       };
 
@@ -123,6 +126,7 @@ export class UserService {
           login: true,
           name: true,
           role: true,
+          position: true,
           phone: true,
           objects: {
             include: {
