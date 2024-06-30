@@ -89,14 +89,12 @@ export class UserService {
     try {
       const res = await this.databaseService.user.findMany({
         select: {
-          login: true
+          login: true,
         },
-        distinct: [
-          'login'
-        ],
+        distinct: ['login'],
         orderBy: {
-          login: 'asc'
-        }
+          login: 'asc',
+        },
       });
       return res;
     } catch (error) {
@@ -108,14 +106,12 @@ export class UserService {
     try {
       const res = await this.databaseService.user.findMany({
         select: {
-          name: true
+          name: true,
         },
-        distinct: [
-          'name'
-        ],
+        distinct: ['name'],
         orderBy: {
-          name: 'asc'
-        }
+          name: 'asc',
+        },
       });
       return res;
     } catch (error) {
@@ -127,14 +123,12 @@ export class UserService {
     try {
       const res = await this.databaseService.user.findMany({
         select: {
-          position: true
+          position: true,
         },
-        distinct: [
-          'position'
-        ],
+        distinct: ['position'],
         orderBy: {
-          position: 'asc'
-        }
+          position: 'asc',
+        },
       });
       return res;
     } catch (error) {
