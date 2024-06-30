@@ -25,6 +25,7 @@ model User {
 
   login    String  @unique
   name     String
+  position String  @default("Сотрудник")
   password String
   phone    String
   token    String?

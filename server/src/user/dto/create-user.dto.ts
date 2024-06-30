@@ -24,6 +24,10 @@ export class CreateUserDto {
 
       @IsString()
       @ApiProperty()
+      position: string = 'Сотрудник'
+
+      @IsString()
+      @ApiProperty()
       @IsOptional()
       token?:string
 }
