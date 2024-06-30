@@ -52,7 +52,7 @@ export class UserService {
           login,
           name,
           role,
-          position
+          position,
         },
       };
 
@@ -78,6 +78,64 @@ export class UserService {
         };
       }
       const res = await this.databaseService.user.findMany(query);
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async findAllLogins() {
+    try {
+      const res = await this.databaseService.user.findMany({
+        select: {
+          login: true
+        },
+        distinct: [
+          'login'
+        ],
+        orderBy: {
+          login: 'asc'
+        }
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+  async findAllUsernames() {
+    try {
+      const res = await this.databaseService.user.findMany({
+        select: {
+          name: true
+        },
+        distinct: [
+          'name'
+        ],
+        orderBy: {
+          name: 'asc'
+        }
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+  async findAllPositions() {
+    try {
+      const res = await this.databaseService.user.findMany({
+        select: {
+          position: true
+        },
+        distinct: [
+          'position'
+        ],
+        orderBy: {
+          position: 'asc'
+        }
+      });
       return res;
     } catch (error) {
       console.log(error);
@@ -115,6 +173,7 @@ export class UserService {
       return error;
     }
   }
+
   async findOne(id: number) {
     try {
       const res = await this.databaseService.user.findFirst({

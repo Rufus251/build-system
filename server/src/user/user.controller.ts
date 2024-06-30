@@ -85,6 +85,24 @@ export class UserController {
     return await this.userService.findAll(login, name, role, position, +complexId, +objectId);
   }
 
+  @Get('getAllLogins')
+  @Roles(Role.admin, Role.manager)
+  async getAllLogins(){
+    return await this.userService.findAllLogins();
+  }
+
+  @Get('getAllUsernames')
+  @Roles(Role.admin, Role.manager)
+  async getAllUsernames(){
+    return await this.userService.findAllUsernames();
+  }
+
+  @Get('getAllPositions')
+  @Roles(Role.admin, Role.manager)
+  async getAllPositions(){
+    return await this.userService.findAllPositions();
+  }
+
   @Get('getOne/:id')
   @Roles(Role.admin, Role.manager)
   async findOne(@Param('id') id: string) {
