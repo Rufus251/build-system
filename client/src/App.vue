@@ -1,4 +1,5 @@
 <template>
+  <loader :isActive="isLoading"></loader>
   <RouterView></RouterView>
 </template>
 
@@ -8,12 +9,14 @@ import { useUserStore } from "./store/UserStore";
 import { useUsersStore } from "./store/UsersStore";
 import { useTechnicalStore } from "./store/TechnicalStore";
 import { useReportsStore } from "./store/ReportsStore";
+import { useLoaderStore } from "./store/LoaderStore";
 export default {
   computed: {
     ...mapState(useUserStore, ["user", "isAuth"]),
     ...mapState(useUsersStore, ["fetchUsers"]),
     ...mapState(useTechnicalStore, ["fetchTech"]),
     ...mapState(useReportsStore, ["fetchReports", "fetchMyReports"]),
+    ...mapState(useLoaderStore, ["isLoading"]),
   },
   watch: {
     async isAuth(value) {

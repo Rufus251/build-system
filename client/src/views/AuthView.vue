@@ -3,14 +3,17 @@
     <v-form @submit.prevent v-model="valid">
       <textField
         labelProp="Логин"
-        placeholderProp="Ivan_Ivanov1703"
+        placeholderProp="Ivan_Ivanov2000"
         v-model="login"
-        :rulesProp="loginRules"></textField>
+        :rulesProp="loginRules"
+      ></textField>
       <textField
         labelProp="Пароль"
-        placeholderProp="7cWfX7bZ8iJ9KUa0"
+        placeholderProp="qwerty123456"
         v-model="password"
-        :rulesProp="passwordRules"></textField>
+        :rulesProp="passwordRules"
+        typeProp="password"
+      ></textField>
       <p>{{ loginMessage }}</p>
       <primaryButton400 @click="loginHandler({ login, password })">
         Войти
@@ -37,11 +40,24 @@ export default {
       loginMessage: null,
     };
   },
+  computed: {
+    ...mapState(useUserStore, ["loginUserPassword", "jwtLogin"]),
+  },
+  async mounted() {
+    await this.jwtLoginHandler();
+  },
   methods: {
+    async jwtLoginHandler() {
+      const res = await this.jwtLogin();
+
+      if (res === 200) {
+        this.$router.push("/main");
+      }
+    },
     async loginHandler(user) {
       this.loginMessage = "Авторизация...";
 
-      const res = await this.loginUser(user);
+      const res = await this.loginUserPassword(user);
       if (res === 201) {
         this.loginMessage = "Успешно!";
         this.$router.push("/main");
@@ -49,9 +65,6 @@ export default {
         this.loginMessage = "Попытайтесь ещё раз";
       }
     },
-  },
-  computed: {
-    ...mapState(useUserStore, ["loginUser"]),
   },
 };
 </script>
