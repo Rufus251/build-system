@@ -1,3 +1,4 @@
+import loader from './UI/loader.vue'
 import textField from "./UI/input/text-field.vue";
 import autocompleteField from "./UI/input/autocomplete-field.vue";
 import textareaField from "./UI/input/textarea-field.vue";
@@ -20,6 +21,7 @@ import techCard from "./tech-card.vue";
 import reportCard from "./report-card.vue";
 
 export default [
+  loader,
   textField,
   autocompleteField,
   primaryButton400,
