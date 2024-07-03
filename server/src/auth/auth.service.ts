@@ -42,7 +42,7 @@ export class AuthService {
     }
   }
 
-  async loginPassword(dto: LoginUserDto, response: Response) {
+  async loginPassword(dto: LoginUserDto) {
     const user = await this.validateUser(dto);
     const { login, password, role } = user;
     const jwt = this.jwtService.sign({ login, password, role });
@@ -56,13 +56,12 @@ export class AuthService {
         },
       });
     }
-    response.cookie('Authorization', user.token);
     delete user.token;
     delete user.password;
-    return user;
+    return { ...user, token: jwt};
   }
 
-  async loginJwt(token: string, response: Response) {
+  async loginJwt(token: string) {
     try {
       const sign = this.jwtService.verify(token);
       if (sign) {
@@ -88,8 +87,7 @@ export class AuthService {
             role: true,
           },
         });
-        response.cookie('Authorization', newToken);
-        return res;
+        return { ...res, token: newToken};
       }
     } catch (error) {
       console.log(error);

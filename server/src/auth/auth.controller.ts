@@ -31,8 +31,8 @@ export class AuthController {
   @ApiResponse({ status: 201, description: 'Return user' })
   @ApiResponse({ status: 401, description: 'Incorrect password' })
   @ApiResponse({ status: 404, description: 'User Not Found' })
-  async loginPassword(@Body() dto: LoginUserDto, @Res({ passthrough: true }) response: Response) {
-    const res = await this.authService.loginPassword(dto, response);
+  async loginPassword(@Body() dto: LoginUserDto) {
+    const res = await this.authService.loginPassword(dto);
     return res;
   }
 
@@ -40,10 +40,10 @@ export class AuthController {
   @Roles(Role.admin, Role.manager, Role.user)
   @ApiResponse({ status: 201, description: 'Return user' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async loginJwt(@Headers() header: JsonObject, @Res({ passthrough: true }) response: Response) {
+  async loginJwt(@Headers() header: JsonObject) {
     try {
       const token = header.authorization.toString().split(' ')[1];
-      const res = await this.authService.loginJwt(token, response);
+      const res = await this.authService.loginJwt(token);
       return res;
     } catch (error) {
       console.log(error);
