@@ -1,4 +1,6 @@
 a {
+  font-family: var(--font-family-text);
+
   text-decoration: none;
   color: #000000;
 
@@ -8,54 +10,54 @@ a {
 }
 h1 {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: clamp(30px, 9.3vw, 55px);
   font-style: normal;
-  font-weight: 600;
   line-height: 130%;
 }
 h2 {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: clamp(24px, 7.5vw, 36px);
   font-style: normal;
-  font-weight: 600;
   line-height: 130%;
 }
 h3 {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: clamp(20px, 6.2vw, 24px);
   font-style: normal;
-  font-weight: 600;
   line-height: 130%;
 }
 h4 {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: clamp(16px, 5vw, 20px);
   font-style: normal;
-  font-weight: 600;
   line-height: 130%;
 }
 h5 {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: clamp(14px, 4.3vw, 16px);
   font-style: normal;
-  font-weight: 600;
   line-height: 150%;
 }
 // menu button
 .menu {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: 16px !important;
   font-style: normal;
-  font-weight: 400;
   line-height: 150%;
   letter-spacing: 0.16px;
 }
 button.v-btn,
 a.v-btn {
   font-family: var(--font-family-headers);
+  font-weight: var(--font-weight-headers);
   font-size: 16px;
   font-style: normal;
-  font-weight: 400;
   line-height: 150%;
   letter-spacing: 0.16px;
   border-radius: 6px;
@@ -64,16 +66,16 @@ a.v-btn {
 p,
 .v-field-label {
   font-family: var(--font-family-text);
+  font-weight: var(--font-weight-text);
   font-size: clamp(15px, 4.6vw, 17px);
   font-style: normal;
-  font-weight: 400;
   line-height: 140%;
 }
 .caption {
   font-family: var(--font-family-text);
+  font-weight: var(--font-weight-text);
   font-size: 12px;
   font-style: normal;
-  font-weight: 400;
   line-height: 120%;
   letter-spacing: 0.12px;
 }

@@ -1,10 +1,50 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Merriweather&display=swap");
+
 :root {
   --main-color: #5ea0ea;
   --main-btn-bg-color: #5ea0ea;
   --main-btn-font-color: #ffffff;
 
-  --font-family-headers: "Roboto", sans-serif;
-  --font-family-text: "Merriweather", serif;
+  --font-family-headers: "Sansation", sans-serif;
+  --font-weight-headers: bold;
+  --font-family-text: "Sansation", serif;
+  --font-weight-text: normal;
+}
+
+@font-face {
+  font-weight: 400;
+  font-style: normal;
+  font-family: 'Sansation';
+  src: url("/fonts/sansation/Sansation-Regular.ttf");
+}
+@font-face {
+  font-weight: bold;
+  font-style: normal;
+  font-family: 'Sansation';
+  src: url("/fonts/sansation/Sansation-Bold.ttf");
+}
+@font-face {
+  font-weight: bold;
+  font-style: italic;
+  font-family: 'Sansation';
+  src: url("/fonts/sansation/Sansation-BoldItalic.ttf");
+}
+@font-face {
+  font-weight: 400;
+  font-style: italic;
+  font-family: 'Sansation';
+  src: url("/fonts/sansation/Sansation-Italic.ttf");
+}
+@font-face {
+  font-weight: lighter;
+  font-style: normal;
+  font-family: 'Sansation';
+  src: url("/fonts/sansation/Sansation-Light.ttf");
+}
+@font-face {
+  font-weight: lighter;
+  font-style: italic;
+  font-family: 'Sansation';
+  src: url("/fonts/sansation/Sansation-LightItalic.ttf");
 }
