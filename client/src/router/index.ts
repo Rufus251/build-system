@@ -7,7 +7,7 @@ import CreateUser from "../views/CreateUserView.vue"
 import Reports from "../views/ReportsView.vue"
 import MyReports from "../views/MyReportsView.vue"
 import Report from "../views/ReportView.vue"
-import Technical from "../views/TechnicalView.vue"
+import Objects from "../views/ObjectsView.vue"
 import CreateTech from "../views/CreateTechView.vue"
 import CreateReport from "../views/CreateReportView.vue"
 
@@ -57,9 +57,15 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: "/technical",
-      name: 'technical',
-      component: Technical,
+      path: "/objects",
+      name: 'objects',
+      component: Objects,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/residentialComplexes",
+      name: 'residentialComplexes',
+      component: Objects,
       meta: { requiresAuth: true }
     },
     {

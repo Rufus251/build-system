@@ -1,25 +1,27 @@
 <template>
   <div class="card">
     <div class="names">
-      <h3> {{ tech.name }}</h3>
+      <h3>Логин: {{ user.login }}</h3>
+      <h3>Имя: {{ user.name }}</h3>
+      <h3>Роль: {{ user.role }}</h3>
     </div>
     <div class="btns">
-      <deleteButton400 @click="deleteTech(tech.id)"> Удалить </deleteButton400>
+      <deleteButton400 @click="deleteUser(user.id)"> Удалить </deleteButton400>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "pinia";
-import { useTechnicalStore } from "../store/TechnicalStore";
+import { useUsersStore } from "../../store/UsersStore";
 
 export default {
-  name: "techCard",
+  name: "userCard",
   props: {
-    tech: Object,
+    user: Object,
   },
   computed: {
-    ...mapState(useTechnicalStore, ["deleteTech"]),
+    ...mapState(useUsersStore, ["deleteUser"]),
   },
 };
 </script>

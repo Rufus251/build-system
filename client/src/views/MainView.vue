@@ -2,20 +2,27 @@
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
     <div class="btns">
-      <primaryRouterButton400 href="/users" v-if="user.role === 'admin'">
-        Учётные записи
+
+      <primaryRouterButton400
+        href="/residentialComplexes"
+        v-if="user.role === 'admin' || user.role === 'manager'">
+        Жилые комплексы
+      </primaryRouterButton400>
+
+      <primaryRouterButton400
+        href="/objects"
+        v-if="user.role === 'admin' || user.role === 'manager'">
+        Объекты
       </primaryRouterButton400>
 
       <primaryRouterButton400
         href="/reports"
         v-if="user.role === 'admin' || user.role === 'manager'">
-        Просмотреть отчёты
+        Все отчёты
       </primaryRouterButton400>
 
-      <primaryRouterButton400
-        href="/technical"
-        v-if="user.role === 'admin' || user.role === 'manager'">
-        Технический каталог
+      <primaryRouterButton400 href="/users" v-if="user.role === 'admin'">
+        Сотрудники
       </primaryRouterButton400>
 
       <primaryRouterButton400 href="/myReports" v-if="user.role === 'user'">

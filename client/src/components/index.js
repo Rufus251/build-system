@@ -16,9 +16,9 @@ import deleteRouterButton200 from "./UI/button/button-width-200/delete-router-bu
 import primaryTable from "./UI/table/primary-table.vue";
 import createReportTable from "./UI/table/create-report-table.vue";
 import navbarComp from "./navbar-comp.vue";
-import userCard from "./user-card.vue";
-import techCard from "./tech-card.vue";
-import reportCard from "./report-card.vue";
+import userCard from "./cards/user-card.vue";
+import techCard from "./cards/tech-card.vue";
+import reportCard from "./cards/report-card.vue";
 
 export default [
   loader,

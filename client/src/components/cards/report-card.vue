@@ -23,8 +23,8 @@
 
 <script>
 import { mapState } from "pinia";
-import { useReportsStore } from "../store/ReportsStore";
-import { useUsersStore } from "../store/UsersStore";
+import { useReportsStore } from "../../store/ReportsStore";
+import { useUsersStore } from "../../store/UsersStore";
 
 export default {
   name: "reportCard",
