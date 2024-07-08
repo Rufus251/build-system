@@ -29,7 +29,7 @@ export default {
   padding: 15px;
   margin: 10px;
 
-  border: 1px solid black;
+  border: 3px solid black;
   border-radius: 15px;
 
   display: flex;

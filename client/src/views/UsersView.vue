@@ -1,20 +1,33 @@
 <template>
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
-  <main>
+  <div class="createButton">
     <primaryRouterButton400 href="/createUser">
       Добавить пользователя
     </primaryRouterButton400>
-    <autocompleteField
-      labelProp="Имя работника"
-      placeholderProp="Иванов Иван Иванович"
-      :itemsProp="usersName"
-      v-model="autocompleteName"></autocompleteField>
+  </div>
+  <main>
     <div class="cards">
       <userCard
-        v-for="user in sortUsersByName(autocompleteName)"
+        v-for="user in this.users"
         :key="user.id"
-        :user="user"></userCard>
+        :user="user"
+      ></userCard>
     </div>
+    <userSort
+      class="sort"
+      :loginSelects="logins"
+      :nameSelects="names"
+      :roleSelects="roles"
+      :positionSelects="position"
+      :complexSelects="complexNames"
+      :objectSelects="sortedObjectNames"
+      v-model:userLogin="loginSort"
+      v-model:userName="nameSort"
+      v-model:userRole="roleSort"
+      v-model:userPosition="positionSort"
+      v-model:userComplexes="complexesSort"
+      v-model:userObjects="objectSort"
+    ></userSort>
   </main>
 </template>
 
@@ -27,14 +40,58 @@ export default {
   name: "UsersView",
   data() {
     return {
-      autocompleteName: undefined,
+      loginSort: null,
+      nameSort: null,
+      roleSort: null,
+      positionSort: null,
+      complexesSort: null,
+      objectSort: null,
     };
+  },
+  async mounted() {
+    await this.fetchUsers();
+    await this.fetchAllLogins();
+    await this.fetchAllUsernames();
+    await this.fetchAllPosition();
+    await this.fetchAllComplexes();
+    await this.fetchAllObjectNames();
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useUsersStore, ["users", "usersName", "sortUsersByName"]),
+    ...mapState(useUsersStore, [
+      "users",
+      "fetchUsers",
+      "fetchAllLogins",
+      "fetchAllUsernames",
+      "fetchAllPosition",
+      "fetchAllComplexes",
+      "fetchAllObjectNames",
+      "logins",
+      "names",
+      "roles",
+      "position",
+      "complexNames",
+      "sortedObjectNames",
+      "sortObjectsByComplexes",
+    ]),
+  },
+  watch: {
+    complexesSort: {
+      handler(value) {
+        this.sortObjectsByComplexes(value);
+      },
+      deep: true,
+    },
   },
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+main {
+  display: flex;
+  justify-content: space-between;
+}
+.cards {
+  min-width: 1200px;
+}
+</style>

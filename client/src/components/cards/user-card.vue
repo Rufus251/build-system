@@ -4,8 +4,12 @@
       <h3>Логин: {{ user.login }}</h3>
       <h3>Имя: {{ user.name }}</h3>
       <h3>Роль: {{ user.role }}</h3>
+      <h3>Должность: {{ user.position }}</h3>
     </div>
     <div class="btns">
+      <primaryRouterButton400 :href="`/editUser/${user.id}`">
+        Изменить
+      </primaryRouterButton400>
       <deleteButton400 @click="deleteUser(user.id)"> Удалить </deleteButton400>
     </div>
   </div>
@@ -31,7 +35,7 @@ export default {
   padding: 15px;
   margin: 10px;
 
-  border: 1px solid black;
+  border: 3px solid black;
   border-radius: 15px;
 
   display: flex;

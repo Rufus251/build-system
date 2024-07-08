@@ -4,6 +4,7 @@ import Auth from "../views/AuthView.vue"
 import Main from "../views/MainView.vue"
 import Users from "../views/UsersView.vue"
 import CreateUser from "../views/CreateUserView.vue"
+import EditUser from "../views/EditUserView.vue"
 import Reports from "../views/ReportsView.vue"
 import MyReports from "../views/MyReportsView.vue"
 import Report from "../views/ReportView.vue"
@@ -36,6 +37,12 @@ const router = createRouter({
       path: "/createUser",
       name: 'createUser',
       component: CreateUser,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/editUser/:id",
+      name: 'EditUser',
+      component: EditUser,
       meta: { requiresAuth: true }
     },
     {

@@ -60,7 +60,7 @@
       ></autocompleteField>
       <p>{{ statusMessage }}</p>
       <agreeButton400 @click="checkValid(valid)">
-        Создать пользователя
+        Изменить пользователя
       </agreeButton400>
     </v-form>
   </main>
@@ -90,7 +90,7 @@ export default {
       objects: [],
 
       loginRules: [(v) => v.length > 0 || "Введите логин"],
-      passwordRules: [(v) => v.length > 0 || "Введите пароль"],
+      passwordRules: [],
       nameRules: [(v) => v.length > 0 || "Введите имя"],
       positionRules: [(v) => v.length > 0 || "Введите должность"],
       phoneRules: [(v) => v.length > 0 || "Введите телефон"],
@@ -99,24 +99,41 @@ export default {
       objectRules: [],
     };
   },
+  mounted() {
+    const id = this.$route.params.id;
+    const user = this.getUserById(+id);
+
+    this.login = user.login;
+    this.name = user.name;
+    this.phone = user.phone;
+    this.position = user.position;
+    this.role = user.role;
+    this.objects = user.objects.map((el) => el.object.name);
+  },
   methods: {
     async checkValid(valid) {
       if (valid) {
-        const user = {
+        let user = {
           login: this.login,
-          password: this.password,
           name: this.name,
           phone: this.phone,
           position: this.position,
           role: this.role,
           token: "",
         };
-        const res = await this.createUser(user, this.objects);
+        if (this.password.length > 0) {
+          user = { ...user, password: this.password };
+        }
+        const res = await this.updateUser(
+          this.$route.params.id,
+          user,
+          this.objects
+        );
 
-        if (res.status === 400) {
-          this.statusMessage = "Ошибка при создании, попробуйте ещё раз.";
-        } else {
+        if (res.status === 200) {
           this.$router.push("/users");
+        } else {
+          this.statusMessage = "Ошибка при изменении, попробуйте ещё раз.";
         }
       }
     },
@@ -124,11 +141,12 @@ export default {
   computed: {
     ...mapState(useUserStore, ["user"]),
     ...mapState(useUsersStore, [
+      "getUserById",
       "sortObjectsByComplexes",
       "roles",
       "sortedObjectNames",
       "complexNames",
-      "createUser",
+      "updateUser",
     ]),
   },
   watch: {

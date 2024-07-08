@@ -2,7 +2,7 @@
   <v-btn
     flat
     class="text-white text-none"
-    color="#ffc107"
+    color="green"
     min-height="60px"
     max-height="60px"
     min-width="200px"

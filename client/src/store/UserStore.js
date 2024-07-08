@@ -2,12 +2,15 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 
+import { useMainStore } from "./MainStore";
 import { useLoaderStore } from "./LoaderStore";
 
 export const useUserStore = defineStore("UserStore", {
   state: () => ({
-    url: "http://localhost:3001/api/",
-    // url: "http://194.87.74.11/api/",
+    mainStore: useMainStore(),
+    loaderStore: useLoaderStore(),
+
+    url: useMainStore().url,
 
     user: {
       role: null,
@@ -17,8 +20,6 @@ export const useUserStore = defineStore("UserStore", {
       phone: null,
     },
     isAuth: false,
-
-    loaderStore: useLoaderStore(),
   }),
   getters: {},
   actions: {
@@ -26,12 +27,7 @@ export const useUserStore = defineStore("UserStore", {
       try {
         this.loaderStore.isLoading = true;
 
-        let cookie = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("Authorization="));
-        cookie = cookie ? cookie.split("=")[1] : null;
-
-        const token = "Bearer " + cookie;
+        const token = this.mainStore.setJwtToken();
 
         const url = this.url + "auth/loginJwt";
         const res = await axios.get(url, {
@@ -41,6 +37,8 @@ export const useUserStore = defineStore("UserStore", {
         });
 
         document.cookie = `Authorization=${res.data.token}`;
+        this.mainStore.setJwtToken();
+
         delete res.data.token;
 
         this.user = { ...res.data };
@@ -49,7 +47,7 @@ export const useUserStore = defineStore("UserStore", {
 
         return res.status;
       } catch (error) {
-        // console.log(error);
+        console.log(error);
         this.loaderStore.isLoading = false;
         return error;
       }
@@ -66,13 +64,12 @@ export const useUserStore = defineStore("UserStore", {
         });
 
         document.cookie = `Authorization=${res.data.token}`;
+        this.mainStore.setJwtToken();
+
         delete res.data.token;
 
         this.user = { ...res.data };
-
         this.isAuth = true;
-
-        console.log(this.user);
 
         this.loaderStore.isLoading = false;
         return res.status;
@@ -82,7 +79,7 @@ export const useUserStore = defineStore("UserStore", {
         return error;
       }
     },
-    signOut() {
+    async signOut() {
       this.loaderStore.isLoading = true;
 
       this.user = {
@@ -92,7 +89,9 @@ export const useUserStore = defineStore("UserStore", {
         position: null,
         phone: null,
       };
-      document.cookie = `Authorization=`;
+
+      document.cookie = `Authorization=; Max-Age=-1;`;
+      this.mainStore.setJwtToken();
 
       this.isAuth = false;
 

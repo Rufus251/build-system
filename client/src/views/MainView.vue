@@ -2,22 +2,23 @@
   <navbarComp :roleProp="user.role" :nameProp="user.name"></navbarComp>
   <main>
     <div class="btns">
-
       <primaryRouterButton400
         href="/residentialComplexes"
-        v-if="user.role === 'admin' || user.role === 'manager'">
+        v-if="user.role === 'admin' || user.role === 'manager'"
+      >
         Жилые комплексы
       </primaryRouterButton400>
-
       <primaryRouterButton400
         href="/objects"
-        v-if="user.role === 'admin' || user.role === 'manager'">
+        v-if="user.role === 'admin' || user.role === 'manager'"
+      >
         Объекты
       </primaryRouterButton400>
 
       <primaryRouterButton400
         href="/reports"
-        v-if="user.role === 'admin' || user.role === 'manager'">
+        v-if="user.role === 'admin' || user.role === 'manager'"
+      >
         Все отчёты
       </primaryRouterButton400>
 
