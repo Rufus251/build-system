@@ -21,7 +21,7 @@ export class UserService {
       return res;
     } catch (error) {
       console.log(error);
-      return error;
+      throw new HttpException('Error', HttpStatus.BAD_REQUEST);
     }
   }
 
