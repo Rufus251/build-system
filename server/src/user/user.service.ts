@@ -17,6 +17,9 @@ export class UserService {
         data: {
           ...dto,
         },
+        include: {
+          objects: true,
+        },
       });
       return res;
     } catch (error) {
@@ -271,12 +274,23 @@ export class UserService {
   }
   async updateData(userId: number, dto: UpdateUserDto) {
     try {
+      if (dto.password) {
+        const hashPass = await bcrypt.hash(dto.password, 7);
+        dto.password = hashPass;
+      }
       const res = await this.databaseService.user.update({
         where: {
           id: userId,
         },
         data: {
           ...dto,
+        },
+        include: {
+          objects: {
+            include: {
+              object: true,
+            },
+          },
         },
       });
       return res;
