@@ -3,7 +3,7 @@
   <main>
     <div class="btns">
       <primaryRouterButton400
-        href="/residentialComplexes"
+        href="/complexes"
         v-if="user.role === 'admin' || user.role === 'manager'"
       >
         Жилые комплексы

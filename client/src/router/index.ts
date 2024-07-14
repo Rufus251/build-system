@@ -5,6 +5,9 @@ import Main from "../views/MainView.vue"
 import Users from "../views/UsersView.vue"
 import CreateUser from "../views/CreateUserView.vue"
 import EditUser from "../views/EditUserView.vue"
+import Complexes from "../views/ComplexesView.vue"
+import CreateComplex from "../views/CreateComplexView.vue"
+import EditComplex from "../views/EditComplexView.vue"
 import Reports from "../views/ReportsView.vue"
 import MyReports from "../views/MyReportsView.vue"
 import Report from "../views/ReportView.vue"
@@ -46,6 +49,24 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: "/complexes",
+      name: 'complexes',
+      component: Complexes,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/createComplex",
+      name: 'createComplex',
+      component: CreateComplex,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/editComplex/:id",
+      name: 'EditComplex',
+      component: EditComplex,
+      meta: { requiresAuth: true }
+    },
+    {
       path: "/reports",
       name: 'reports',
       component: Reports,
@@ -66,12 +87,6 @@ const router = createRouter({
     {
       path: "/objects",
       name: 'objects',
-      component: Objects,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: "/residentialComplexes",
-      name: 'residentialComplexes',
       component: Objects,
       meta: { requiresAuth: true }
     },

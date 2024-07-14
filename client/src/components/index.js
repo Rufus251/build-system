@@ -19,7 +19,9 @@ import navbarComp from "./navbar-comp.vue";
 import userCard from "./cards/user-card.vue";
 import techCard from "./cards/tech-card.vue";
 import reportCard from "./cards/report-card.vue";
+import complexCard from "./cards/complex-card.vue";
 import userSort from "./sorts/userSort.vue";
+import complexSort from "./sorts/complexSort.vue";
 
 export default [
   loader,
@@ -43,5 +45,7 @@ export default [
   userCard,
   techCard,
   reportCard,
-  userSort
+  complexCard,
+  userSort,
+  complexSort,
 ];
