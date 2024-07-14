@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateResidentialComplexDto } from './dto/create-residential-complex.dto';
 import { UpdateResidentialComplexDto } from './dto/update-residential-complex.dto';
 import { DatabaseService } from 'src/database/database.service';
@@ -17,7 +17,7 @@ export class ResidentialComplexService {
       return res;
     } catch (error) {
       console.log(error);
-      return error;
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -31,7 +31,7 @@ export class ResidentialComplexService {
       return res;
     } catch (error) {
       console.log(error);
-      return error;
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -48,7 +48,7 @@ export class ResidentialComplexService {
       return res;
     } catch (error) {
       console.log(error);
-      return error;
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -65,7 +65,7 @@ export class ResidentialComplexService {
       return res;
     } catch (error) {
       console.log(error);
-      return error;
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -79,7 +79,7 @@ export class ResidentialComplexService {
       return res;
     } catch (error) {
       console.log(error);
-      return error;
+      throw new HttpException(error, HttpStatus.BAD_REQUEST);
     }
   }
 }
