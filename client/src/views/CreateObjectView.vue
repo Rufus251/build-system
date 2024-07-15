@@ -17,7 +17,7 @@
 <script>
 import { mapState } from "pinia";
 import { useUserStore } from "../store/UserStore";
-import { useTechnicalStore } from "../store/TechnicalStore";
+import { useObjectsStore } from "../store/ObjectsStore";
 
 export default {
   name: "CreateUserView",
@@ -43,9 +43,10 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useTechnicalStore, ["tech", "createTech"]),
+    ...mapState(useObjectsStore, ["tech", "createTech"]),
   },
 };
 </script>
 
 <style scoped lang="scss"></style>
+../store/ObjectsStore

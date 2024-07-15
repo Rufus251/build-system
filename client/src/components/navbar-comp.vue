@@ -10,7 +10,7 @@
         <router-link to="/main"> Главная </router-link>
       </li>
       <li v-if="roleProp === 'admin' || roleProp === 'manager'">
-        <router-link to="/residentialComplexes"> Жилые комплексы </router-link>
+        <router-link to="/complexes"> Жилые комплексы </router-link>
       </li>
       <li v-if="roleProp === 'admin' || roleProp === 'manager'">
         <router-link to="/objects"> Объекты </router-link>

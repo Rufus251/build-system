@@ -27,7 +27,7 @@
 <script>
 import { mapState } from "pinia";
 import { useUserStore } from "../store/UserStore";
-import { useTechnicalStore } from "../store/TechnicalStore";
+import { useObjectsStore } from "../store/ObjectsStore";
 import { useReportsStore } from "../store/ReportsStore";
 
 export default {
@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useTechnicalStore, ["techNames"]),
+    ...mapState(useObjectsStore, ["techNames"]),
     ...mapState(useReportsStore, ["createReport"]),
   },
   methods: {

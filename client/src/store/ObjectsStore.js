@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 
-export const useTechnicalStore = defineStore("TechnicalStore", {
+export const useObjectsStore = defineStore("ObjectsStore", {
   state: () => ({
     // url: "http://localhost:3001/api/",
     url: "http://194.87.74.11/api/",

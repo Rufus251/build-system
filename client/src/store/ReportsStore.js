@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import { useUsersStore } from "./UsersStore";
 import { useUserStore } from "./UserStore";
-import { useTechnicalStore } from "./TechnicalStore";
+import { useObjectsStore } from "./ObjectsStore";
 
 import axios from "axios";
 
@@ -89,7 +89,7 @@ export const useReportsStore = defineStore("ReportsStore", {
       });
 
       for await (const row of report.reportRows) {
-        const technicalStore = useTechnicalStore();
+        const technicalStore = useObjectsStore();
         const tech = technicalStore.getTechByName(row.key);
 
         const urlRow =
@@ -130,7 +130,7 @@ export const useReportsStore = defineStore("ReportsStore", {
     getReportRowsById(id) {
       const report = this.reports.find((el) => el.id === id);
 
-      const technicalStore = useTechnicalStore();
+      const technicalStore = useObjectsStore();
 
       // making object and array links different, becouse func getReportRowsById trigger twice
       let reportRows = [...report.reportRows];

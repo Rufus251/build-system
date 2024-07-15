@@ -30,7 +30,14 @@
         Мои отчёты
       </primaryRouterButton400>
 
-      <primaryRouterButton400 href="/createReport">
+      <primaryRouterButton400
+        href="/createReport"
+        v-if="
+          user.role === 'admin' ||
+          user.role === 'manager' ||
+          user.role === 'user'
+        "
+      >
         Создать отчёт
       </primaryRouterButton400>
     </div>

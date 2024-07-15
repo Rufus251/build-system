@@ -11,15 +11,15 @@
 
 <script>
 import { mapState } from "pinia";
-import { useTechnicalStore } from "../../store/TechnicalStore";
+import { useObjectsStore } from "../../store/ObjectsStore";
 
 export default {
-  name: "techCard",
+  name: "objectCard",
   props: {
     tech: Object,
   },
   computed: {
-    ...mapState(useTechnicalStore, ["deleteTech"]),
+    ...mapState(useObjectsStore, ["deleteTech"]),
   },
 };
 </script>
@@ -37,3 +37,4 @@ export default {
   align-items: center;
 }
 </style>
+../../store/ObjectsStore
