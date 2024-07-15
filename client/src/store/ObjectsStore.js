@@ -2,79 +2,170 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 
+import { useMainStore } from "./MainStore";
+import { useLoaderStore } from "./LoaderStore";
+import { useComplexesStore } from "./ComplexesStore";
+
 export const useObjectsStore = defineStore("ObjectsStore", {
   state: () => ({
-    // url: "http://localhost:3001/api/",
-    url: "http://194.87.74.11/api/",
+    mainStore: useMainStore(),
+    loaderStore: useLoaderStore(),
+    complexesStore: useComplexesStore(),
 
+    url: useMainStore().url,
 
-    tech: [],
+    objects: [],
+    sortedObjects: [],
+    objectNames: [],
+    sortedObjectNames: [],
   }),
-  getters: {
-    techNames(state) {
-      return state.tech.map((el) => el.name);
-    },
-  },
+  getters: {},
   actions: {
-    async fetchTech() {
+    async fetchObjects() {
       try {
-        const url = this.url + "report-data-type";
-        const res = await axios.get(url);
-        
-        this.tech = res.data
-        
-        return this.tech;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
-    },
-    async deleteTech(id) {
-      try {
-        const url = this.url + "report-data-type/" + id;
-        const res = await axios.delete(url);
+        this.loaderStore.isLoading = true;
 
-        await this.fetchTech();
-
-        return res;
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
-    },
-    async createTech(tech) {
-      try {
-        const url = this.url + "report-data-type";
-
-        const res = await axios.post(url, {
-          ...tech,
+        const url = this.url + "object";
+        const res = await axios.get(url, {
+          headers: { Authorization: this.mainStore.token },
         });
 
-        await this.fetchTech();
-        return res;
+        this.objects = res.data;
+        this.sortedObjects = res.data;
+        this.objectNames = res.data.map((el) => el.name);
+        this.sortedObjectNames = res.data.map((el) => el.name);
+
+        this.loaderStore.isLoading = false;
+
+        return this.objects;
       } catch (error) {
         console.log(error);
+        this.loaderStore.isLoading = false;
         return error;
       }
     },
-    sortTechByValue(autocompleteValue) {
-      if (!autocompleteValue) {
-        return this.tech;
-      } else {
-        const result = this.tech.filter((el) => el.name === autocompleteValue);
-        return result;
+    async createObject(complexId, object, smeta) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        let url = this.url + `object/${complexId}`;
+
+        let res = await axios.post(url, object, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+          params: {
+            smetaName: smeta.name,
+          },
+        });
+
+        const smetaId = res.data.smeta.id;
+        url = this.url + `main-works-name/uploadXlsx/${smetaId}`;
+
+        let formData = new FormData();
+        formData.append("file", smeta.smetaFile[0]);
+        res = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
       }
     },
-    getTechById(id){
-      return this.tech.find((el) => el.id === id);
+    async updateObject(id, complex) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "residential-complex/" + id;
+
+        let res = await axios.patch(
+          url,
+          { ...complex },
+          {
+            headers: {
+              Authorization: this.mainStore.token,
+            },
+          }
+        );
+
+        console.log(res);
+
+        await this.fetchAllComplexes();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
     },
-    getTechByName(name){
-      return this.tech.find((el) => el.name === name);
+    async deleteObject(id) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "object/" + id;
+
+        let res = await axios.delete(url, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
     },
-    getTechNameById(id){
-      const tech = this.tech.find((el) => el.id === id)
-      return tech.name;
+
+    sortObjectsByComplexes(selectedComplex) {
+      if (!selectedComplex.length || selectedComplex === "Без фильтра") {
+        this.sortedObjectNames = this.objectNames;
+        return this.sortedObjectNames;
+      }
+      let sortedObjects = [];
+      let complexes = this.complexesStore.complexes;
+      complexes.forEach((complex) => {
+        if (selectedComplex === complex.name) {
+          sortedObjects.push(...complex.objects);
+          sortedObjects = sortedObjects.map((el) => (el.name ? el.name : el));
+        }
+      });
+
+      this.sortedObjectNames = sortedObjects;
+      return this.sortedObjectNames;
     },
-    
+    sortObjects(selectedObjectName) {
+      if (!selectedObjectName.length || selectedObjectName === "Без фильтра") {
+        this.sortedObjects = this.objects;
+        return this.sortedObjects;
+      }
+      let sortedObjects = [];
+      this.objects.forEach((object) => {
+        if (selectedObjectName === object.name) {
+          sortedObjects.push(object);
+        }
+      });
+
+      this.sortedObjects = sortedObjects;
+      return this.sortedObjects;
+    },
   },
 });

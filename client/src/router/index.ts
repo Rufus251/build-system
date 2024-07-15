@@ -80,7 +80,7 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: "/editObject",
+      path: "/editObject/:id",
       name: "editObject",
       component: EditObject,
       meta: { requiresAuth: true },

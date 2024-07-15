@@ -122,6 +122,9 @@ export const useComplexesStore = defineStore("ComplexesStore", {
     getComplexById(id) {
       return this.complexes.find((el) => el.id === id);
     },
+    getComplexByName(name) {
+      return this.complexes.find((el) => el.name === name);
+    },
     sortComplexesByName(complexName) {
       if (!complexName.length || complexName === "Без сортировки") {
         this.sortedComplexes = this.complexes;

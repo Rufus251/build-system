@@ -58,8 +58,11 @@ export default {
 
 <style scoped lang="scss">
 main {
+  max-width: 600px;
   width: 100%;
   height: calc(100vh - 80px);
+
+  margin: 0 auto;
 
   display: flex;
   flex-direction: column;

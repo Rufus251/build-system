@@ -8,7 +8,8 @@
       max-height="60px"
       min-width="400px"
       max-width="400px"
-      block>
+      block
+    >
       <slot></slot>
     </v-btn>
   </router-link>
@@ -24,6 +25,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+a {
+  display: inline-block;
+}
 .v-btn {
   margin: 10px;
 

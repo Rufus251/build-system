@@ -1,10 +1,17 @@
 <template>
   <div class="card">
     <div class="names">
-      <h3> {{ tech.name }}</h3>
+      <h3>{{ object.name }}</h3>
+      <h3>{{ object.contractName }}</h3>
+      <h3>{{ object.residentialComplex.name }}</h3>
     </div>
     <div class="btns">
-      <deleteButton400 @click="deleteTech(tech.id)"> Удалить </deleteButton400>
+      <primaryRouterButton400 :href="'/editObject/' + object.id">
+        Просмотреть
+      </primaryRouterButton400>
+      <deleteButton400 @click="deleteObject(object.id)">
+        Удалить
+      </deleteButton400>
     </div>
   </div>
 </template>
@@ -16,10 +23,11 @@ import { useObjectsStore } from "../../store/ObjectsStore";
 export default {
   name: "objectCard",
   props: {
-    tech: Object,
+    object: Object,
   },
+
   computed: {
-    ...mapState(useObjectsStore, ["deleteTech"]),
+    ...mapState(useObjectsStore, ["deleteObject"]),
   },
 };
 </script>
@@ -36,5 +44,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+h3:not(:first-child) {
+  margin-top: 15px;
+}
 </style>
-../../store/ObjectsStore

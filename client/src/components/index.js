@@ -1,5 +1,6 @@
-import loader from './UI/loader.vue'
+import loader from "./UI/loader.vue";
 import textField from "./UI/input/text-field.vue";
+import fileInput from "./UI/input/file-input.vue";
 import autocompleteField from "./UI/input/autocomplete-field.vue";
 import textareaField from "./UI/input/textarea-field.vue";
 import primaryButton400 from "./UI/button/button-width-400/primary-button.vue";
@@ -22,10 +23,12 @@ import reportCard from "./cards/report-card.vue";
 import complexCard from "./cards/complex-card.vue";
 import userSort from "./sorts/userSort.vue";
 import complexSort from "./sorts/complexSort.vue";
+import objectSort from "./sorts/objectSort.vue";
 
 export default [
   loader,
   textField,
+  fileInput,
   autocompleteField,
   primaryButton400,
   agreeButton400,
@@ -48,4 +51,5 @@ export default [
   complexCard,
   userSort,
   complexSort,
+  objectSort,
 ];
