@@ -43,6 +43,7 @@ export class ObjectService {
           residentialComplexId: complexId,
         },
         include: {
+          residentialComplex: true,
           smeta: {
             include: {
               mainWorksName: true,
