@@ -22,12 +22,18 @@ import { Role } from 'src/enum/role.enum';
 export class ObjectController {
   constructor(private readonly objectService: ObjectService) {}
 
-  @Post(':complexId/:smetaName')
+  @Post(':complexId')
   @Roles(Role.admin, Role.manager)
   @UsePipes(new ValidationPipe())
+  @ApiQuery({
+    name: 'smetaName',
+    type: String,
+    description: 'Название сметы',
+    required: true,
+  })
   async create(
     @Param('complexId') complexId: string,
-    @Param('smetaName') smetaName: string,
+    @Query('smetaName') smetaName: string,
     @Body() createObjectDto: CreateObjectDto,
   ) {
     return await this.objectService.create(

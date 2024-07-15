@@ -31,21 +31,21 @@ export class MainWorksNameService {
   async createMainWorksArray(filePath: string) {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filePath);
-
+    
     let mainWorks: Array<CreateMainWorksNameDto> = [];
     workbook.eachSheet((worksheet, sheetId) => {
       // Находит 4 лист в файле
-      if (sheetId == 4) {
+      if (sheetId == 1) {
         // Переменные для unit и maxValue, если в таблице есть, они перезаписываются, если в таблице пустая строка, остаются прежними
         let unit: string = '';
         let maxValue: number = 0;
-        for (let i = 1; ; i++) {
-          const workNumber = worksheet.getCell('B' + i).value;
-          const workName = worksheet.getCell('C' + i).value;
+        for (let i = 4; ; i++) {
+          const workNumber = worksheet.getCell('A' + i).value;
+          const workName = worksheet.getCell('B' + i).value;
           // Проверка на то, что таблица закончилась
           if (
-            worksheet.getCell('A' + i).value === null &&
-            worksheet.getCell('A' + (i + 1)).value === null
+            worksheet.getCell('B' + i).value === null &&
+            worksheet.getCell('B' + (i + 1)).value === null
           ) {
             break;
           } else if (workName === null || workName == 'Наименование работ') {
@@ -68,7 +68,7 @@ export class MainWorksNameService {
           }
 
           // mainWork.unit
-          const workUnit = worksheet.getCell('D' + i).value;
+          const workUnit = worksheet.getCell('C' + i).value;
           if (workUnit !== null) {
             if (typeof workUnit === 'object') {
               unit = workUnit['result'];
@@ -79,7 +79,7 @@ export class MainWorksNameService {
           mainWork.unit = unit;
 
           // mainWork.maxValue
-          const workMaxValue = worksheet.getCell('E' + i).value;
+          const workMaxValue = worksheet.getCell('D' + i).value;
           if (workMaxValue !== null) {
             if (typeof workMaxValue === 'object') {
               maxValue = +workMaxValue['result'];
@@ -100,11 +100,9 @@ export class MainWorksNameService {
 
   async uploadXlsx(file: Express.Multer.File, smetaId: number) {
     try {
-      const mainWorksArray = await this.createMainWorksArray(
-        file.destination + '/' + file.filename,
-      );
+      const mainWorksArray = await this.createMainWorksArray(file.path);
       // deleting file after geting data
-      fs.unlinkSync(file.destination + '/' + file.filename);
+      fs.unlinkSync(file.path);
 
       for await (const iterator of mainWorksArray) {
         await this.databaseService.mainWorksName.create({

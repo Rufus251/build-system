@@ -24,6 +24,9 @@ export class ObjectService {
             },
           },
         },
+        include: {
+          smeta: true,
+        },
       });
       return res;
     } catch (error) {
