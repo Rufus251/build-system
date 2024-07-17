@@ -72,7 +72,7 @@ import { useUserStore } from "../store/UserStore";
 import { useUsersStore } from "../store/UsersStore";
 
 export default {
-  name: "CreateUserView",
+  name: "EditUserView",
   data() {
     return {
       valid: false,

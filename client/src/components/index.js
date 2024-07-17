@@ -4,6 +4,7 @@ import fileInput from "./UI/input/file-input.vue";
 import autocompleteField from "./UI/input/autocomplete-field.vue";
 import textareaField from "./UI/input/textarea-field.vue";
 import primaryButton400 from "./UI/button/button-width-400/primary-button.vue";
+import deleteCrossButton from "./UI/button/delete-cross-button.vue";
 import agreeButton400 from "./UI/button/button-width-400/agree-button.vue";
 import deleteButton400 from "./UI/button/button-width-400/delete-button.vue";
 import changeButton400 from "./UI/button/button-width-400/change-button.vue";
@@ -15,6 +16,8 @@ import changeButton200 from "./UI/button/button-width-200/change-button.vue";
 import primaryRouterButton200 from "./UI/button/button-width-200/primary-router-button.vue";
 import deleteRouterButton200 from "./UI/button/button-width-200/delete-router-button.vue";
 import primaryTable from "./UI/table/primary-table.vue";
+import mainWorksTable from "./UI/table/main-works-table.vue";
+import additionalWorksTable from "./UI/table/additional-works-table.vue";
 import createReportTable from "./UI/table/create-report-table.vue";
 import navbarComp from "./navbar-comp.vue";
 import userCard from "./cards/user-card.vue";
@@ -31,6 +34,7 @@ export default [
   fileInput,
   autocompleteField,
   primaryButton400,
+  deleteCrossButton,
   agreeButton400,
   deleteButton400,
   changeButton400,
@@ -42,6 +46,8 @@ export default [
   changeButton200,
   primaryRouterButton200,
   primaryTable,
+  mainWorksTable,
+  additionalWorksTable,
   createReportTable,
   textareaField,
   navbarComp,

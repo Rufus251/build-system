@@ -1,8 +1,8 @@
 <template>
   <v-btn
     flat
-    class="text-white text-none"
-    color="#3d8be4"
+    class="text-#696969 text-none"
+    color="#B3B3B3"
     min-height="60px"
     max-height="60px"
     min-width="200px"

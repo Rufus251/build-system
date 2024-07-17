@@ -9,32 +9,27 @@
           placeholderProp="Название комплекса"
           v-model="complexName"
           :itemsProp="complexNames"
-          :rulesProp="complexNameRules"
-        ></autocompleteField>
+          :rulesProp="complexNameRules"></autocompleteField>
         <textField
           labelProp="Название объекта"
           placeholderProp="Объект номер 1"
           v-model="objectName"
-          :rulesProp="objectNameRules"
-        >
+          :rulesProp="objectNameRules">
         </textField>
         <textField
           labelProp="Название договора"
           placeholderProp="Договор номер 1"
           v-model="contractName"
-          :rulesProp="contractNameRules"
-        ></textField>
+          :rulesProp="contractNameRules"></textField>
         <textField
           labelProp="Название сметы"
           placeholderProp="Смета номер 1"
           v-model="smetaName"
-          :rulesProp="smetaNameRules"
-        ></textField>
+          :rulesProp="smetaNameRules"></textField>
         <fileInput
           labelProp="Файл сметы"
           v-model="smeta"
-          :rulesProp="smetaRules"
-        ></fileInput>
+          :rulesProp="smetaRules"></fileInput>
         <p>{{ statusMessage }}</p>
       </div>
 
@@ -52,7 +47,7 @@ import { useComplexesStore } from "../store/ComplexesStore";
 import { useObjectsStore } from "../store/ObjectsStore";
 
 export default {
-  name: "CreateUserView",
+  name: "CreateObjectView",
   data() {
     return {
       valid: false,

@@ -7,57 +7,49 @@
         labelProp="Логин"
         placeholderProp="Ivanov_Ivan15666"
         v-model="login"
-        :rulesProp="loginRules"
-      >
+        :rulesProp="loginRules">
       </textField>
       <textField
         labelProp="Пароль"
         placeholderProp="ao34KFKA333"
         v-model="password"
         type="password"
-        :rulesProp="passwordRules"
-      ></textField>
+        :rulesProp="passwordRules"></textField>
       <textField
         labelProp="ФИО сотрудника"
         placeholderProp="Иванов Иван"
         v-model="name"
-        :rulesProp="nameRules"
-      ></textField>
+        :rulesProp="nameRules"></textField>
       <textField
         labelProp="Номер телефона"
         placeholderProp="+79992224455"
         v-model="phone"
-        :rulesProp="phoneRules"
-      ></textField>
+        :rulesProp="phoneRules"></textField>
       <textField
         labelProp="Должность"
         placeholderProp="Сотрудник"
         v-model="position"
-        :rulesProp="positionRules"
-      ></textField>
+        :rulesProp="positionRules"></textField>
 
       <autocompleteField
         labelProp="Роль"
         placeholderProp="admin"
         v-model="role"
         :itemsProp="roles"
-        :rulesProp="roleRules"
-      ></autocompleteField>
+        :rulesProp="roleRules"></autocompleteField>
       <autocompleteField
         labelProp="Комплексы *для сортировки объектов*"
         placeholderProp="Название комплекса"
         v-model="complexes"
         :itemsProp="['Без фильтра', ...complexNames]"
-        :rulesProp="complexRules"
-      ></autocompleteField>
+        :rulesProp="complexRules"></autocompleteField>
       <autocompleteField
         labelProp="Объекты к которым привязан пользователь"
         placeholderProp="Название объекта"
         v-model="objects"
         :itemsProp="sortedObjectNames"
         :rulesProp="objectRules"
-        multiple
-      ></autocompleteField>
+        multiple></autocompleteField>
       <p>{{ statusMessage }}</p>
       <agreeButton400 @click="checkValid(valid)">
         Создать пользователя

@@ -82,15 +82,15 @@ export const useObjectsStore = defineStore("ObjectsStore", {
         return error.response;
       }
     },
-    async updateObject(id, complex) {
+    async updateObject(id, object, smeta) {
       try {
         this.loaderStore.isLoading = true;
 
-        const url = this.url + "residential-complex/" + id;
+        let url = this.url + "object/" + id;
 
         let res = await axios.patch(
           url,
-          { ...complex },
+          { ...object },
           {
             headers: {
               Authorization: this.mainStore.token,
@@ -98,9 +98,19 @@ export const useObjectsStore = defineStore("ObjectsStore", {
           }
         );
 
-        console.log(res);
+        url = this.url + "smeta/update/" + smeta.id;
 
-        await this.fetchAllComplexes();
+        res = await axios.patch(
+          url,
+          { name: smeta.name },
+          {
+            headers: {
+              Authorization: this.mainStore.token,
+            },
+          }
+        );
+
+        await this.fetchObjects();
 
         this.loaderStore.isLoading = false;
 
@@ -116,6 +126,173 @@ export const useObjectsStore = defineStore("ObjectsStore", {
         this.loaderStore.isLoading = true;
 
         const url = this.url + "object/" + id;
+
+        let res = await axios.delete(url, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+
+    async uploadSmeta(smeta) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + `main-works-name/uploadXlsx/${smeta.id}`;
+
+        let formData = new FormData();
+        formData.append("file", smeta.smetaFile[0]);
+        const res = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+
+    async addMainWork(smetaId, mainWork) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "main-works-name/addOne/" + smetaId;
+
+        let res = await axios.post(url, mainWork, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+    async deleteMainWork(id) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "main-works-name/" + id;
+
+        let res = await axios.delete(url, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+    async deleteMainWorks(smetaId) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "main-works-name/smeta/" + smetaId;
+
+        let res = await axios.delete(url, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+
+    async addAdditionalWork(smetaId, additionalWork) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "additional-works-name/" + smetaId;
+
+        let res = await axios.post(url, additionalWork, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+    async deleteAdditionalWork(id) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "additional-works-name/" + id;
+
+        let res = await axios.delete(url, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+    async deleteMainWorks(smetaId) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "additional-works-name/smeta/" + smetaId;
 
         let res = await axios.delete(url, {
           headers: {
@@ -166,6 +343,9 @@ export const useObjectsStore = defineStore("ObjectsStore", {
 
       this.sortedObjects = sortedObjects;
       return this.sortedObjects;
+    },
+    getObjectById(id) {
+      return this.objects.find((el) => el.id == id);
     },
   },
 });
