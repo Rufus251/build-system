@@ -31,7 +31,7 @@ export class MainWorksNameService {
   async createMainWorksArray(filePath: string) {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filePath);
-    
+
     let mainWorks: Array<CreateMainWorksNameDto> = [];
     workbook.eachSheet((worksheet, sheetId) => {
       // Находит 4 лист в файле
@@ -104,8 +104,9 @@ export class MainWorksNameService {
       // deleting file after geting data
       fs.unlinkSync(file.path);
 
-      for await (const iterator of mainWorksArray) {
-        await this.databaseService.mainWorksName.create({
+      const res = [];
+      for await (let iterator of mainWorksArray) {
+        const mainWork = await this.databaseService.mainWorksName.create({
           data: {
             ...iterator,
             smeta: {
@@ -115,8 +116,9 @@ export class MainWorksNameService {
             },
           },
         });
+        res.push(mainWork);
       }
-      return mainWorksArray;
+      return res;
     } catch (error) {
       console.log(error);
       return error;
