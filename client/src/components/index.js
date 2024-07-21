@@ -1,10 +1,12 @@
 import loader from "./UI/loader.vue";
+import modal from "./UI/modal.vue";
 import textField from "./UI/input/text-field.vue";
 import fileInput from "./UI/input/file-input.vue";
 import autocompleteField from "./UI/input/autocomplete-field.vue";
 import textareaField from "./UI/input/textarea-field.vue";
 import primaryButton400 from "./UI/button/button-width-400/primary-button.vue";
 import deleteCrossButton from "./UI/button/delete-cross-button.vue";
+import changePencilButton from "./UI/button/change-pencil-button.vue";
 import agreeButton400 from "./UI/button/button-width-400/agree-button.vue";
 import deleteButton400 from "./UI/button/button-width-400/delete-button.vue";
 import changeButton400 from "./UI/button/button-width-400/change-button.vue";
@@ -31,7 +33,9 @@ import objectSort from "./sorts/objectSort.vue";
 export default [
   loader,
   textField,
+  changePencilButton,
   fileInput,
+  modal,
   autocompleteField,
   primaryButton400,
   deleteCrossButton,
