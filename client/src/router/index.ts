@@ -14,6 +14,7 @@ import Report from "../views/ReportView.vue";
 import Objects from "../views/ObjectsView.vue";
 import CreateObject from "../views/CreateObjectView.vue";
 import EditObject from "../views/EditObjectView.vue";
+import editMainWork from "../views/EditMainWork.vue";
 import CreateReport from "../views/CreateReportView.vue";
 
 const router = createRouter({
@@ -83,6 +84,12 @@ const router = createRouter({
       path: "/editObject/:id",
       name: "editObject",
       component: EditObject,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/editObject/editMainWork/:id",
+      name: "editMainWork",
+      component: editMainWork,
       meta: { requiresAuth: true },
     },
     {
