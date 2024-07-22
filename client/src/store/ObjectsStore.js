@@ -283,6 +283,24 @@ export const useObjectsStore = defineStore("ObjectsStore", {
       }
     },
 
+    async getAdditionalWorkById(id) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "additional-works-name/getOne/" + id;
+        const res = await axios.get(url, {
+          headers: { Authorization: this.mainStore.token },
+        });
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error;
+      }
+    },
     async addAdditionalWork(smetaId, additionalWork) {
       try {
         this.loaderStore.isLoading = true;
@@ -290,6 +308,29 @@ export const useObjectsStore = defineStore("ObjectsStore", {
         const url = this.url + "additional-works-name/" + smetaId;
 
         let res = await axios.post(url, additionalWork, {
+          headers: {
+            Authorization: this.mainStore.token,
+          },
+        });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+    async updateAdditionalWork(id, additionalWork) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "additional-works-name/" + id;
+
+        let res = await axios.patch(url, additionalWork, {
           headers: {
             Authorization: this.mainStore.token,
           },

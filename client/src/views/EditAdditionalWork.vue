@@ -7,31 +7,19 @@
         labelProp="Название работы"
         placeholderProp="Работа номер 1"
         :rulesProp="nameRules"
-        v-model="mainWork.name">
+        v-model="additonalWork.name">
       </textField>
       <textField
         labelProp="Ед. Изм."
         placeholderProp="м2"
         :rulesProp="unitRules"
-        v-model="mainWork.unit">
+        v-model="additonalWork.unit">
       </textField>
       <textField
-        labelProp="Максимальное значение"
+        labelProp="Всего"
         placeholderProp="1000"
-        :rulesProp="maxValueRules"
-        v-model="mainWork.maxValue">
-      </textField>
-      <textField
-        labelProp="Выполнено"
-        placeholderProp="0"
-        :rulesProp="doneRules"
-        v-model="mainWork.done">
-      </textField>
-      <textField
-        labelProp="Осталось"
-        placeholderProp="1000"
-        :rulesProp="leftRules"
-        v-model="mainWork.left">
+        :rulesProp="totalRules"
+        v-model="additonalWork.total">
       </textField>
       <agreeButton400 @click="checkValid(valid)"> Обновить </agreeButton400>
     </v-form>
@@ -48,46 +36,41 @@ export default {
     return {
       valid: false,
 
-      mainWork: {
+      additonalWork: {
         id: "",
         name: "",
         unit: "",
-        maxValue: "",
-        done: "",
-        left: "",
+        total: "",
       },
 
       // nameRules: [(v) => v.length > 0 || "Введите название"],
       // unitRules: [(v) => v.length > 0 || "Введите единицы измерения"],
-      // maxValueRules: [(v) => v.length > 0 || "Введите макс значение"],
-      // doneRules: [(v) => v.length > 0 || "Введите выполнено"],
-      // leftRules: [(v) => v.length > 0 || "Введите осталось"],
+      // totalRules: [(v) => v.length > 0 || "Введите макс значение"],
     };
   },
   async mounted() {
     const id = this.$route.params.id;
-    const res = await this.getMainWorkById(+id);
-    const mainWork = res.data;
+    const res = await this.getAdditionalWorkById(+id);
+    const additionalWork = res.data;
 
-    this.mainWork.id = id;
-    this.mainWork.name = mainWork.name;
-    this.mainWork.unit = mainWork.unit;
-    this.mainWork.maxValue = mainWork.maxValue;
-    this.mainWork.done = mainWork.done;
-    this.mainWork.left = mainWork.left;
+    this.additonalWork.id = id;
+    this.additonalWork.name = additionalWork.name;
+    this.additonalWork.unit = additionalWork.unit;
+    this.additonalWork.total = additionalWork.total;
   },
   methods: {
     async checkValid(valid) {
       if (valid) {
-        let mainWork = {
-          name: this.mainWork.name,
-          unit: this.mainWork.unit,
-          maxValue: this.mainWork.maxValue,
-          done: this.mainWork.done,
-          left: this.mainWork.left,
+        let additionalWork = {
+          name: this.additonalWork.name,
+          unit: this.additonalWork.unit,
+          total: +this.additonalWork.total,
         };
 
-        const res = await this.updateMainWork(this.mainWork.id, mainWork);
+        const res = await this.updateAdditionalWork(
+          this.additonalWork.id,
+          additionalWork
+        );
 
         if (res.status === 200) {
           alert("Данные обновлены");
@@ -100,7 +83,10 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useObjectsStore, ["getMainWorkById", "updateMainWork"]),
+    ...mapState(useObjectsStore, [
+      "getAdditionalWorkById",
+      "updateAdditionalWork",
+    ]),
   },
 };
 </script>

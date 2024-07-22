@@ -42,6 +42,11 @@
           <deleteCrossButton @click="deleteRow(row.id, i)"></deleteCrossButton>
         </td>
         <td>
+          <changePencilButton
+            @click="$router.push('./editAdditionalWork/' + row.id)">
+          </changePencilButton>
+        </td>
+        <td>
           <agreeButton200 v-if="row.id == -1" @click="fetchNewRow(i)">
             Добавить
           </agreeButton200>
@@ -170,7 +175,8 @@ td:nth-child(4) {
   width: 360px;
 }
 td:nth-child(5),
-td:nth-child(6) {
+td:nth-child(6),
+td:nth-child(7) {
   height: 100%;
   background: #ffffff;
   border: none;
