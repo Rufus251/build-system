@@ -134,27 +134,53 @@ export class ReportService {
 
       // workType sort
       if (workType != undefined) {
-        if (workType === 'fact' && worksNameId != undefined) {
+        if (workType === 'main' && worksNameId != undefined) {
           query.where = {
             ...query.where,
-            workDone: {
-              rows: {
-                some: {
-                  workDoneId: worksNameId,
+            OR: [
+              {
+                workDone: {
+                  rows: {
+                    some: {
+                      MainWorksNameId: worksNameId,
+                    },
+                  },
                 },
               },
-            },
+              {
+                workPlan: {
+                  rows: {
+                    some: {
+                      MainWorksNameId: worksNameId,
+                    },
+                  },
+                },
+              },
+            ],
           };
-        } else if (workType === 'plan' && worksNameId != undefined) {
+        } else if (workType === 'additional' && worksNameId != undefined) {
           query.where = {
             ...query.where,
-            workPlan: {
-              rows: {
-                some: {
-                  WorkPlanId: worksNameId,
+            OR: [
+              {
+                workDone: {
+                  rows: {
+                    some: {
+                      AdditionalWorksNameId: worksNameId,
+                    },
+                  },
                 },
               },
-            },
+              {
+                workPlan: {
+                  rows: {
+                    some: {
+                      AdditionalWorksNameId: worksNameId,
+                    },
+                  },
+                },
+              },
+            ],
           };
         }
       }

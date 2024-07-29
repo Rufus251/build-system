@@ -110,7 +110,7 @@ export class ReportController {
     name: 'workType',
     type: String,
     description:
-      '(fact/plan) Использовать вместе с worksNameId!!! Поиск отчёта, в котором есть строка с нужной работой. Например: в отчёте есть "залив опалубки" как основная работа',
+      '(main/additional) Использовать вместе с worksNameId!!! Поиск отчёта, в котором есть строка с нужной работой. Например: в отчёте есть "залив опалубки" как основная работа',
     required: false,
   })
   @ApiQuery({
