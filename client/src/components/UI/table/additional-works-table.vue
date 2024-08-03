@@ -43,14 +43,18 @@
         </td>
         <td>
           <changePencilButton
-            @click="$router.push('./editAdditionalWork/' + row.id)">
+            @click="$router.push('/editAdditionalWork/' + row.id)">
           </changePencilButton>
         </td>
         <td>
           <agreeButton200 v-if="row.id == -1" @click="fetchNewRow(i)">
             Добавить
           </agreeButton200>
-          <primaryButton200 v-else @click="">Подробнее</primaryButton200>
+          <primaryButton200
+            v-else
+            @click="$router.push(`reports/additional/${row.id}`)">
+            Подробнее
+          </primaryButton200>
         </td>
       </tr>
     </tbody>

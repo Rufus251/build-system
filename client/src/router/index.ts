@@ -17,6 +17,7 @@ import EditObject from "../views/EditObjectView.vue";
 import EditMainWork from "../views/EditMainWork.vue";
 import EditAdditionalWork from "../views/EditAdditionalWork.vue";
 import CreateReport from "../views/CreateReportView.vue";
+import SmetaObjects from "../views/SmetaObjectsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -88,15 +89,22 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: "/editObject/editMainWork/:id",
+      path: "/editMainWork/:rowId",
       name: "editMainWork",
       component: EditMainWork,
       meta: { requiresAuth: true },
     },
     {
-      path: "/editObject/editAdditionalWork/:id",
-      name: "editMainWork",
+      path: "/editAdditionalWork/:rowId",
+      name: "editAdditionalWork",
       component: EditAdditionalWork,
+      meta: { requiresAuth: true },
+    },
+    {
+      // :main or additional / 166 for example
+      path: "/editObject/reports/:workType/:workId",
+      name: "SmetaObjects",
+      component: SmetaObjects,
       meta: { requiresAuth: true },
     },
     {

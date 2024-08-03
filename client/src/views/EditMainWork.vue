@@ -65,7 +65,7 @@ export default {
     };
   },
   async mounted() {
-    const id = this.$route.params.id;
+    const id = this.$route.params.rowId;
     const res = await this.getMainWorkById(+id);
     const mainWork = res.data;
 

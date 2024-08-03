@@ -49,7 +49,7 @@ export default {
     };
   },
   async mounted() {
-    const id = this.$route.params.id;
+    const id = this.$route.params.rowId;
     const res = await this.getAdditionalWorkById(+id);
     const additionalWork = res.data;
 

@@ -60,14 +60,18 @@
           <deleteCrossButton @click="deleteRow(row.id, i)"></deleteCrossButton>
         </td>
         <td>
-          <changePencilButton @click="$router.push('./editMainWork/' + row.id)">
+          <changePencilButton @click="$router.push('/editMainWork/' + row.id)">
           </changePencilButton>
         </td>
         <td>
           <agreeButton200 v-if="row.id == -1" @click="fetchNewRow(i)">
             Добавить
           </agreeButton200>
-          <primaryButton200 v-else @click="">Подробнее</primaryButton200>
+          <primaryButton200
+            v-else
+            @click="$router.push(`reports/main/${row.id}`)">
+            Подробнее
+          </primaryButton200>
         </td>
       </tr>
     </tbody>
