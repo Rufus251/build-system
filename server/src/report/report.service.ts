@@ -98,9 +98,15 @@ export class ReportService {
           hasAdditional: additional,
         },
         include: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
           object: {
             select: {
               residentialComplexId: true,
+              name: true,
             },
           },
           workDone: {
