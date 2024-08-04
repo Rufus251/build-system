@@ -1,14 +1,26 @@
 <template>
   <div class="card">
     <div class="names">
-      <h3>{{ getUsernameById(report.authorId) }}</h3>
+      <h3>{{ report.author.name }}</h3>
+      <h3>{{ report.object.name }}</h3>
       <h3>
+        <!-- 2024-02-03T14:21:15.645Z -->
         {{
-          `${ report.createdAt.slice(8, 10) }.${ report.createdAt.slice(5,7
-          ) }.${ report.createdAt.slice(0, 4) }`
+          `${report.workDate.slice(8, 10)}.${report.workDate.slice(
+            5,
+            7
+          )}.${report.workDate.slice(0, 4)}`
         }}
       </h3>
-      <!-- 2024-02-03T14:21:15.645Z -->
+
+      <div class="problems" v-if="report.problems !== null">
+        <h3 style="color: red">Проблемы:</h3>
+        <ol>
+          <li v-for="(problem, i) in report.problems.ProblemsRow">
+            <h3>{{ i + 1 }}. {{ problem.description }}</h3>
+          </li>
+        </ol>
+      </div>
     </div>
     <div class="btns">
       <primaryRouterButton400 :href="'/report/' + report.id">
@@ -23,8 +35,7 @@
 
 <script>
 import { mapState } from "pinia";
-import { useReportsStore } from "../../store/ReportsStore";
-import { useUsersStore } from "../../store/UsersStore";
+import { useReportsByWorkTypeStore } from "../../store/ReportsByWorkTypeStore";
 
 export default {
   name: "reportCard",
@@ -32,8 +43,7 @@ export default {
     report: Object,
   },
   computed: {
-    ...mapState(useReportsStore, ["deleteReport"]),
-    ...mapState(useUsersStore, ["getUsernameById"]),
+    ...mapState(useReportsByWorkTypeStore, ["deleteReport"]),
   },
 };
 </script>
@@ -49,5 +59,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.problems ol {
+  list-style: none;
 }
 </style>

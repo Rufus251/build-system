@@ -29,6 +29,7 @@ import complexCard from "./cards/complex-card.vue";
 import userSort from "./sorts/userSort.vue";
 import complexSort from "./sorts/complexSort.vue";
 import objectSort from "./sorts/objectSort.vue";
+import reportsByWorkTypeStore from "./sorts/reportsByWorkTypeSort.vue";
 
 export default [
   loader,
@@ -62,4 +63,5 @@ export default [
   userSort,
   complexSort,
   objectSort,
+  reportsByWorkTypeStore,
 ];

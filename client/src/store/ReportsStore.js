@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 
+import { useMainStore } from "./MainStore";
+
 import { useUsersStore } from "./UsersStore";
 import { useUserStore } from "./UserStore";
 import { useObjectsStore } from "./ObjectsStore";
@@ -8,32 +10,15 @@ import axios from "axios";
 
 export const useReportsStore = defineStore("ReportsStore", {
   state: () => ({
-    // url: "http://localhost:3001/api/",
-    url: "http://194.87.74.11/api/",
+    mainStore: useMainStore(),
+    loaderStore: useLoaderStore(),
+
+    url: useMainStore().url,
 
     reports: [],
     authors: [],
   }),
-  getters: {
-    getAuthors() {
-      const usersStore = useUsersStore();
-      const users = usersStore.users;
-
-      // reports[i].authorId === authors[i].id
-      // arrays sort, author[i] get report[i]
-      this.reports.forEach((report) => {
-        const user = users.find((user) => user.id === report.authorId);
-        this.authors.push(user);
-      });
-
-      return this.authors;
-    },
-    getAuthorsName() {
-      const authors = this.getAuthors;
-      const authorsName = authors.map((author) => author.name);
-      return authorsName;
-    },
-  },
+  getters: {},
   actions: {
     async fetchReports() {
       try {
