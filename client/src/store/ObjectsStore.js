@@ -370,7 +370,7 @@ export const useObjectsStore = defineStore("ObjectsStore", {
         return error.response;
       }
     },
-    async deleteMainWorks(smetaId) {
+    async deleteAdditionalWorks(smetaId) {
       try {
         this.loaderStore.isLoading = true;
 
@@ -381,6 +381,43 @@ export const useObjectsStore = defineStore("ObjectsStore", {
             Authorization: this.mainStore.token,
           },
         });
+
+        await this.fetchObjects();
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
+    },
+    async getAdditionalSmeta(smetaId) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + `additional-works-name/downloadXlsx/${smetaId}`;
+
+        const res = await axios
+          .get(url, {
+            responseType: "blob",
+            headers: {
+              Authorization: this.mainStore.token,
+              Accept: "application/octet-stream",
+            },
+          })
+          .then((res) => {
+            const type = res.headers["content-type"];
+            const blob = new Blob([res.data], {
+              type: type,
+            });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "file.xlsx";
+            link.click();
+            link.remove();
+          });
 
         await this.fetchObjects();
 

@@ -41,6 +41,9 @@
       :smetaId="smetaId"></mainWorksTable>
 
     <h2>Дополнительные работы</h2>
+    <agreeButton400 @click="getAdditionalSmeta(smetaId)">
+        Скачать xlsx
+      </agreeButton400>
     <additionalWorksTable
       v-model:additionalWorks="additionalWorks"
       :smetaId="smetaId"></additionalWorksTable>
@@ -149,6 +152,7 @@ export default {
       "getObjectById",
       "updateObject",
       "uploadSmeta",
+      "getAdditionalSmeta",
       "deleteMainWorks",
     ]),
   },
