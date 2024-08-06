@@ -42,9 +42,9 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useComplexesStore } from "../store/ComplexesStore";
-import { useObjectsStore } from "../store/ObjectsStore";
+import { useUserStore } from "../../store/UserStore";
+import { useComplexesStore } from "../../store/ComplexesStore";
+import { useObjectsStore } from "../../store/ObjectsStore";
 
 export default {
   name: "CreateObjectView",

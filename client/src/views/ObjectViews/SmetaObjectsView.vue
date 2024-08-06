@@ -26,9 +26,9 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useReportsByWorkTypeStore } from "../store/ReportsByWorkTypeStore";
-import { useUsersStore } from "../store/UsersStore";
+import { useUserStore } from "../../store/UserStore";
+import { useReportsByWorkTypeStore } from "../../store/ReportsByWorkTypeStore";
+import { useUsersStore } from "../../store/UsersStore";
 
 export default {
   name: "SmetaObjectsView",

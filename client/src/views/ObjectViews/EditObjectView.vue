@@ -42,8 +42,8 @@
 
     <h2>Дополнительные работы</h2>
     <agreeButton400 @click="getAdditionalSmeta(smetaId)">
-        Скачать xlsx
-      </agreeButton400>
+      Скачать xlsx
+    </agreeButton400>
     <additionalWorksTable
       v-model:additionalWorks="additionalWorks"
       :smetaId="smetaId"></additionalWorksTable>
@@ -52,9 +52,9 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useComplexesStore } from "../store/ComplexesStore";
-import { useObjectsStore } from "../store/ObjectsStore";
+import { useUserStore } from "../../store/UserStore";
+import { useComplexesStore } from "../../store/ComplexesStore";
+import { useObjectsStore } from "../../store/ObjectsStore";
 
 export default {
   name: "EditObjectView",

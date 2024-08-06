@@ -28,8 +28,8 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useObjectsStore } from "../store/ObjectsStore";
+import { useUserStore } from "../../store/UserStore";
+import { useObjectsStore } from "../../store/ObjectsStore";
 
 export default {
   data() {

@@ -5,19 +5,27 @@
       Добавить отчёт
     </primaryRouterButton400>
 
+    <autocompleteField
+      labelProp="Имя работника"
+      placeholderProp="Иванов Иван"
+      :itemsProp="getAuthorsName"
+      v-model="autocompleteName"></autocompleteField>
+
     <div class="cards">
       <reportCard
-        v-for="(report, i) in reports"
+        v-for="(report, i) in sortReportByName(autocompleteName)"
         :key="i"
-        :report="report"></reportCard>
+        :report="report"
+        :authorName="getAuthorsName[i]"></reportCard>
     </div>
+    
   </main>
 </template>
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useReportsStore } from "../store/ReportsStore";
+import { useUserStore } from "../../store/UserStore";
+import { useReportsStore } from "../../store/ReportsStore";
 
 export default {
   name: "ReportsView",
@@ -28,7 +36,7 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useReportsStore, ["reports"]),
+    ...mapState(useReportsStore, ["reports", "getAuthorsName", "sortReportByName"]),
   },
 };
 </script>

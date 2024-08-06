@@ -24,7 +24,7 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
+import { useUserStore } from "../../store/UserStore";
 
 export default {
   name: "AuthView",

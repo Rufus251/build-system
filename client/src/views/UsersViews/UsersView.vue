@@ -33,8 +33,8 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useUsersStore } from "../store/UsersStore";
+import { useUserStore } from "../../store/UserStore";
+import { useUsersStore } from "../../store/UsersStore";
 
 export default {
   name: "UsersView",

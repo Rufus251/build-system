@@ -25,9 +25,9 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useObjectsStore } from "../store/ObjectsStore";
-import { useComplexesStore } from "../store/ComplexesStore";
+import { useUserStore } from "../../store/UserStore";
+import { useObjectsStore } from "../../store/ObjectsStore";
+import { useComplexesStore } from "../../store/ComplexesStore";
 
 export default {
   name: "UsersView",

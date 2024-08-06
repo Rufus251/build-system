@@ -12,7 +12,7 @@
       </textField>
       <p>{{ statusMessage }}</p>
       <agreeButton400 @click="checkValid(valid)">
-        Изменить комплекс
+        Добавить комплекс
       </agreeButton400>
     </v-form>
   </main>
@@ -20,11 +20,11 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useComplexesStore } from "../store/ComplexesStore";
+import { useUserStore } from "../../store/UserStore";
+import { useComplexesStore } from "../../store/ComplexesStore";
 
 export default {
-  name: "EditComplexView",
+  name: "CreateComplexView",
   data() {
     return {
       valid: false,
@@ -36,22 +36,16 @@ export default {
       nameRules: [(v) => v.length > 0 || "Введите название комплекса"],
     };
   },
-  mounted() {
-    const id = this.$route.params.id;
-    const complex = this.getComplexById(+id);
-
-    this.name = complex.name;
-  },
   methods: {
     async checkValid(valid) {
       if (valid) {
         const complex = {
           name: this.name,
         };
-        const res = await this.updateComplex(+this.$route.params.id, complex);
+        const res = await this.createComplex(complex);
 
-        if (res.status >= 400) {
-          this.statusMessage = "Ошибка при обновлении, попробуйте ещё раз.";
+        if (res.status === 400) {
+          this.statusMessage = "Ошибка при создании, попробуйте ещё раз.";
         } else {
           this.$router.push("/complexes");
         }
@@ -60,7 +54,7 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ["user"]),
-    ...mapState(useComplexesStore, ["updateComplex", "getComplexById"]),
+    ...mapState(useComplexesStore, ["createComplex"]),
   },
 };
 </script>

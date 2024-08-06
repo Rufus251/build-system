@@ -1,23 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Auth from "../views/AuthView.vue";
+import Auth from "../views/AuthViews/AuthView.vue";
 import Main from "../views/MainView.vue";
-import Users from "../views/UsersView.vue";
-import CreateUser from "../views/CreateUserView.vue";
-import EditUser from "../views/EditUserView.vue";
-import Complexes from "../views/ComplexesView.vue";
-import CreateComplex from "../views/CreateComplexView.vue";
-import EditComplex from "../views/EditComplexView.vue";
-import Reports from "../views/ReportsView.vue";
-import MyReports from "../views/MyReportsView.vue";
-import Report from "../views/ReportView.vue";
-import Objects from "../views/ObjectsView.vue";
-import CreateObject from "../views/CreateObjectView.vue";
-import EditObject from "../views/EditObjectView.vue";
-import EditMainWork from "../views/EditMainWork.vue";
-import EditAdditionalWork from "../views/EditAdditionalWork.vue";
-import CreateReport from "../views/CreateReportView.vue";
-import SmetaObjects from "../views/SmetaObjectsView.vue";
+import Users from "../views/UsersViews/UsersView.vue";
+import CreateUser from "../views/UsersViews/CreateUserView.vue";
+import EditUser from "../views/UsersViews/EditUserView.vue";
+import Complexes from "../views/ComplexViews/ComplexesView.vue";
+import CreateComplex from "../views/ComplexViews/CreateComplexView.vue";
+import EditComplex from "../views/ComplexViews/EditComplexView.vue";
+import Reports from "../views/ReportViews/ReportsView.vue";
+import MyReports from "../views/ReportViews/MyReportsView.vue";
+import Report from "../views/ReportViews/ReportView.vue";
+import Objects from "../views/ObjectViews/ObjectsView.vue";
+import CreateObject from "../views/ObjectViews/CreateObjectView.vue";
+import EditObject from "../views/ObjectViews/EditObjectView.vue";
+import EditMainWork from "../views/ObjectViews/EditMainWork.vue";
+import EditAdditionalWork from "../views/ObjectViews/EditAdditionalWork.vue";
+import CreateReport from "../views/ReportViews/CreateReportView.vue";
+import SmetaObjects from "../views/ObjectViews/SmetaObjectsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

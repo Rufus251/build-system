@@ -15,8 +15,8 @@
 
 <script>
 import { mapState } from "pinia";
-import { useUserStore } from "../store/UserStore";
-import { useReportsStore } from "../store/ReportsStore";
+import { useUserStore } from "../../store/UserStore";
+import { useReportsStore } from "../../store/ReportsStore";
 
 export default {
   name: "ReportsView",
