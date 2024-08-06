@@ -5,6 +5,10 @@
       :itemsProp="['Сначала новые', 'Сначала старые']"
       v-model="orderSort"></autocompleteField>
     <autocompleteField
+      labelProp="Объекты"
+      :itemsProp="['Без фильтра', ...objectNames]"
+      v-model="objectName"></autocompleteField>
+    <autocompleteField
       labelProp="Имя сотрудника"
       :itemsProp="['Без фильтра', ...workerSelects]"
       v-model="worker"></autocompleteField>
@@ -18,10 +22,6 @@
         <input type="date" v-model="dateEnd" />
       </label>
     </div>
-    <!-- <v-checkbox
-      label="Есть дополнительные работы"
-      hide-details
-      v-model="additional" /> -->
     <v-select
       label="Есть дополнительные работы"
       :items="['-', 'Есть', 'Нет']"
@@ -36,10 +36,9 @@
       v-model="problems" />
     <primaryButton400
       @click="
-        fetchReportsWorkTypeWithParams(
-          $route.params.workType,
-          $route.params.workId,
+        fetchHandle(
           orderSort,
+          objectName,
           worker,
           dateStart,
           dateEnd,
@@ -54,16 +53,19 @@
 
 <script>
 import { mapState } from "pinia";
-import { useReportsByWorkTypeStore } from "../../store/ReportsByWorkTypeStore";
+import { useReportsStore } from "../../store/ReportsStore";
+import { useObjectsStore } from "../../store/ObjectsStore";
 
 export default {
-  name: "reportsByWorkTypeSort",
+  name: "reportsSort",
   props: {
+    objectNames: Array,
     workerSelects: Array,
   },
   data() {
     return {
       orderSort: "Сначала новые",
+      objectName: null,
       worker: null,
       dateStart: null,
       dateEnd: null,
@@ -71,8 +73,38 @@ export default {
       problems: "-",
     };
   },
+  methods: {
+    async fetchHandle(
+      orderSort,
+      objectName,
+      worker,
+      dateStart,
+      dateEnd,
+      additional,
+      problems
+    ) {
+      let objectId = null;
+      if (objectName) {
+        const object = this.objects.find((el) => el.name == objectName);
+        if (object) {
+          objectId = object.id;
+        }
+      }
+
+      await this.fetchReportsWithParams(
+        orderSort,
+        objectId,
+        worker,
+        dateStart,
+        dateEnd,
+        additional,
+        problems
+      );
+    },
+  },
   computed: {
-    ...mapState(useReportsByWorkTypeStore, ["fetchReportsWorkTypeWithParams"]),
+    ...mapState(useReportsStore, ["fetchReportsWithParams"]),
+    ...mapState(useObjectsStore, ["objects"]),
   },
   watch: {
     orderSort: {
@@ -89,6 +121,16 @@ export default {
           value = "";
         }
         this.$emit("update:worker", value || []);
+      },
+      deep: true,
+    },
+    objects: {
+      handler(value) {
+        if (value === "Без фильтра") {
+          this.objects = null;
+          value = "";
+        }
+        this.$emit("update:objects", value || []);
       },
       deep: true,
     },
@@ -124,7 +166,7 @@ export default {
 
 <style scoped lang="scss">
 .sort {
-    max-height: 610px;
+  max-height: 702px;
 
   border: 3px solid black;
   border-radius: 15px;

@@ -53,7 +53,11 @@ export const useReportsByWorkTypeStore = defineStore("ReportsByWorkTypeStore", {
       try {
         this.loaderStore.isLoading = true;
 
-        ascending = "Сначала новые" ? "new" : "old";
+        if (ascending === "Сначала новые") {
+          ascending = "new";
+        } else {
+          ascending = "old";
+        }
 
         if (additional === "-") additional = null;
         if (additional === "Есть") additional = true;

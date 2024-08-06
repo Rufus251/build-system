@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 import { useMainStore } from "./MainStore";
+import { useLoaderStore } from "./LoaderStore";
 
 import { useUsersStore } from "./UsersStore";
 import { useUserStore } from "./UserStore";
@@ -23,13 +24,81 @@ export const useReportsStore = defineStore("ReportsStore", {
     async fetchReports() {
       try {
         const url = this.url + "report";
-        const res = await axios.get(url);
+        const res = await axios.get(url, {
+          headers: { Authorization: this.mainStore.token },
+        });
 
         this.reports = res.data;
 
         return this.reports;
       } catch (error) {
         console.log(error);
+        return error;
+      }
+    },
+    async fetchReportsWithParams(
+      ascending,
+      objectId,
+      username,
+      dateStart,
+      dateEnd,
+      additional,
+      problems
+    ) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        if (ascending === "Сначала новые") {
+          ascending = "new";
+        } else {
+          ascending = "old";
+        }
+
+        if (additional === "-") additional = null;
+        if (additional === "Есть") additional = true;
+        if (additional === "Нет") additional = false;
+
+        if (problems === "-") problems = null;
+        if (problems === "Есть") problems = true;
+        if (problems === "Нет") problems = false;
+
+        dateStart = dateStart
+          ? new Date(Date.parse(`${dateStart}T10:00:00`))
+          : null;
+        dateEnd = dateEnd ? new Date(Date.parse(`${dateEnd}T10:00:00`)) : null;
+
+        console.log(
+          ascending,
+          objectId,
+          username,
+          dateStart,
+          dateEnd,
+          additional,
+          problems
+        );
+
+        const url = this.url + "report";
+        const res = await axios.get(url, {
+          headers: { Authorization: this.mainStore.token },
+          params: {
+            objectId,
+            ascending,
+            username,
+            dateStart,
+            dateEnd,
+            additional,
+            problems,
+          },
+        });
+
+        this.reports = res.data;
+
+        this.loaderStore.isLoading = false;
+
+        return this.reports;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
         return error;
       }
     },
