@@ -36,6 +36,26 @@ export const useReportsStore = defineStore("ReportsStore", {
         return error;
       }
     },
+    async fetchReport(id) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + "report/findOne/" + id;
+        const res = await axios.get(url, {
+          headers: { Authorization: this.mainStore.token },
+        });
+
+        const report = res.data;
+
+        this.loaderStore.isLoading = false;
+
+        return report;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error;
+      }
+    },
     async fetchReportsWithParams(
       ascending,
       objectId,
@@ -119,8 +139,10 @@ export const useReportsStore = defineStore("ReportsStore", {
     },
     async deleteReport(id) {
       try {
-        const url = this.url + "report/" + id;
-        const res = await axios.delete(url);
+        const url = this.url + "report/del/" + id;
+        const res = await axios.delete(url, {
+          headers: { Authorization: this.mainStore.token },
+        });
 
         const userStore = useUserStore();
         if (userStore.user.role === "user") {
@@ -161,6 +183,42 @@ export const useReportsStore = defineStore("ReportsStore", {
       }
 
       return this.reports;
+    },
+
+    async downloadReport(id) {
+      try {
+        this.loaderStore.isLoading = true;
+
+        const url = this.url + `report/downloadXlsxReport/${id}`;
+
+        const res = await axios
+          .get(url, {
+            responseType: "blob",
+            headers: {
+              Authorization: this.mainStore.token,
+              Accept: "application/octet-stream",
+            },
+          })
+          .then((res) => {
+            const type = res.headers["content-type"];
+            const blob = new Blob([res.data], {
+              type: type,
+            });
+            const link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "report.xlsx";
+            link.click();
+            link.remove();
+          });
+
+        this.loaderStore.isLoading = false;
+
+        return res;
+      } catch (error) {
+        console.log(error);
+        this.loaderStore.isLoading = false;
+        return error.response;
+      }
     },
 
     sortReportByName(autocompleteName) {

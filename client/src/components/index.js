@@ -17,10 +17,12 @@ import deleteButton200 from "./UI/button/button-width-200/delete-button.vue";
 import changeButton200 from "./UI/button/button-width-200/change-button.vue";
 import primaryRouterButton200 from "./UI/button/button-width-200/primary-router-button.vue";
 import deleteRouterButton200 from "./UI/button/button-width-200/delete-router-button.vue";
-import primaryTable from "./UI/table/primary-table.vue";
 import mainWorksTable from "./UI/table/main-works-table.vue";
 import additionalWorksTable from "./UI/table/additional-works-table.vue";
 import createReportTable from "./UI/table/create-report-table.vue";
+import factTable from "./UI/table/watchReport/fact-table.vue";
+import planTable from "./UI/table/watchReport/plan-table.vue";
+import problemsTable from "./UI/table/watchReport/problems-table.vue";
 import navbarComp from "./navbar-comp.vue";
 import userCard from "./cards/user-card.vue";
 import objectCard from "./cards/object-card.vue";
@@ -51,7 +53,6 @@ export default [
   deleteRouterButton200,
   changeButton200,
   primaryRouterButton200,
-  primaryTable,
   mainWorksTable,
   additionalWorksTable,
   createReportTable,
@@ -66,4 +67,7 @@ export default [
   objectSort,
   reportsByWorkTypeSort,
   reportsSort,
+  factTable,
+  planTable,
+  problemsTable,
 ];
