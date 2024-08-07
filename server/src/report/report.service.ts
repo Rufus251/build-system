@@ -233,14 +233,42 @@ export class ReportService {
           id,
         },
         include: {
+          author: {
+            select: {
+              name: true,
+              phone: true,
+            },
+          },
+          object: {
+            select: {
+              residentialComplexId: true,
+              name: true,
+              contractName: true,
+              residentialComplex: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
           workDone: {
             include: {
-              rows: true,
+              rows: {
+                include: {
+                  MainWorksName: true,
+                  AdditionalWorksName: true,
+                },
+              },
             },
           },
           workPlan: {
             include: {
-              rows: true,
+              rows: {
+                include: {
+                  MainWorksName: true,
+                  AdditionalWorksName: true,
+                },
+              },
             },
           },
           problems: {
